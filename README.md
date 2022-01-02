@@ -5,7 +5,7 @@ Red Mushroom in Subong
 # git 사용 규칙
 0. 본인 토큰을 잘 보관해야함 profile image/setting/develop option ~ token
 1. master 에서 직접 작업하지 않는다 (master로 바로 push 하지 않는다)
---
+2. 알아보자
 
 # AWS 접속방법
 **1. 키페어를 다운받는다**
