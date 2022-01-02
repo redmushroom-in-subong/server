@@ -5,35 +5,7 @@ Red Mushroom in Subong
 # git 사용 규칙
 0. 본인 토큰을 잘 보관해야함 profile image/setting/develop option ~ token
 1. master 에서 직접 작업하지 않는다 (master로 바로 push 하지 않는다)
-
-**1. 작업 시작 전에 master branch에서 pull 을 받는다(local intelliJ 터미널에서)**
-
-```
-git pull origin master
-```
-
-**2. 작업이 끝나면 이니셜/날짜시간 이라는 브랜치를 만들어 푸쉬한다**
-pull을 한번 받으면 충돌이 날지 안날지 알수있다.
-```
-git pull origin master&&
-git push origin HEAD:[이니셜/날짜시간 (ex.yts/12262357)]
-```
-
-**3. 작업된 브랜치와 master를 병합하고 작업 브랜치를 제거한다**
-```
-병합은 web에서 진행한다
-누가 push 하면 merge request 가 나오는데 그거 들어가서 
-```
-**4. 만약 작업 브랜치와 master가 충돌이 날때 (자동 병합이 안될때)**
-
-```
-(로컬 터미널에서)
- 1. 로컬 터미널로 가서 master branch pull을 받는다.
- 2. 그러면 자동 병합 실패 메세지와 충돌나는 부분을 알려준다.
- 3. 수동으로 병합한다
-(WEB IDE에서)
- 1. 알아보자.
-```
+--
 
 # AWS 접속방법
 **1. 키페어를 다운받는다**
