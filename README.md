@@ -20,7 +20,8 @@ git add . && git commit -m "commit message"
 ```
 git push origin HEAD:yts/0104
 ```
-*** 경고가 뜨면서 안되는 경우 시키는대로 명령어를 다르게 입력
+* 경고가 뜨면서 안되는 경우 시키는대로 명령어를 다르게 입력
+
 4. web ide에서 ( 여기서 ) 머지한다.
 
 # AWS 접속방법
