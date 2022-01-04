@@ -16,8 +16,12 @@ git pull origin master
 ```
 git add . && git commit -m "commit message"
 ```
-3. 작업에 해당하는 부분 (커밋한 부분) 을 새로운 branch에 push한다
-
+3. 작업에 해당하는 부분 (커밋한 부분) 을 새로운 branch에 push한다 - branchname : 본인 이니셜/작업일자
+```
+git push origin HEAD:yts/0104
+```
+*** 경고가 뜨면서 안되는 경우 시키는대로 명령어를 다르게 입력
+4. web ide에서 ( 여기서 ) 머지한다.
 
 # AWS 접속방법
 **1. 키페어를 다운받는다**
