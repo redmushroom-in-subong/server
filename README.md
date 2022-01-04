@@ -29,7 +29,7 @@ Red Mushroom in Subong
 **2. /home/ec2-user/app/RMS_SERVER/drife-server 로 이동**
 
 ```
-cd /home/ec2-user/app/RMS_SERVER/drife-server
+cd /home/ec2-user/app/RMS_SERVER
 ```
 **3. git 에 있는 최신 master 브랜치 반영**
 
