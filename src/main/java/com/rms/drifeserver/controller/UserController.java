@@ -29,7 +29,7 @@ public class UserController {
         return "signup";
     }
     @PostMapping("/user/signup")
-    public String signup(Model model, User user) {
+    public String signup(Model model,User user) {
         Integer result=userService.saveUser(user);
         model.addAttribute("preResult",result);
         return "signup";
