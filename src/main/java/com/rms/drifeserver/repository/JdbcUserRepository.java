@@ -13,7 +13,13 @@ import java.util.*;
 public class JdbcUserRepository implements UserRepository {
     //USE JDBC
     /**### named parameter jdbctemplate vs jdbctemplate###
-     * https://stackoverflow.com/questions/16359316/namedparameterjdbctemplate-vs-jdbctemplate
+     *
+     *
+     *
+     * https://stackoverflow.com/questions/16359316/namedparameterjdbctemplate-vs-jdbctemplat
+     *
+     *
+     *
      */
     private final NamedParameterJdbcTemplate namedJdbcTemplate;
     //@Autowired 생략 - 1 constructor
@@ -53,8 +59,10 @@ public class JdbcUserRepository implements UserRepository {
     @Override public Integer createUser(User user){
         String sql="insert into USER (user_id,password,nickname,phone,loc_si,loc_gu)" +
                               "values(:userId,:password,:nickname,:phone,:locSi,:locGu)";
+        // User 객체를 <필드명,값> 형태의 맵으로 바꿔줌
         ObjectMapper mapObject = new ObjectMapper();
         Map < String, Object > mapObj = mapObject.convertValue(user, Map.class);
+        //end
         Integer ret=namedJdbcTemplate.update(sql,mapObj);
         return ret;
     }
