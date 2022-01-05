@@ -1,5 +1,5 @@
 package com.rms.drifeserver.model;
-
+//ㅋㅋ
 public class User {
     private Integer userSeq;
     private String userId;
