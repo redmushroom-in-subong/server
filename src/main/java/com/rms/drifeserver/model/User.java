@@ -17,6 +17,12 @@ public class User {
         this.locSi = locSi;
         this.locGu = locGu;
     }
+    public User(String userId, String password, String nickname, String phone) {
+        this.userId = userId;
+        this.password = password;
+        this.nickname = nickname;
+        this.phone = phone;
+    }
     public User(){
 
     }

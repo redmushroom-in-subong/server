@@ -9,7 +9,7 @@ public interface UserRepository {
     List<User> getAllUsers();
     Optional<User> findUserByUserId(String userId);
     Optional<User> findUserByUserSeq(Integer userSeq);
-    Integer createUser(User user);
+    Optional<User> createUser(User user);
     void updateUser(User user);
     void deleteUser(User user);
 }
