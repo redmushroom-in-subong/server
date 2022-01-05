@@ -23,7 +23,7 @@ public class UserService {
     public Optional<User> findUserByUserId(String userId) {
         return userRepository.findUserByUserId(userId);
     }
-    public Integer saveUser(User user){
+    public Optional<User> saveUser(User user){
         return userRepository.createUser(user);
     }
 }

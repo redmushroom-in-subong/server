@@ -55,15 +55,14 @@ public class JdbcUserRepository implements UserRepository {
     @Override public Optional<User> findUserByUserSeq(Integer userSeq){
         return null;
     }
-    @Override public Integer createUser(User user){
+    @Override public Optional<User> createUser(User user){
         String sql="insert into USER (user_id,password,nickname,phone,loc_si,loc_gu)" +
                               "values(:userId,:password,:nickname,:phone,:locSi,:locGu)";
         // User 객체를 <필드명,값> 형태의 맵으로 바꿔줌
         ObjectMapper mapObject = new ObjectMapper();
         Map < String, Object > mapObj = mapObject.convertValue(user, Map.class);
         //end
-        Integer ret=namedJdbcTemplate.update(sql,mapObj);
-        return ret;
+        return findUserByUserId(user.getUserId());
     }
     @Override public void updateUser(User user){}
     @Override public void deleteUser(User user){}
