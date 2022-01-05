@@ -16,7 +16,6 @@ public class JdbcUserRepository implements UserRepository {
      *
      *
      *
-     * https://stackoverflow.com/questions/16359316/namedparameterjdbctemplate-vs-jdbctemplat
      *
      *
      *
