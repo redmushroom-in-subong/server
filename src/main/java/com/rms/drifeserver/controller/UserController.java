@@ -28,6 +28,18 @@ public class UserController {
         model.addAttribute("preResult",null);
         return "signup";
     }
+
+    /*
+    @yts
+    request body 받아와서 회원가입 예제(postman 참고) @RequestBody 만 붙여주면됨
+    --> request body가 User 랑 다른 형식이면 400에러를 던저준다
+     */
+    @PostMapping("/user/signupJson")
+    public String signupJson(Model model,@RequestBody User user) {
+        Integer result=userService.saveUser(user);
+        model.addAttribute("preResult",result);
+        return "signup";
+    }
     @PostMapping("/user/signup")
     public String signup(Model model,User user) {
         Integer result=userService.saveUser(user);
