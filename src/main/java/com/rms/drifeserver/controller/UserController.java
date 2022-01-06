@@ -52,7 +52,6 @@ public class UserController {
             return ret;
         }else{
             Optional<User> result=userService.saveUser(user);
-            model.addAttribute("preResult",result);
             ret.put("result","success");
             ret.put("user",result);
             return ret;
