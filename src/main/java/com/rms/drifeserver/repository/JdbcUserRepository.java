@@ -63,6 +63,8 @@ public class JdbcUserRepository implements UserRepository {
         Map < String, Object > mapObj = mapObject.convertValue(user, Map.class);
         //end
         Integer ret=namedJdbcTemplate.update(sql,mapObj);
+        System.out.println("mapObj.toString() = " + mapObj.toString());
+
         return findUserByUserId(user.getUserId());
     }
     @Override public void updateUser(User user){}
