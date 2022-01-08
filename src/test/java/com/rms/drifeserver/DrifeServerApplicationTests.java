@@ -9,5 +9,4 @@ class DrifeServerApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
