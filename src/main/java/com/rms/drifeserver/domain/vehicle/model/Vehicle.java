@@ -1,20 +1,15 @@
 package com.rms.drifeserver.domain.vehicle.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Vehicle {
     private Integer userSeq;
     private String vehicleNum;
-
-    public Vehicle(Integer userSeq, String vehicleNum) {
-        this.userSeq = userSeq;
-        this.vehicleNum = vehicleNum;
-    }
-
-    public Vehicle() {
-
-    }
 }

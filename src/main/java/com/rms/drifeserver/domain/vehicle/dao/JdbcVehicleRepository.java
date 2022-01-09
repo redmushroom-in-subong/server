@@ -53,9 +53,9 @@ public class JdbcVehicleRepository implements VehicleRepository{
     }
 
     @Override
-    public Integer deleteVehicle(Vehicle vehicle) {
+    public Integer deleteVehicle(String vehicleNum) {
         String sql="delete from USER where vehicle_num= :vehicle_num";
-        Map<String, Object> mapObj = Collections.singletonMap("vehicle_num",vehicle.getVehicleNum());
+        Map<String, Object> mapObj = Collections.singletonMap("vehicle_num",vehicleNum);
         Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
         return ret;
     }

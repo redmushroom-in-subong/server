@@ -35,7 +35,7 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public Integer deleteVehicle(Vehicle vehicle) {
-        return vehicleRepository.deleteVehicle(vehicle);
+    public Integer deleteVehicle(String vehicleNum) {
+        return vehicleRepository.deleteVehicle(vehicleNum);
     }
 }
