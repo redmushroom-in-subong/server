@@ -14,7 +14,7 @@ public class Board {
     //private String writer;
     private LocalDateTime writeAt;
 
-    public Board(String title, String context, String writer){
+    public Board(String title, String context){
         this.title = title;
         this.context = context;
         //this.writer = writer;
