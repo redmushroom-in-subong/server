@@ -109,7 +109,7 @@ public class UserApi {
             Optional<User> isExist = userService.findUserByUserId(user.getUserId());
             if(isExist.isPresent()){
                 ret.put("state","fail");
-                ret.put("result","already exist USER_ID (ID:"+userId+")");
+                ret.put("result","already exist USER_ID (ID:"+user.getUserId()+")");
             }else{
                 Integer result = userService.updateUser(user,userId);
                 if(result==0) {
