@@ -22,10 +22,10 @@ git add . && git commit -m "commit message"
 
 <br/>
 
-#### 3. 작업에 해당하는 부분 (커밋한 부분) 을 새로운 branch에 push한다 - branchname : 본인 이니셜/작업일자
+#### 3. 작업에 해당하는 부분 (커밋한 부분) 을 새로운 branch에 push한다 - branchname : 본인 이니셜/작업일자+작업시간
 * 방법1)
 ```
-git push origin HEAD:yts/0104
+git push origin HEAD:yts/01041725
 ```
 경고가 뜨면서 안되는 경우 시키는대로 명령어를 다르게 입력 또는 방법2) 
 * 방법2)
