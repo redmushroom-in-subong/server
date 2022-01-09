@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +31,13 @@ public class BoardApi {
         return jdbcBoardRepository.findAll();
     }
 
+    @PostMapping("/write")
+    @ResponseBody
+    public String write(@RequestBody Board board) {
+        boardRepository.save(board);
+
+        return "redirect:/boards";
+    }
 
 /*
     @GetMapping("/boards")
