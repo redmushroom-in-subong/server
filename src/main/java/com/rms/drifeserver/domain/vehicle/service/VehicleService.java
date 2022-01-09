@@ -10,5 +10,5 @@ public interface VehicleService {
     List<Vehicle> findAllVehicles();
     Optional<Vehicle> findVehicleByNum(String vehicleNum);
     List<Vehicle> findVehicleByUser(Integer userSeq);
-    Integer deleteVehicle(Vehicle vehicle);
+    Integer deleteVehicle(String vehicleNum);
 }

@@ -10,5 +10,5 @@ public interface VehicleRepository {
     List<Vehicle> findAll();
     Optional<Vehicle> findByNum(String vehicleNum);
     List<Vehicle> findByUser(Integer userSeq);
-    Integer deleteVehicle(Vehicle vehicle);
+    Integer deleteVehicle(String vehicleNum);
 }
