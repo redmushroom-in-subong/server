@@ -28,7 +28,7 @@ public class JdbcBoardRepository implements BoardRepository {
         jdbcInsert.withTableName("board").usingGeneratedKeyColumns("board_seq");
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("writer", board.getWriter());
+        //parameters.put("writer", board.getWriter());
         parameters.put("title", board.getTitle());
         parameters.put("context", board.getContext());
 
@@ -47,7 +47,7 @@ public class JdbcBoardRepository implements BoardRepository {
         return (rs, rowNum) -> {
             Board board = new Board();
             board.setBoardSeq(rs.getInt("board_seq"));
-            board.setWriter(rs.getString("writer"));
+           // board.setWriter(rs.getString("writer"));
             board.setTitle(rs.getString("title"));
             board.setContext(rs.getString("context"));
             return board;
