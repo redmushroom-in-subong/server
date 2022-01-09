@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div>
+    <h1><a th:href="@{/boards}">게시판</a><h1>
+    </div>
+
+    <div>
+        <form action="/members/new" method="post">
+            <div>
+                <label for="title">제목</label>
+                <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
+            </div>
+            <div>
+                <label for="writer">작성자</label>
+                <input type="text" id="writer" name="writer" placeholder="작성자를 입력하세요">
+            </div>
+            <div style="font-weight: bolder;">
+                <label for="context">내용</label><br/>
+                <textarea id="context" name="context" rows="15" cols="50" placeholder="내용을 입력하세요">
+                </textarea>
+            </div>
+            <button type="submit">등록</button>
+        </form>
+    </div>
+</body>
+</html>
