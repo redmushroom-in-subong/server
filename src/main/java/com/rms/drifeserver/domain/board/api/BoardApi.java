@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/boards")
 public class BoardApi {
 
-    private final BoardRepository boardRepository;
-
-    public BoardApi(BoardRepository boardRepository) {
-        this.boardRepository = boardRepository;
-    }
+//    private final BoardRepository boardRepository;
+//
+//    public BoardApi(BoardRepository boardRepository) {
+//        this.boardRepository = boardRepository;
+//    }
 
     @Autowired
     JdbcBoardRepository jdbcBoardRepository;
@@ -34,7 +34,7 @@ public class BoardApi {
     @PostMapping("/write")
     @ResponseBody
     public String write(@RequestBody Board board) {
-        boardRepository.save(board);
+        jdbcBoardRepository.save(board);
 
         return "redirect:/boards";
     }
