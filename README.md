@@ -150,7 +150,7 @@ nohup java -jar build/libs/drife-server-0.0.1-SNAPSHOT.jar &
 ```
 tail -f nohup.out
 ```
-### 서버 배포 전에 꼭 이전 프로세스 종료시켜야 할것(같음?)
+### 서버 배포 전에 꼭 이전 프로세스 종료시켜야 한다.
 **종료시키기 위한 프로세스 아이디 확인**
 ```
 sudo lsof -t -i:8080
