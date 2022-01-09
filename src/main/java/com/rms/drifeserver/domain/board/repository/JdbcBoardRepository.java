@@ -39,7 +39,7 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public Optional<Board> findByTitle(String title) {
-        List<Board> result = jdbcTemplate.query("select * from board where title = ?", boardRowMapper(), title);
+        List<Board> result = jdbcTemplate.query("select * from BOARD where title = ?", boardRowMapper(), title);
         return result.stream().findAny();
     }
 
@@ -56,6 +56,6 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public List<Board> findAll() {
-        return jdbcTemplate.query("select * from board", boardRowMapper());
+        return jdbcTemplate.query("select * from BOARD", boardRowMapper());
     }
 }
