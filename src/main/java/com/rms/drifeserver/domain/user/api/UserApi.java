@@ -106,6 +106,11 @@ public class UserApi {
     public Map<String,Object> updateUser(@PathVariable("id") String userId,@RequestBody User user){
         Map<String,Object> ret=new HashMap<String,Object>();
         try {
+            Optional<User> isExist = userService.findUserByUserId(user.getUserId());
+            if(isExist.isPresent()){
+                ret.put("state","fail");
+                ret.put("result","already exist USER_ID (ID:"+userId+")");
+            }else{
                 Integer result = userService.updateUser(user,userId);
                 if(result==0) {
                     ret.put("state","fail");
@@ -115,6 +120,7 @@ public class UserApi {
                     ret.put("state","success");
                     ret.put("result",retObj);
                 }
+            }
         } catch (Exception e) {
             ret.put("state","error");
             ret.put("result",e.getMessage());
