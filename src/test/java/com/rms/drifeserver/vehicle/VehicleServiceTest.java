@@ -20,22 +20,24 @@ public class VehicleServiceTest {
     @Test
     public void findByNum() {
         //given
-
+        Vehicle vehicle = new Vehicle(2, "12가1234");
+        vehicleService.saveVehicle(vehicle);
         //when
-        Vehicle findVehicle = vehicleService.findVehicleByNum("11가1111").get();
+        Vehicle findVehicle = vehicleService.findVehicleByNum("12가1234").get();
 
         //then
-        Assertions.assertThat(findVehicle.getVehicleSeq()).isEqualTo(1);
+        Assertions.assertThat(findVehicle.getUserSeq()).isEqualTo(2);
     }
 
     @Test
     public void findByUser() {
         //given
-
+        Vehicle vehicle = new Vehicle(3, "12가1234");
+        vehicleService.saveVehicle(vehicle);
         //when
-        List<Vehicle> findVehicles= vehicleService.findVehicleByUser(1);
+        List<Vehicle> findVehicles= vehicleService.findVehicleByUser(3);
 
         //then
-        Assertions.assertThat(findVehicles.size()).isEqualTo(2);
+        Assertions.assertThat(findVehicles.size()).isEqualTo(1);
     }
 }

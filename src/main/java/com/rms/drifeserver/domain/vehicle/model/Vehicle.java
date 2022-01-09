@@ -6,12 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Vehicle {
-    private Integer vehicleSeq;
     private Integer userSeq;
     private String vehicleNum;
 
-    public Vehicle(Integer vehicleSeq, Integer userSeq, String vehicleNum) {
-        this.vehicleSeq = vehicleSeq;
+    public Vehicle(Integer userSeq, String vehicleNum) {
         this.userSeq = userSeq;
         this.vehicleNum = vehicleNum;
     }
