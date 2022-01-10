@@ -16,7 +16,8 @@ public class Board {
     //private String writer;
     private Timestamp writeAt;
 
-    public Board(String title, String context){
+    public Board(int userSeq, String title, String context){
+        this.userSeq = userSeq;
         this.title = title;
         this.context = context;
         //this.writer = writer;
