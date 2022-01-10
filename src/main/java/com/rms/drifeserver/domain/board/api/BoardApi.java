@@ -36,7 +36,6 @@ public class BoardApi {
         }finally {
             return ret;
         }
-        //return ret;
     }
 
     @PostMapping("/write")
