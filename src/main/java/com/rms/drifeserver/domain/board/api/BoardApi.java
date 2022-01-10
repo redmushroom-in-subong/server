@@ -27,25 +27,25 @@ public class BoardApi {
     @ResponseBody
     public Map<String,Object> getAll(){
         Map<String,Object> ret=new HashMap<String,Object>();
-        try{
-            List<Board> allPosts = boardRepository.findAll();
-            ret.put("result",allPosts);
-        }catch (Exception e){
-            ret.put("state","error");
-            ret.put("message",e.getMessage());
-        }finally {
-            return ret;
-        }
+        List<Board> allPosts = boardRepository.findAll();
+        ret.put("result",allPosts);
+        return ret;
     }
 
     @PostMapping("/write")
     @ResponseBody
     public Map<String,Object> write(@RequestBody Board board) {
         Map<String,Object> ret = new HashMap<String,Object>();
-        boardRepository.save(board);
-        Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
-        ret.put("result",byTitle);
-        return ret;
+        try{
+            boardRepository.save(board);
+            Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
+            ret.put("result",byTitle.get());
+        }catch (Exception e){
+            ret.put("state","error");
+            ret.put("message",e.getMessage());
+        }finally {
+            return ret;
+        }
     }
 
 /*
