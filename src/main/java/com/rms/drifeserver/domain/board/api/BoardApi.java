@@ -4,6 +4,7 @@ package com.rms.drifeserver.domain.board.api;
 import com.rms.drifeserver.domain.board.model.Board;
 import com.rms.drifeserver.domain.board.repository.BoardRepository;
 import com.rms.drifeserver.domain.board.repository.JdbcBoardRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Controller;
@@ -13,35 +14,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/boards")
+@RequiredArgsConstructor
 public class BoardApi {
 
-//    private final BoardRepository boardRepository;
-//
-//    public BoardApi(BoardRepository boardRepository) {
-//        this.boardRepository = boardRepository;
-//    }
-
-    @Autowired
-    JdbcBoardRepository jdbcBoardRepository;
+    private final BoardRepository boardRepository;
 
     @GetMapping("")
     @ResponseBody
     public Map<String,Object> getAll(){
         Map<String,Object> ret=new HashMap<String,Object>();
-        List<Board> allPosts = jdbcBoardRepository.findAll();
+        List<Board> allPosts = boardRepository.findAll();
         ret.put("result",allPosts);
         return ret;
     }
 
     @PostMapping("/write")
     @ResponseBody
-    public String write(@RequestBody Board board) {
-        jdbcBoardRepository.save(board);
-
-        return "redirect:/boards";
+    public Map<String,Object> write(@RequestBody Board board) {
+        Map<String,Object> ret = new HashMap<String,Object>();
+        boardRepository.save(board);
+        Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
+        ret.put("result",byTitle);
+        return ret;
     }
 
 /*
