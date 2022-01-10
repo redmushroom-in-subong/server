@@ -20,8 +20,8 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public Integer save(Board board) {
-        String sql="insert into BOARD (user_seq,title,context,write_at)" +
-                "values(:userSeq,:title,:context,:writeAt)";
+        String sql="insert into BOARD (user_seq,title,context)" +
+                "values(:userSeq,:title,:context)";
 
         ObjectMapper mapObject = new ObjectMapper();
         Map<String, Object> mapObj = mapObject.convertValue(board, Map.class);
