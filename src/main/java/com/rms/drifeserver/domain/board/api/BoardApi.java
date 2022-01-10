@@ -27,9 +27,16 @@ public class BoardApi {
     @ResponseBody
     public Map<String,Object> getAll(){
         Map<String,Object> ret=new HashMap<String,Object>();
-        List<Board> allPosts = boardRepository.findAll();
-        ret.put("result",allPosts);
-        return ret;
+        try{
+            List<Board> allPosts = boardRepository.findAll();
+            ret.put("result",allPosts);
+        }catch (Exception e){
+            ret.put("state","error");
+            ret.put("message",e.getMessage());
+        }finally {
+            return ret;
+        }
+        //return ret;
     }
 
     @PostMapping("/write")
