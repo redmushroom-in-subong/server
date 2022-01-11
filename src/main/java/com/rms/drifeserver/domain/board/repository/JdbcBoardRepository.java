@@ -34,7 +34,7 @@ public class JdbcBoardRepository implements BoardRepository {
     public Integer updatePost(Board board, int boardSeq) {
         String sql="update BOARD set " +
                 "title=:title," +
-                "context=:context," +
+                "context=:context " +
                 "where board_seq=:boardSeq";
 
         ObjectMapper mapObject = new ObjectMapper();
