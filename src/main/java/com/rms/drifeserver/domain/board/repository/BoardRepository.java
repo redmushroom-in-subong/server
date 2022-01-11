@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardRepository {
-    Integer save(Board board);
+    Integer savePost(Board board);
+    Integer updatePost(Board board, int boardSeq);
     Optional<Board> findByTitle(String title);
+    Optional<Board> findByBoardSeq(int boardSeq);
     List<Board> findAll();
 }
