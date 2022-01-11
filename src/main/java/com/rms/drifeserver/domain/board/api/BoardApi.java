@@ -37,13 +37,36 @@ public class BoardApi {
     public Map<String,Object> write(@RequestBody Board board) {
         Map<String,Object> ret = new HashMap<String,Object>();
         try{
-            boardRepository.save(board);
+            boardRepository.savePost(board);
             Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
             ret.put("result",byTitle.get());
         }catch (Exception e){
             ret.put("state","error");
             ret.put("message",e.getMessage());
         }finally {
+            return ret;
+        }
+    }
+
+    @PutMapping("/{boardSeq}")
+    @ResponseBody
+    public Map<String,Object> updatePost(@PathVariable("boardSeq") int boardSeq,@RequestBody Board board) {
+        Map<String, Object> ret = new HashMap<String, Object>();
+
+        try {
+            Integer isExist = boardRepository.updatePost(board, boardSeq);
+            if(isExist == 0){
+                ret.put("state","fail");
+                ret.put("result","no post (board_seq:" + boardSeq + ")");
+            }
+            else{
+                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(board.getBoardSeq());
+                ret.put("result", byBoardSeq);
+            }
+        } catch (Exception e){
+            ret.put("state","error");
+            ret.put("result",e.getMessage());
+        } finally {
             return ret;
         }
     }

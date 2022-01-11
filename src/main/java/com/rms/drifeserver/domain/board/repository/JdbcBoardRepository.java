@@ -19,7 +19,7 @@ public class JdbcBoardRepository implements BoardRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public Integer save(Board board) {
+    public Integer savePost(Board board) {
         String sql="insert into BOARD (user_seq,title,context)" +
                 "values(:userSeq,:title,:context)";
 
@@ -31,11 +31,35 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     @Override
+    public Integer updatePost(Board board, int boardSeq) {
+        String sql="update BOARD set " +
+                "title=:title," +
+                "context=:context," +
+                "where board_seq=:boardSeq";
+
+        ObjectMapper mapObject = new ObjectMapper();
+        Map <String, Object> mapObj = mapObject.convertValue(board, Map.class);
+        mapObj.put("boardSeq",boardSeq);
+
+        Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
+        return ret;
+    }
+
+
+    @Override
     public Optional<Board> findByTitle(String title) {
         String sql = "select * from BOARD where title= :title";
         Map<String, String> params = Collections.singletonMap("title", title);
         List<Board> result = namedParameterJdbcTemplate.query(sql, params, boardRowMapper());
         return result.stream().findAny();
+    }
+
+    @Override
+    public Optional<Board> findByBoardSeq(int boardSeq) {
+        String sql = "select * from BOARD where board_seq= :boardSeq";
+        Map<String, Integer> params = Collections.singletonMap("board_seq", boardSeq);
+        List<Board> result = namedParameterJdbcTemplate.query(sql, params, boardRowMapper());
+        return Optional.empty();
     }
 
     @Override
