@@ -45,7 +45,6 @@ public class JdbcBoardRepository implements BoardRepository {
         return ret;
     }
 
-
     @Override
     public Optional<Board> findByTitle(String title) {
         String sql = "select * from BOARD where title= :title";
@@ -66,7 +65,6 @@ public class JdbcBoardRepository implements BoardRepository {
     public List<Board> findAll() {
         return namedParameterJdbcTemplate.query("select * from BOARD", boardRowMapper());
     }
-
 
     private RowMapper<Board> boardRowMapper() {
         return (rs, rowNum) -> {
