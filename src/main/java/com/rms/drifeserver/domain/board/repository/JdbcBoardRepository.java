@@ -31,15 +31,15 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     @Override
-    public Integer updatePost(Board board, int boardSeq) {
+    public Integer updatePost(Board board, int thisBoardSeq) {
         String sql="update BOARD set " +
                 "title=:title," +
                 "context=:context " +
-                "where board_seq=:boardSeq";
+                "where board_seq=:thisBoardSeq";
 
         ObjectMapper mapObject = new ObjectMapper();
         Map <String, Object> mapObj = mapObject.convertValue(board, Map.class);
-        mapObj.put("boardSeq",boardSeq);
+        mapObj.put("thisBoardSeq",thisBoardSeq);
 
         Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
         return ret;
