@@ -45,7 +45,6 @@ public class JdbcBoardRepository implements BoardRepository {
         return ret;
     }
 
-
     @Override
     public Optional<Board> findByTitle(String title) {
         String sql = "select * from BOARD where title= :title";
@@ -57,7 +56,7 @@ public class JdbcBoardRepository implements BoardRepository {
     @Override
     public Optional<Board> findByBoardSeq(Integer boardSeq) {
         String sql = "select * from BOARD where board_seq= :boardSeq";
-        Map<String, Integer> params = Collections.singletonMap("board_seq", boardSeq);
+        Map<String, Integer> params = Collections.singletonMap("boardSeq", boardSeq);
         List<Board> result = namedParameterJdbcTemplate.query(sql, params, boardRowMapper());
         return Optional.empty();
     }
@@ -66,7 +65,6 @@ public class JdbcBoardRepository implements BoardRepository {
     public List<Board> findAll() {
         return namedParameterJdbcTemplate.query("select * from BOARD", boardRowMapper());
     }
-
 
     private RowMapper<Board> boardRowMapper() {
         return (rs, rowNum) -> {
