@@ -60,7 +60,7 @@ public class BoardApi {
                 ret.put("result","no post (board_seq:" + boardSeq + ")");
             }
             else{
-                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(board.getBoardSeq());
+                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(boardSeq);
                 ret.put("result", byBoardSeq);
             }
         } catch (Exception e){
