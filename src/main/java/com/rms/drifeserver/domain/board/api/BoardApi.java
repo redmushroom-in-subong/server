@@ -38,10 +38,13 @@ public class BoardApi {
         Map<String,Object> ret = new HashMap<String,Object>();
         try{
             boardRepository.savePost(board);
-//            Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
-//            ret.put("result",byTitle.get());
-            Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(board.getBoardSeq());
-            ret.put("result",byBoardSeq.get());
+            //title로 받아오면 같은 제목인 다른 게시글이 반환될 때가 있음
+            Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
+            ret.put("result",byTitle.get());
+
+//            board_seq로 받아올 수 없음
+//            Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(board.getBoardSeq());
+//            ret.put("result",byBoardSeq.get());
         }catch (Exception e){
             ret.put("state","error");
             ret.put("message",e.getMessage());
@@ -62,8 +65,7 @@ public class BoardApi {
                 ret.put("result","no post (board_seq:" + boardSeq + ")");
             }
             else{
-//                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(boardSeq);
-                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(board.getBoardSeq());
+                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(boardSeq);
                 ret.put("result", byBoardSeq);
             }
         } catch (Exception e){
