@@ -15,7 +15,7 @@ public class VehicleServiceImpl implements VehicleService{
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public Integer saveVehicle(Vehicle vehicle) {
+    public Vehicle saveVehicle(Vehicle vehicle) {
         return vehicleRepository.save(vehicle);
     }
 
@@ -35,7 +35,7 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public Integer deleteVehicle(String vehicleNum) {
-        return vehicleRepository.deleteVehicle(vehicleNum);
+    public void deleteVehicle(String vehicleNum) {
+        vehicleRepository.deleteVehicle(vehicleNum);
     }
 }
