@@ -17,7 +17,7 @@ public class VehicleApi {
     private final VehicleService vehicleService;
 
     @PostMapping
-    public Map<String,Object> enrollVehicle(@RequestBody Vehicle vehicle) {
+    public Map<String,Object> VehicleAdd(@RequestBody Vehicle vehicle) {
         Map<String,Object> ret = new HashMap<String,Object>();
         Optional<Vehicle> isExist=vehicleService.findVehicleByNum(vehicle.getVehicleNum());
         try{
@@ -42,7 +42,7 @@ public class VehicleApi {
     }
 
     @GetMapping("/{vehicle_num}")
-    public  Map<String,Object> findVehicleByNum(@PathVariable("vehicle_num") String vehicleNum) {
+    public  Map<String,Object> vehicleDetails(@PathVariable("vehicle_num") String vehicleNum) {
         Map<String,Object> ret = new HashMap<String,Object>();
         try{
             Optional<Vehicle> retObj=vehicleService.findVehicleByNum(vehicleNum);
@@ -62,7 +62,7 @@ public class VehicleApi {
     }
 
     @DeleteMapping("/{vehicle_num}")
-    public  void deleteVehicle(@PathVariable("vehicle_num") String vehicleNum) {
+    public  void vehicleRemove(@PathVariable("vehicle_num") String vehicleNum) {
         vehicleService.deleteVehicle(vehicleNum);
     }
 }
