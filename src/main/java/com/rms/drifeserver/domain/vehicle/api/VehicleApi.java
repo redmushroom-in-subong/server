@@ -62,23 +62,7 @@ public class VehicleApi {
     }
 
     @DeleteMapping("/{vehicle_num}")
-    public  Map<String,Object> deleteVehicle(@PathVariable("vehicle_num") String vehicleNum) {
-        Map<String,Object> ret = new HashMap<String,Object>();
-        try{
-
-            Integer result = vehicleService.deleteVehicle(vehicleNum);
-            if(result == 0) {
-                ret.put("state","fail");
-                ret.put("result","no Vehicle (차량번호 : "+vehicleNum+")");
-            }else{
-                ret.put("state","success");
-                ret.put("result","deleted");
-            }
-        } catch (Exception e) {
-            ret.put("state","error");
-            ret.put("result",e.getMessage());
-        }finally {
-            return ret;
-        }
+    public  void deleteVehicle(@PathVariable("vehicle_num") String vehicleNum) {
+        vehicleService.deleteVehicle(vehicleNum);
     }
 }

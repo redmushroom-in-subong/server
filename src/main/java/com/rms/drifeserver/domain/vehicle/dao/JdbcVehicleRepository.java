@@ -53,11 +53,10 @@ public class JdbcVehicleRepository implements VehicleRepository{
     }
 
     @Override
-    public Integer deleteVehicle(String vehicleNum) {
+    public void deleteVehicle(String vehicleNum) {
         String sql="delete from USER where vehicle_num= :vehicle_num";
         Map<String, Object> mapObj = Collections.singletonMap("vehicle_num",vehicleNum);
-        Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
-        return ret;
+        namedParameterJdbcTemplate.update(sql,mapObj);
     }
 
     private RowMapper<Vehicle> vehicleRowMapper() {
