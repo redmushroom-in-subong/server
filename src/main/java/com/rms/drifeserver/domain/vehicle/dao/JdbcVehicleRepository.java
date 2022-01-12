@@ -18,7 +18,7 @@ public class JdbcVehicleRepository implements VehicleRepository{
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public Integer save(Vehicle vehicle) {
+    public Vehicle save(Vehicle vehicle) {
         String sql="insert into VEHICLE (user_seq,vehicle_num)" +
                 "values(:userSeq,:vehicleNum)";
         // User 객체를 <필드명,값> 형태의 맵으로 바꿔줌
@@ -26,7 +26,7 @@ public class JdbcVehicleRepository implements VehicleRepository{
         Map < String, Object > mapObj = mapObject.convertValue(vehicle, Map.class);
         //end
         Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
-        return ret;
+        return vehicle;
     }
 
     @Override
@@ -63,6 +63,7 @@ public class JdbcVehicleRepository implements VehicleRepository{
     private RowMapper<Vehicle> vehicleRowMapper() {
         return (rs, rowNum) -> {
             Vehicle vehicle = new Vehicle();
+            vehicle.setVehicleSeq(rs.getInt("VEHICLE_SEQ"));
             vehicle.setUserSeq(rs.getInt("USER_SEQ"));
             vehicle.setVehicleNum(rs.getString("VEHICLE_NUM"));
             return vehicle;

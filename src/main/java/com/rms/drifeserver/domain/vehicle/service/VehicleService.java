@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VehicleService {
-    Integer saveVehicle(Vehicle vehicle);
+    Vehicle saveVehicle(Vehicle vehicle);
     List<Vehicle> findAllVehicles();
     Optional<Vehicle> findVehicleByNum(String vehicleNum);
     List<Vehicle> findVehicleByUser(Integer userSeq);
