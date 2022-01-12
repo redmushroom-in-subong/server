@@ -38,8 +38,10 @@ public class BoardApi {
         Map<String,Object> ret = new HashMap<String,Object>();
         try{
             boardRepository.savePost(board);
-            Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
-            ret.put("result",byTitle.get());
+//            Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
+//            ret.put("result",byTitle.get());
+            Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(board.getBoardSeq());
+            ret.put("result",byBoardSeq.get());
         }catch (Exception e){
             ret.put("state","error");
             ret.put("message",e.getMessage());
@@ -60,8 +62,29 @@ public class BoardApi {
                 ret.put("result","no post (board_seq:" + boardSeq + ")");
             }
             else{
-                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(boardSeq);
+//                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(boardSeq);
+                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(board.getBoardSeq());
                 ret.put("result", byBoardSeq);
+            }
+        } catch (Exception e){
+            ret.put("state","error");
+            ret.put("result",e.getMessage());
+        } finally {
+            return ret;
+        }
+    }
+
+    @DeleteMapping("/{boardSeq}")
+    @ResponseBody
+    public Map<String,Object> deletePost(@PathVariable("boardSeq") int boardSeq){
+        Map<String, Object> ret = new HashMap<String, Object>();
+        try{
+            Integer isExist = boardRepository.deletePost(boardSeq);
+            if(isExist==0) {
+                ret.put("state","fail");
+                ret.put("result","no post (board_seq:" + boardSeq + ")");
+            }else{
+                ret.put("result","deleted");
             }
         } catch (Exception e){
             ret.put("state","error");
