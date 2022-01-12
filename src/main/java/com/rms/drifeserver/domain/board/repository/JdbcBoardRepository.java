@@ -46,6 +46,16 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     @Override
+    public Integer deletePost(int thisBoardSeq) {
+        String sql="delete from BOARD where board_seq=:thisBoardSeq";
+        Map<String, Object> mapObj = new HashMap<>();
+        mapObj.put("thisBoardSeq",thisBoardSeq);
+
+        Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
+        return ret;
+    }
+
+    @Override
     public Optional<Board> findByTitle(String title) {
         String sql = "select * from BOARD where title= :title";
         Map<String, String> params = Collections.singletonMap("title", title);

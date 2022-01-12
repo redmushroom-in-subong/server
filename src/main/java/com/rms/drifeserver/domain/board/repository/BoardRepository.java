@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface BoardRepository {
     Integer savePost(Board board);
     Integer updatePost(Board board, int boardSeq);
+    Integer deletePost(int boardSeq);
     Optional<Board> findByTitle(String title);
     Optional<Board> findByBoardSeq(Integer boardSeq);
     List<Board> findAll();
