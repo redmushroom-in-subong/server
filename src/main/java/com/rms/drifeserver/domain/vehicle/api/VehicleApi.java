@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/vehicle")
+@RequestMapping("/vehicles")
 @RequiredArgsConstructor
 public class VehicleApi {
     private final VehicleService vehicleService;

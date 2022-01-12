@@ -15,7 +15,7 @@ public class VehicleServiceImpl implements VehicleService{
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public Integer saveVehicle(Vehicle vehicle) {
+    public Vehicle saveVehicle(Vehicle vehicle) {
         return vehicleRepository.save(vehicle);
     }
 
