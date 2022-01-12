@@ -4,6 +4,7 @@ package com.rms.drifeserver.domain.board.api;
 import com.rms.drifeserver.domain.board.model.Board;
 import com.rms.drifeserver.domain.board.repository.BoardRepository;
 import com.rms.drifeserver.domain.board.repository.JdbcBoardRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Controller;
@@ -13,35 +14,86 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/boards")
+@RequiredArgsConstructor
 public class BoardApi {
 
-//    private final BoardRepository boardRepository;
-//
-//    public BoardApi(BoardRepository boardRepository) {
-//        this.boardRepository = boardRepository;
-//    }
-
-    @Autowired
-    JdbcBoardRepository jdbcBoardRepository;
+    private final BoardRepository boardRepository;
 
     @GetMapping("")
     @ResponseBody
     public Map<String,Object> getAll(){
         Map<String,Object> ret=new HashMap<String,Object>();
-        List<Board> allPosts = jdbcBoardRepository.findAll();
+        List<Board> allPosts = boardRepository.findAll();
         ret.put("result",allPosts);
         return ret;
     }
 
     @PostMapping("/write")
     @ResponseBody
-    public String write(@RequestBody Board board) {
-        jdbcBoardRepository.save(board);
+    public Map<String,Object> write(@RequestBody Board board) {
+        Map<String,Object> ret = new HashMap<String,Object>();
+        try{
+            boardRepository.savePost(board);
+            //title로 받아오면 같은 제목인 다른 게시글이 반환될 때가 있음
+            Optional<Board> byTitle = boardRepository.findByTitle(board.getTitle());
+            ret.put("result",byTitle.get());
 
-        return "redirect:/boards";
+//            board_seq로 받아올 수 없음
+//            Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(board.getBoardSeq());
+//            ret.put("result",byBoardSeq.get());
+        }catch (Exception e){
+            ret.put("state","error");
+            ret.put("message",e.getMessage());
+        }finally {
+            return ret;
+        }
+    }
+
+    @PutMapping("/{boardSeq}")
+    @ResponseBody
+    public Map<String,Object> updatePost(@PathVariable("boardSeq") int boardSeq,@RequestBody Board board) {
+        Map<String, Object> ret = new HashMap<String, Object>();
+
+        try {
+            Integer isExist = boardRepository.updatePost(board, boardSeq);
+            if(isExist == 0){
+                ret.put("state","fail");
+                ret.put("result","no post (board_seq:" + boardSeq + ")");
+            }
+            else{
+                Optional<Board> byBoardSeq = boardRepository.findByBoardSeq(boardSeq);
+                ret.put("result", byBoardSeq);
+            }
+        } catch (Exception e){
+            ret.put("state","error");
+            ret.put("result",e.getMessage());
+        } finally {
+            return ret;
+        }
+    }
+
+    @DeleteMapping("/{boardSeq}")
+    @ResponseBody
+    public Map<String,Object> deletePost(@PathVariable("boardSeq") int boardSeq){
+        Map<String, Object> ret = new HashMap<String, Object>();
+        try{
+            Integer isExist = boardRepository.deletePost(boardSeq);
+            if(isExist==0) {
+                ret.put("state","fail");
+                ret.put("result","no post (board_seq:" + boardSeq + ")");
+            }else{
+                ret.put("result","deleted");
+            }
+        } catch (Exception e){
+            ret.put("state","error");
+            ret.put("result",e.getMessage());
+        } finally {
+            return ret;
+        }
     }
 
 /*
