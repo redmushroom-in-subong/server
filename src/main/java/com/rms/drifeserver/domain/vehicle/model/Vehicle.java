@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Vehicle {
+    private Integer vehicleSeq;
     private Integer userSeq;
     private String vehicleNum;
 }

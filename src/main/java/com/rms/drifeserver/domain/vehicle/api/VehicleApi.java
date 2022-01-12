@@ -11,13 +11,13 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/vehicle")
+@RequestMapping("/vehicles")
 @RequiredArgsConstructor
 public class VehicleApi {
     private final VehicleService vehicleService;
 
     @PostMapping
-    public Map<String,Object> enrollVehicle(@RequestBody Vehicle vehicle) {
+    public Map<String,Object> VehicleAdd(@RequestBody Vehicle vehicle) {
         Map<String,Object> ret = new HashMap<String,Object>();
         Optional<Vehicle> isExist=vehicleService.findVehicleByNum(vehicle.getVehicleNum());
         try{
@@ -42,7 +42,7 @@ public class VehicleApi {
     }
 
     @GetMapping("/{vehicle_num}")
-    public  Map<String,Object> findVehicleByNum(@PathVariable("vehicle_num") String vehicleNum) {
+    public  Map<String,Object> vehicleDetails(@PathVariable("vehicle_num") String vehicleNum) {
         Map<String,Object> ret = new HashMap<String,Object>();
         try{
             Optional<Vehicle> retObj=vehicleService.findVehicleByNum(vehicleNum);
@@ -62,23 +62,7 @@ public class VehicleApi {
     }
 
     @DeleteMapping("/{vehicle_num}")
-    public  Map<String,Object> deleteVehicle(@PathVariable("vehicle_num") String vehicleNum) {
-        Map<String,Object> ret = new HashMap<String,Object>();
-        try{
-
-            Integer result = vehicleService.deleteVehicle(vehicleNum);
-            if(result == 0) {
-                ret.put("state","fail");
-                ret.put("result","no Vehicle (차량번호 : "+vehicleNum+")");
-            }else{
-                ret.put("state","success");
-                ret.put("result","deleted");
-            }
-        } catch (Exception e) {
-            ret.put("state","error");
-            ret.put("result",e.getMessage());
-        }finally {
-            return ret;
-        }
+    public  void vehicleRemove(@PathVariable("vehicle_num") String vehicleNum) {
+        vehicleService.deleteVehicle(vehicleNum);
     }
 }
