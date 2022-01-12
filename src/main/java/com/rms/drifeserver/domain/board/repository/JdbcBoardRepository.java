@@ -1,61 +1,92 @@
 package com.rms.drifeserver.domain.board.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rms.drifeserver.domain.board.model.Board;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
+@RequiredArgsConstructor
 public class JdbcBoardRepository implements BoardRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public JdbcBoardRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    @Override
+    public Integer savePost(Board board) {
+        String sql="insert into BOARD (user_seq,title,context)" +
+                "values(:userSeq,:title,:context)";
+
+        ObjectMapper mapObject = new ObjectMapper();
+        Map<String, Object> mapObj = mapObject.convertValue(board, Map.class);
+
+        Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
+        return ret;
     }
 
     @Override
-    public Board save(Board board) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("board").usingGeneratedKeyColumns("board_seq");
+    public Integer updatePost(Board board, int thisBoardSeq) {
+        String sql="update BOARD set " +
+                "title=:title," +
+                "context=:context " +
+                "where board_seq=:thisBoardSeq";
 
-        Map<String, Object> parameters = new HashMap<>();
-        //parameters.put("writer", board.getWriter());
-        parameters.put("title", board.getTitle());
-        parameters.put("context", board.getContext());
+        ObjectMapper mapObject = new ObjectMapper();
+        Map <String, Object> mapObj = mapObject.convertValue(board, Map.class);
+        mapObj.put("thisBoardSeq",thisBoardSeq);
 
-        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
-        board.setBoardSeq(key.intValue());
-        return board;
+        Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
+        return ret;
+    }
+
+    @Override
+    public Integer deletePost(int thisBoardSeq) {
+        String sql="delete from BOARD where board_seq=:thisBoardSeq";
+        Map<String, Object> mapObj = new HashMap<>();
+        mapObj.put("thisBoardSeq",thisBoardSeq);
+
+        Integer ret=namedParameterJdbcTemplate.update(sql,mapObj);
+        return ret;
     }
 
     @Override
     public Optional<Board> findByTitle(String title) {
-        List<Board> result = jdbcTemplate.query("select * from BOARD where title = ?", boardRowMapper(), title);
+        String sql = "select * from BOARD where title= :title";
+        Map<String, String> params = Collections.singletonMap("title", title);
+        List<Board> result = namedParameterJdbcTemplate.query(sql, params, boardRowMapper());
         return result.stream().findAny();
+    }
+
+    @Override
+    public Optional<Board> findByBoardSeq(Integer boardSeq) {
+        String sql = "select * from BOARD where board_seq= :boardSeq";
+        Map<String, Integer> params = Collections.singletonMap("boardSeq", boardSeq);
+        List<Board> result = namedParameterJdbcTemplate.query(sql, params, boardRowMapper());
+        return result.stream().findAny();
+    }
+
+    @Override
+    public List<Board> findAll() {
+        return namedParameterJdbcTemplate.query("select * from BOARD", boardRowMapper());
     }
 
     private RowMapper<Board> boardRowMapper() {
         return (rs, rowNum) -> {
             Board board = new Board();
             board.setBoardSeq(rs.getInt("board_seq"));
+            board.setUserSeq(rs.getInt("user_seq"));
            // board.setWriter(rs.getString("writer"));
             board.setTitle(rs.getString("title"));
             board.setContext(rs.getString("context"));
+            board.setWriteAt(rs.getTimestamp("write_at"));
             return board;
         };
     }
 
-    @Override
-    public List<Board> findAll() {
-        return jdbcTemplate.query("select * from BOARD", boardRowMapper());
-    }
 }
