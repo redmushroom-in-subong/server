@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.review.model;
 
+import com.rms.drifeserver.domain.store.model.Store;
 import com.rms.drifeserver.domain.user.model.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -18,8 +19,9 @@ public class Review {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     private String contents;
 
