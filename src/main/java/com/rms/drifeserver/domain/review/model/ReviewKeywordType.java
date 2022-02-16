@@ -1,7 +1,8 @@
 package com.rms.drifeserver.domain.review.model;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class ReviewKeywordType {
@@ -11,4 +12,7 @@ public class ReviewKeywordType {
 
     @Column(nullable = false, length = 30)
     private String name;
+
+    @OneToMany(mappedBy = "reviewKeywordType", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<ReviewKeyword> keywordReviews = new ArrayList<>();
 }

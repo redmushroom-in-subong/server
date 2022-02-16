@@ -1,6 +1,5 @@
 package com.rms.drifeserver.domain.review.model;
 
-import javax.persistence.GeneratedValue;
 import javax.persistence.*;
 
 @Entity
