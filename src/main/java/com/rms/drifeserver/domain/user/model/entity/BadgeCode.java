@@ -12,14 +12,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "bedge_code")
-public class BedgeCode {
+@Table(name = "badge_code")
+public class BadgeCode {
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(name = "bedge_name")
-    private String bedge_name;
+    @Column(name = "badge_name")
+    private String badge_name;
 
     
 
