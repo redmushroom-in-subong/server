@@ -1,5 +1,7 @@
 package com.rms.drifeserver.domain.review.model;
 
+import com.rms.drifeserver.domain.store.model.Store;
+import com.rms.drifeserver.domain.user.model.User;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -12,11 +14,13 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(nullable = false)
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     @CreatedDate
     private LocalDateTime createdAt;
