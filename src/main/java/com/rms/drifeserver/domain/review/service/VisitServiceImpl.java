@@ -1,6 +1,6 @@
-package com.rms.drifeserver.domain.visit.service;
+package com.rms.drifeserver.domain.review.service;
 
-import com.rms.drifeserver.domain.visit.dao.VisitRepository;
+import com.rms.drifeserver.domain.review.dao.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
