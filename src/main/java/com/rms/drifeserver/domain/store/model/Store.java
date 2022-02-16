@@ -1,7 +1,7 @@
 package com.rms.drifeserver.domain.store.model;
 
 import com.rms.drifeserver.domain.review.model.Review;
-import com.rms.drifeserver.domain.visit.model.Visit;
+import com.rms.drifeserver.domain.review.model.Visit;
 
 import javax.persistence.*;
 import java.util.ArrayList;

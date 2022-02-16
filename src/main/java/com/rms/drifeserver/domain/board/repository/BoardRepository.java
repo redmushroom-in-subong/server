@@ -1,15 +1,7 @@
 package com.rms.drifeserver.domain.board.repository;
 
 import com.rms.drifeserver.domain.board.model.Board;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface BoardRepository {
-    Integer savePost(Board board);
-    Integer updatePost(Board board, int boardSeq);
-    Integer deletePost(int boardSeq);
-    Optional<Board> findByTitle(String title);
-    Optional<Board> findByBoardSeq(Integer boardSeq);
-    List<Board> findAll();
+public interface BoardRepository extends JpaRepository<Board, Long> {
 }

@@ -1,17 +1,12 @@
 package com.rms.drifeserver.domain.review.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.rms.drifeserver.domain.user.model.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Review {
 
@@ -19,8 +14,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private Long storeId;
