@@ -1,4 +1,4 @@
-package com.rms.drifeserver.domain.user.model.entity;
+package com.rms.drifeserver.domain.user.model;
 
 import javax.persistence.*;
 

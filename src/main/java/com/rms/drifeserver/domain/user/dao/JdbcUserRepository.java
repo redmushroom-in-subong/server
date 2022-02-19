@@ -2,10 +2,8 @@ package com.rms.drifeserver.domain.user.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.rms.drifeserver.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import java.util.*;
