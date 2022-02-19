@@ -1,6 +1,5 @@
 package com.rms.drifeserver.domain.user.api;
 
-import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
