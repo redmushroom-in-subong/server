@@ -1,8 +1,6 @@
 package com.rms.drifeserver.domain.user.dao;
 
-import com.rms.drifeserver.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 

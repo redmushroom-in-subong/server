@@ -1,7 +1,6 @@
 package com.rms.drifeserver.domain.review.model;
 
 import com.rms.drifeserver.domain.store.model.Store;
-import com.rms.drifeserver.domain.user.model.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
