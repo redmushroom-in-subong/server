@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Getter
 @Setter
-public class Stamp {
-    private String createdBy;
+public class TimeStamp {
     private LocalDateTime createdAt;
 }

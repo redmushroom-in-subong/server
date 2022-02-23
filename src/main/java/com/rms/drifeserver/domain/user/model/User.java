@@ -4,6 +4,10 @@ import com.rms.drifeserver.domain.board.model.Board;
 import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.model.Visit;
 import com.rms.drifeserver.domain.user.model.Badge;
+import com.rms.drifeserver.domain.user.model.like.BoardLikes;
+import com.rms.drifeserver.domain.user.model.like.CommentLikes;
+import com.rms.drifeserver.domain.user.model.like.ReviewLikes;
+import com.rms.drifeserver.domain.user.model.like.StoreLikes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,4 +50,18 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Board> myBoardList = new ArrayList();
     //추후 알림,첨부타일
+
+    /**
+     * 필요 없어 보이는 연관관계
+     */
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    private List<BoardLikes> boardLikes = new ArrayList();
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    private List<CommentLikes> commentLikes = new ArrayList();
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    private List<ReviewLikes> reviewLikes = new ArrayList();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<StoreLikes> storeLikes = new ArrayList();
+
 }
