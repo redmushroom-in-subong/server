@@ -2,6 +2,7 @@ package com.rms.drifeserver.domain.review.model;
 
 import com.rms.drifeserver.domain.store.model.Store;
 import com.rms.drifeserver.domain.user.model.User;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 public class Review {
 
