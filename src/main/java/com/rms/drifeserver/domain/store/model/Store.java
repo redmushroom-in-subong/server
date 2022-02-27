@@ -14,7 +14,7 @@ public class Store {
     private Long id;
 
     //카카오 장소 아이디
-    private Long kakaoPlaceId;
+    private String kakaoPlaceId;
 
     private String storeDesc;
     private String snsAddress;
