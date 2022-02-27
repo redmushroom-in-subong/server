@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class VisitApi {
 
-    private final VisitService reviewService;
+    private final VisitService visitService;
 }
