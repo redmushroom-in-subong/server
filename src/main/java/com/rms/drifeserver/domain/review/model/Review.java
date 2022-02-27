@@ -32,13 +32,11 @@ public class Review {
 
     private String contents;
 
+    private Long likes;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    public void update(String contents, int rating) {
-        this.contents = contents;
-    }
 }

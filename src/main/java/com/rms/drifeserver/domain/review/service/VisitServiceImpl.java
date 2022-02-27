@@ -9,4 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class VisitServiceImpl implements VisitService {
     private final VisitRepository visitRepository;
+
+    @Override
+    public void addVisit(Long userId, Long storeId) {
+
+    }
 }
