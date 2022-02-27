@@ -8,6 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class VisitServiceImpl implements VisitService {
-
     private final VisitRepository visitRepository;
 }
