@@ -2,6 +2,7 @@ package com.rms.drifeserver.domain.review.api;
 
 import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.review.service.ReviewService;
+import com.rms.drifeserver.domain.review.service.dto.response.ReviewDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,8 @@ public class ReviewApi {
     }
 
     @GetMapping("/v1/stores/{storeId}/reviews/{reviewId}")
-    public ApiResponse<Object> getReview(@PathVariable Long storeId, @PathVariable Long reviewId) {
-        return ApiResponse.success(null);
+    public ApiResponse<ReviewDetailResponse> getReview(@PathVariable Long storeId, @PathVariable Long reviewId) {
+        return ApiResponse.success(reviewService.getReviewDetail(1L, storeId, reviewId));
     }
 
     @PutMapping("/v1/stores/{storeId}/reviews/{reviewId}")
