@@ -12,7 +12,7 @@ sourceCompatibility = '11'
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
-	} }
+	}}
 //lombok -- end
 
 repositories {
@@ -20,21 +20,44 @@ repositories {
 }
 
 dependencies {
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	//security and oauth
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	//end
+
+	//jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	//end
+
+
+	//log4j2
+	//implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	//end
+
+	//web and test
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-test'
+	//end
+
 	//DB
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'mysql:mysql-connector-java'
-	//DB -- end
+	//end
 
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
-	//lombok -- end
+	//end
 
 	implementation 'junit:junit:4.13.1'
 	implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
