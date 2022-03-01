@@ -1,6 +1,8 @@
 package com.rms.drifeserver.domain.review.model;
 
 import com.rms.drifeserver.domain.store.model.Store;
+import com.rms.drifeserver.domain.user.model.User;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 public class Review {
 
@@ -29,13 +32,11 @@ public class Review {
 
     private String contents;
 
+    private Long likes;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    public void update(String contents, int rating) {
-        this.contents = contents;
-    }
 }
