@@ -1,7 +1,9 @@
 package com.rms.drifeserver.domain.review.service;
 
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewsResponse;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
     @Override
     public ReviewsResponse getAllReviewsInStore(Long storeId) {
