@@ -18,9 +18,8 @@ public class UserApi {
 
     @GetMapping("")
     @ResponseBody
-    public ApiResponse<User> testApi(@RequestHeader("Authorization") String tken){
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUser(principal.getUsername());
+    public ApiResponse testApi(@RequestHeader("Authorization") String tken){
+        User user = userService.getUserEntity();
         return ApiResponse.success(user);
     }
 
