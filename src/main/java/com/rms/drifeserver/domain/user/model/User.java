@@ -86,8 +86,7 @@ public class User {
     private String phone;
     @Column(name = "region_code")
     private int region_code;
-    @Column(name = "profile_url",length = 512)
-    private String profileUrl;
+
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Review> myReviewList = new ArrayList();

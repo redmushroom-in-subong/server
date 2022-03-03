@@ -1,9 +1,9 @@
 package com.rms.drifeserver.domain.user.api;
 
+import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.user.service.dto.AuthReqModel;
 import com.rms.drifeserver.domain.user.model.UserRefreshToken;
 import com.rms.drifeserver.domain.user.dao.UserRefreshTokenRepository;
-import com.rms.drifeserver.domain.user.service.dto.ApiResponse;
 import com.rms.drifeserver.config.properties.AppProperties;
 import com.rms.drifeserver.domain.user.oauth.entity.RoleType;
 import com.rms.drifeserver.domain.user.oauth.entity.UserPrincipal;
@@ -23,6 +23,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+
+import static com.rms.drifeserver.domain.common.exception.type.ErrorCode.INVALID_AUTH_TOKEN;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -83,7 +85,7 @@ public class AuthController {
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
 
-        return ApiResponse.success("token", accessToken.getToken());
+        return ApiResponse.success(accessToken.getToken());
     }
 
     @GetMapping("/refresh")
@@ -95,13 +97,13 @@ public class AuthController {
         String accessToken = HeaderUtil.getAccessToken(request);
         AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
         if (!authToken.validate()) {
-            return ApiResponse.invalidAccessToken();
+            return ApiResponse.error(INVALID_AUTH_TOKEN);
         }
 
         // expired access token 인지 확인
         Claims claims = authToken.getExpiredTokenClaims();
         if (claims == null) {
-            return ApiResponse.notExpiredTokenYet();
+            return ApiResponse.error(INVALID_AUTH_TOKEN);
         }
 
         String userId = claims.getSubject();
@@ -114,13 +116,13 @@ public class AuthController {
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
         if (authRefreshToken.validate()) {
-            return ApiResponse.invalidRefreshToken();
+            return ApiResponse.error(INVALID_AUTH_TOKEN);
         }
 
         // userId refresh token 으로 DB 확인
         UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserIdAndRefreshToken(userId, refreshToken);
         if (userRefreshToken == null) {
-            return ApiResponse.invalidRefreshToken();
+            return ApiResponse.error(INVALID_AUTH_TOKEN);
         }
 
         Date now = new Date();
@@ -150,6 +152,6 @@ public class AuthController {
             CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(), cookieMaxAge);
         }
 
-        return ApiResponse.success("token", newAccessToken.getToken());
+        return ApiResponse.success( newAccessToken.getToken());
     }
 }
