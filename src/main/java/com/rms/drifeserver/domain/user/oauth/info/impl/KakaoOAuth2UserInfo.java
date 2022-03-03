@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.user.oauth.info.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rms.drifeserver.domain.user.oauth.info.OAuth2UserInfo;
 
 import java.util.Map;
@@ -18,7 +19,6 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     @Override
     public String getName() {
         Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
-
         if (properties == null) {
             return null;
         }
@@ -28,17 +28,22 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getEmail() {
-        return (String) attributes.get("account_email");
+        Map<String,String> kakaoAccount=(Map<String, String>)attributes.get("kakao_account");
+        return (String) kakaoAccount.get("email");
     }
 
     @Override
     public String getImageUrl() {
-        Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
+        Map<String,Object> kakaoAccount=(Map<String,Object>)attributes.get("kakao_account");
 
-        if (properties == null) {
+        if (kakaoAccount == null) {
+            return null;
+        }
+        Map<String,String> profile=(Map<String, String>)kakaoAccount.get("profile");
+        if (profile == null) {
             return null;
         }
 
-        return (String) properties.get("thumbnail_image");
+        return (String) profile.get("thumbnail_image_url");
     }
 }
