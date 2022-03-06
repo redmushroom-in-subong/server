@@ -61,6 +61,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
+        System.out.println("userInfo.getEmail() = " + userInfo.getEmail());
         LocalDateTime now = LocalDateTime.now();
         User user = new User(
                 userInfo.getId(),

@@ -11,12 +11,13 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User getUser(String userId) {
+    public User getUserById(Long uId){return userRepository.findById(uId).get();}
+    public User getUserByUserId(String userId) {
         return userRepository.findByUserId(userId);
     }
     public User getUserEntity(){
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = getUser(principal.getUsername());
+        User user = getUserByUserId(principal.getUsername());
         return user;
     }
 }

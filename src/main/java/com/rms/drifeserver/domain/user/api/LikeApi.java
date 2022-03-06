@@ -4,20 +4,16 @@ import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.Authorization;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("v1/users")
+@RequestMapping("/v1/users/a")
 @RequiredArgsConstructor
-public class UserApi {
+public class LikeApi {
     final private UserService userService;
 
-
-    @GetMapping({"", "/{uId}"})
+    @GetMapping({"", "/{a}"})
     @ResponseBody
     public ApiResponse userInfo(@PathVariable(required = false) Long uId){
         if(uId!=null){
@@ -26,5 +22,6 @@ public class UserApi {
         User user = userService.getUserEntity();
         return ApiResponse.success(user);
     }
+
 
 }
