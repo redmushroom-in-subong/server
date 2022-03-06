@@ -4,23 +4,23 @@ import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/api/v1/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserController {
+public class BadgeApi {
+    final private UserService userService;
 
-    private final UserService userService;
-
-    @GetMapping
+    @GetMapping("")
     @ResponseBody
-    public ApiResponse getUser() {
+    public ApiResponse testApi(@RequestHeader("Authorization") String tken){
         User user = userService.getUserEntity();
         return ApiResponse.success(user);
     }
+
 }
