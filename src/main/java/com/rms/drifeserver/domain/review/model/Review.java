@@ -2,7 +2,10 @@ package com.rms.drifeserver.domain.review.model;
 
 import com.rms.drifeserver.domain.store.model.Store;
 import com.rms.drifeserver.domain.user.model.User;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,9 +13,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Review {
 
     @Id
@@ -28,10 +33,11 @@ public class Review {
     private Store store;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<ReviewKeyword> reviewKeywords = new ArrayList<>();
+    private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
     private String contents;
 
+    @Transient
     private Long likes;
 
     @CreatedDate
@@ -39,4 +45,18 @@ public class Review {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    private Review(User user, Store store, String contents) {
+        this.user = user;
+        this.store = store;
+        this.contents = contents;
+    }
+
+    public static Review of(User user, Store store,String contents){
+        return new Review(user,store, contents);
+    }
+
+    public void addReviewKeyword(List<ReviewKeywordType> reviewKeywordTypes) {
+        reviewKeywordTypes.forEach(type -> this.reviewKeywords.add(ReviewKeyword.of(this, type)));
+    }
 }
