@@ -42,10 +42,9 @@ public class User {
     @Size(max = 100)
     private String username;
 
-    @JsonIgnore
-    @Column(name = "password", length = 128)
+    @Column(name = "password", length = 100)
     @NotNull
-    @Size(max = 128)
+    @Size(max = 100)
     private String password;
 
     @Column(name = "email", length = 512, unique = true)
@@ -86,8 +85,7 @@ public class User {
     private String phone;
     @Column(name = "region_code")
     private int region_code;
-    @Column(name = "profile_url",length = 512)
-    private String profileUrl;
+
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Review> myReviewList = new ArrayList();
@@ -98,16 +96,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Board> myBoardList = new ArrayList();
     //추후 알림,첨부타일
-
-    /**
-     * 필요 없어 보이는 연관관계
-     */
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    private List<BoardLikes> boardLikes = new ArrayList();
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    private List<CommentLikes> commentLikes = new ArrayList();
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    private List<ReviewLikes> reviewLikes = new ArrayList();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<StoreLikes> storeLikes = new ArrayList();
@@ -126,7 +114,6 @@ public class User {
     ) {
         this.userId = userId;
         this.username = username;
-        this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
         this.emailVerifiedYn = emailVerifiedYn;
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
