@@ -2,8 +2,10 @@ package com.rms.drifeserver.domain.review.service;
 
 import com.rms.drifeserver.domain.review.dao.ReviewKeywordTypeRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
+import com.rms.drifeserver.domain.review.dao.VisitRepository;
 import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.model.ReviewKeywordType;
+import com.rms.drifeserver.domain.review.model.Visit;
 import com.rms.drifeserver.domain.review.service.dto.request.AddReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.request.UpdateReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewDetailResponse;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
+    private final VisitRepository visitRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReviewKeywordTypeRepository reviewKeywordTypeRepository;
@@ -37,6 +40,7 @@ public class ReviewServiceImpl implements ReviewService{
                 .collect(Collectors.toList());
         review.addReviewKeyword(reviewKeywordTypes);
         reviewRepository.save(review);
+        visitRepository.save(Visit.of(user, store));
     }
 
     @Override
