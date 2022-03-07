@@ -15,6 +15,7 @@ import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class ReviewServiceImpl implements ReviewService{
     private final StoreRepository storeRepository;
     private final ReviewKeywordTypeRepository reviewKeywordTypeRepository;
 
+    @Transactional
     @Override
     public void addReview(AddReviewRequest request, Long userId, Long storeId) {
         User user = userRepository.getById(userId);
