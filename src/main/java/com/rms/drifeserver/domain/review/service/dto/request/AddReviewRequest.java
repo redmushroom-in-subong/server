@@ -20,6 +20,12 @@ public class AddReviewRequest {
 
     private List<String> images;
 
+    //test용 생성자
+    public AddReviewRequest(String contents, List<Long> keywordIds) {
+        this.contents = contents;
+        this.keywordIds = keywordIds;
+    }
+
     public Review toReview(User user, Store store) {
         return Review.of(user, store, this.contents);
     }
