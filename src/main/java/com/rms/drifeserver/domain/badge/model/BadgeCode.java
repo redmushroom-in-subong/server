@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -17,10 +19,10 @@ public class BadgeCode {
     @Id
     @GeneratedValue
     private Long id;
-
     @Column(name = "badge_name")
-    private String badge_name;
-
-    @Embedded
-    private BadgeEarnCondition badgeEarnCondition;
+    private String badgeName;
+    @Column(name="review_cnt")
+    private int review_cnt;
+    @OneToMany(mappedBy = "badgeCode")
+    private List<Badge> badges=new ArrayList<>();
 }
