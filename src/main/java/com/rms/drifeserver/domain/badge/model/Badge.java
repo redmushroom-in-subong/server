@@ -19,13 +19,10 @@ public class Badge {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne( fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "badge_code")
     private BadgeCode badgeCode;
 
-    @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-
+    @Column(name = "user_id")
+    private Long userId;
 }

@@ -97,8 +97,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Visit> myVisitList = new ArrayList();
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Badge> myBadgeList = new ArrayList();
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Board> myBoardList = new ArrayList();
     //추후 알림,첨부타일
 
