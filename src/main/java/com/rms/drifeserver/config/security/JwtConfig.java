@@ -1,6 +1,6 @@
 package com.rms.drifeserver.config.security;
 
-import com.rms.drifeserver.domain.user.oauth.token.AuthTokenProvider;
+import com.rms.drifeserver.domain.oauth.token.AuthTokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
