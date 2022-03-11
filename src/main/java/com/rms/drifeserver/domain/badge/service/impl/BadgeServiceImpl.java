@@ -6,6 +6,7 @@ import com.rms.drifeserver.domain.badge.model.Badge;
 import com.rms.drifeserver.domain.badge.model.BadgeCode;
 import com.rms.drifeserver.domain.badge.service.BadgeService;
 import com.rms.drifeserver.domain.badge.service.dto.response.UserBadgeResponse;
+import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
@@ -24,8 +25,9 @@ public class BadgeServiceImpl implements BadgeService {
     final private BadgeRepository badgeRepository;
     final private BadgeCodeRepository badgeCodeRepository;
     @Override
-    public void checkBadgeEarnCondition(){
+    public void checkBadgeEarnCondition() throws BaseException {
         User user=userService.getUserEntity();
+        int reviewCount=user.getMyReviewList().size();
        // List<Badge> userBadgeList=user.getMyBadgeList();
         List<BadgeCode> allBadgeList=badgeCodeRepository.findAll();
 //        List<BadgeCode>
