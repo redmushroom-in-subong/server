@@ -151,7 +151,6 @@ public class AuthController {
             CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
             CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(), cookieMaxAge);
         }
-
         return ApiResponse.success( newAccessToken.getToken());
     }
 }
