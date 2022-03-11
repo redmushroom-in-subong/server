@@ -1,6 +1,8 @@
 package com.rms.drifeserver.domain.badge.api;
 
 import com.rms.drifeserver.domain.common.dto.ApiResponse;
+import com.rms.drifeserver.domain.common.exception.BaseException;
+import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,15 @@ public class BadgeCodeApi {
     @PostMapping("")
     @ResponseBody
     public ApiResponse addBadgeCode(){
-        User user = userService.getUserEntity();
-        return ApiResponse.success(user);
+        try{
+            User user = userService.getUserEntity();
+            return ApiResponse.success(user);
+        }catch (BaseException baseException){
+            return ApiResponse.error(baseException.getErrorCode());
+        }catch (Exception exception){
+            System.out.println("unhandled exception :" + exception.getMessage());
+            exception.printStackTrace();
+            return ApiResponse.error(ErrorCode.INVALID);
+        }
     }
 }

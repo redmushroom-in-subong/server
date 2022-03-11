@@ -1,6 +1,8 @@
 package com.rms.drifeserver.domain.like.api;
 
 import com.rms.drifeserver.domain.common.dto.ApiResponse;
+import com.rms.drifeserver.domain.common.exception.BaseException;
+import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +18,16 @@ public class LikeApi {
     @GetMapping({"", "/{a}"})
     @ResponseBody
     public ApiResponse userInfo(@PathVariable(required = false) Long uId){
-        if(uId!=null){
-            return ApiResponse.success(userService.getUserById(uId));
+        try {
+            if (uId != null) {
+                return ApiResponse.success(userService.getUserById(uId));
+            }
+            return ApiResponse.success(0);
+        } catch (BaseException baseException) {
+            return ApiResponse.error(baseException.getErrorCode());
+        } catch (Exception exception) {
+            return ApiResponse.error(ErrorCode.INVALID);
         }
-        User user = userService.getUserEntity();
-        return ApiResponse.success(user);
     }
 
 

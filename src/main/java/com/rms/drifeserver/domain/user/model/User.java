@@ -8,10 +8,7 @@ import com.rms.drifeserver.domain.like.model.StoreLikes;
 import com.rms.drifeserver.domain.oauth.entity.ProviderType;
 import com.rms.drifeserver.domain.oauth.entity.RoleType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
+@ToString
 public class User {
     @JsonIgnore
     @Id
