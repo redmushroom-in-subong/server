@@ -8,7 +8,7 @@ import com.rms.drifeserver.domain.review.service.dto.response.ReviewDetailRespon
 public interface ReviewService {
 
     void addReview(AddReviewRequest request, Long userId, Long storeId) throws BaseException;
-    ReviewDetailResponse getReviewDetail(Long storeId, Long reviewId);
-    ReviewDetailResponse updateReview(UpdateReviewRequest request, Long userId, Long storeId, Long reviewId);
-    void deleteReview(Long userId, Long storeId, Long reviewId);
+    ReviewDetailResponse getReviewDetail(Long reviewId);
+    ReviewDetailResponse updateReview(UpdateReviewRequest request, Long userId, Long reviewId);
+    void deleteReview(Long userId, Long reviewId);
 }
