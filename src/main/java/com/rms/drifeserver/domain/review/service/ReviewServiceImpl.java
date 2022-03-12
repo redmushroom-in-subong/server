@@ -1,5 +1,7 @@
 package com.rms.drifeserver.domain.review.service;
 
+import com.rms.drifeserver.domain.common.exception.BaseException;
+import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.review.dao.ReviewKeywordTypeRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -34,19 +37,25 @@ public class ReviewServiceImpl implements ReviewService{
     @Transactional
     @Override
     public void addReview(AddReviewRequest request, Long userId, Long storeId) {
+
         User user = userRepository.getById(userId);
-        Store store = storeRepository.getById(storeId);
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
+
         Review review = request.toReview(user, store);
+
         List<ReviewKeywordType> reviewKeywordTypes = request.getKeywordIds().stream()
                 .map((id) -> reviewKeywordTypeRepository.getById(id))
                 .collect(Collectors.toList());
         review.addReviewKeyword(reviewKeywordTypes);
+
         reviewRepository.save(review);
         visitRepository.save(Visit.of(user, store));
     }
 
     @Override
     public ReviewDetailResponse getReviewDetail(Long storeId, Long reviewId) {
+
         return null;
     }
 
