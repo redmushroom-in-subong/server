@@ -2,6 +2,7 @@ package com.rms.drifeserver.domain.review.service;
 
 import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
+import com.rms.drifeserver.domain.review.dao.ReviewKeywordRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewKeywordTypeRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
@@ -19,10 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +29,7 @@ public class ReviewServiceImpl implements ReviewService{
     private final VisitRepository visitRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
+    private final ReviewKeywordRepository reviewKeywordRepository;
     private final ReviewKeywordTypeRepository reviewKeywordTypeRepository;
 
     @Transactional
@@ -44,28 +42,34 @@ public class ReviewServiceImpl implements ReviewService{
 
         Review review = request.toReview(user, store);
 
-        List<ReviewKeywordType> reviewKeywordTypes = request.getKeywordIds().stream()
-                .map((id) -> reviewKeywordTypeRepository.getById(id))
-                .collect(Collectors.toList());
-        review.addReviewKeyword(reviewKeywordTypes);
-
         reviewRepository.save(review);
         visitRepository.save(Visit.of(user, store));
     }
 
+    @Transactional
     @Override
-    public ReviewDetailResponse getReviewDetail(Long storeId, Long reviewId) {
-
-        return null;
+    public ReviewDetailResponse getReviewDetail(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_REVIEW));
+        return ReviewDetailResponse.of(review);
     }
 
+    @Transactional
     @Override
-    public ReviewDetailResponse updateReview(UpdateReviewRequest request, Long userId, Long storeId, Long reviewId) {
-        return null;
+    public ReviewDetailResponse updateReview(UpdateReviewRequest request, Long userId, Long reviewId) {
+        Review review = reviewRepository.findByIdAndUserId(reviewId, userId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_REVIEW));
+
+        review.update(request.getContents(), request.getKeywordIds());
+
+        return ReviewDetailResponse.of(review);
     }
 
+    @Transactional
     @Override
-    public void deleteReview(Long userId, Long storeId, Long reviewId) {
-
+    public void deleteReview(Long userId, Long reviewId) {
+        Review review = reviewRepository.findByIdAndUserId(reviewId, userId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_REVIEW));
+        reviewRepository.delete(review);
     }
 }
