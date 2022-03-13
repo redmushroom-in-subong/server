@@ -48,13 +48,17 @@ public class Review extends BaseTimeEntity {
         return review;
     }
 
-    public void update(String contents, List<Long> reviewKeywordIds) {
+    public void update(String contents, List<ReviewKeywordType> reviewKeywordTypes) {
         this.contents = contents;
         this.reviewKeywords.clear();
-        addReviewKeyword(reviewKeywordIds);
+        updateReviewKeyword(reviewKeywordTypes);
     }
 
     public void addReviewKeyword(List<Long> reviewKeywordIds) {
         reviewKeywordIds.forEach(id -> this.reviewKeywords.add(ReviewKeyword.of(this, ReviewKeywordType.of(id))));
+    }
+
+    public void updateReviewKeyword(List<ReviewKeywordType> reviewKeywordTypes) {
+        reviewKeywordTypes.forEach(type -> this.reviewKeywords.add(ReviewKeyword.of(this, type)));
     }
 }

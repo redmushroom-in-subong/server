@@ -8,6 +8,8 @@ import com.rms.drifeserver.domain.review.service.dto.request.AddReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.request.UpdateReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewDetailResponse;
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewsResponse;
+import com.rms.drifeserver.domain.user.model.User;
+import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ReviewApi {
     private final ReviewService reviewService;
+    private final UserService userService;
     private final RetrieveReviewsService retrieveReviewsService;
 
     @GetMapping("/v1/stores/{storeId}/reviews")
@@ -24,18 +27,18 @@ public class ReviewApi {
            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStore(storeId));
         }
         else if (userId == null) {
-            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStoreWithUserId(storeId, userId));
+            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStoreWithKeywordId(storeId, keywordId));
         }
         else if (keywordId == null) {
-            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStoreWithKeywordId(storeId, keywordId));
+            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStoreWithUserId(storeId, userId));
         }
         return ApiResponse.error(ErrorCode.INVALID);
     }
 
     @PostMapping("/v1/stores/{storeId}/reviews")
     public ApiResponse<Object> addReview(@RequestBody AddReviewRequest request, @PathVariable Long storeId) {
-        //인증 필요
-        reviewService.addReview(request, 1L, storeId);
+        User user = userService.getUserEntity();
+        reviewService.addReview(request, storeId, user);
         return ApiResponse.success(null);
     }
 
@@ -46,14 +49,14 @@ public class ReviewApi {
 
     @PutMapping("/v1/stores/{storeId}/reviews/{reviewId}")
     public ApiResponse<ReviewDetailResponse> updateReview(@RequestBody UpdateReviewRequest request, @PathVariable Long storeId, @PathVariable Long reviewId) {
-        //인증 필요
-        return ApiResponse.success(reviewService.updateReview(request, 1L, reviewId));
+        User user = userService.getUserEntity();
+        return ApiResponse.success(reviewService.updateReview(request, reviewId, user));
     }
 
     @DeleteMapping("/v1/stores/{storeId}/reviews/{reviewId}")
     public ApiResponse<Object> deleteReview(@PathVariable Long storeId, @PathVariable Long reviewId) {
-        //인증 필요
-        reviewService.deleteReview(1L, reviewId);
+        User user = userService.getUserEntity();
+        reviewService.deleteReview(reviewId, user);
         return ApiResponse.success(null);
     }
 

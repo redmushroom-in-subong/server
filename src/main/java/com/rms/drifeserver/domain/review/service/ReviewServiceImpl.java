@@ -2,20 +2,24 @@ package com.rms.drifeserver.domain.review.service;
 
 import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
+import com.rms.drifeserver.domain.review.dao.ReviewKeywordTypeRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
 import com.rms.drifeserver.domain.review.model.Review;
+import com.rms.drifeserver.domain.review.model.ReviewKeywordType;
 import com.rms.drifeserver.domain.review.model.Visit;
 import com.rms.drifeserver.domain.review.service.dto.request.AddReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.request.UpdateReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewDetailResponse;
 import com.rms.drifeserver.domain.store.dao.StoreRepository;
 import com.rms.drifeserver.domain.store.model.Store;
-import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.user.model.User;
+import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -23,15 +27,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
+    private final ReviewKeywordTypeRepository reviewKeywordTypeRepository;
     private final VisitRepository visitRepository;
-    private final UserRepository userRepository;
     private final StoreRepository storeRepository;
 
     @Transactional
     @Override
-    public void addReview(AddReviewRequest request, Long userId, Long storeId) {
-
-        User user = userRepository.getById(userId);
+    public void addReview(AddReviewRequest request, Long storeId, User user) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
 
@@ -51,19 +53,21 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Transactional
     @Override
-    public ReviewDetailResponse updateReview(UpdateReviewRequest request, Long userId, Long reviewId) {
-        Review review = reviewRepository.findByIdAndUserId(reviewId, userId)
+    public ReviewDetailResponse updateReview(UpdateReviewRequest request, Long reviewId, User user) {
+        Review review = reviewRepository.findByIdAndUser(reviewId, user)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_REVIEW));
 
-        review.update(request.getContents(), request.getKeywordIds());
+        List<ReviewKeywordType> reviewKeywordTypes = reviewKeywordTypeRepository.findAllById(request.getKeywordIds());
+
+        review.update(request.getContents(), reviewKeywordTypes);
 
         return ReviewDetailResponse.of(review);
     }
 
     @Transactional
     @Override
-    public void deleteReview(Long userId, Long reviewId) {
-        Review review = reviewRepository.findByIdAndUserId(reviewId, userId)
+    public void deleteReview(Long reviewId, User user) {
+        Review review = reviewRepository.findByIdAndUser(reviewId, user)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_REVIEW));
         reviewRepository.delete(review);
     }
