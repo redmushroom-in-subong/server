@@ -16,4 +16,10 @@ public class UpdateReviewRequest {
 
     private List<String> images;
 
+    //test용 생성자
+    public UpdateReviewRequest (String contents, List<Long> keywordIds) {
+        this.contents = contents;
+        this.keywordIds = keywordIds;
+    }
+
 }
