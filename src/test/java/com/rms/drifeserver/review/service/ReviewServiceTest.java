@@ -18,9 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 @SpringBootTest
 public class ReviewServiceTest {
 
@@ -46,7 +43,7 @@ public class ReviewServiceTest {
     @Test
     void 가게에_새로운_리뷰를_작성한다() {
         //given
-        String contents = "또 오고싶어용";
+        String contents = "또 오고싶어용!!";
         List<Long> keywordIds = new ArrayList<>();
         keywordIds.add(1L);
         keywordIds.add(3L);
@@ -57,7 +54,7 @@ public class ReviewServiceTest {
 
         //then
         List<Review> reviews = reviewRepository.findAll();
-        Assertions.assertThat(reviews).hasSize(1);
+        Assertions.assertThat(reviews).hasSize(5);
     }
 
     @Test
@@ -75,6 +72,6 @@ public class ReviewServiceTest {
 
         // then
         List<Review> reviews = reviewRepository.findAll();
-        Assertions.assertThat(reviews).hasSize(1);
+        Assertions.assertThat(reviews).hasSize(4);
     }
 }
