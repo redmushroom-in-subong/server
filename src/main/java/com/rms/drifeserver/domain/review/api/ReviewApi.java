@@ -41,19 +41,19 @@ public class ReviewApi {
 
     @GetMapping("/v1/stores/{storeId}/reviews/{reviewId}")
     public ApiResponse<ReviewDetailResponse> getReview(@PathVariable Long storeId, @PathVariable Long reviewId) {
-        return ApiResponse.success(reviewService.getReviewDetail( storeId, reviewId));
+        return ApiResponse.success(reviewService.getReviewDetail(reviewId));
     }
 
     @PutMapping("/v1/stores/{storeId}/reviews/{reviewId}")
     public ApiResponse<ReviewDetailResponse> updateReview(@RequestBody UpdateReviewRequest request, @PathVariable Long storeId, @PathVariable Long reviewId) {
         //인증 필요
-        return ApiResponse.success(reviewService.updateReview(request, 1L,storeId, reviewId));
+        return ApiResponse.success(reviewService.updateReview(request, 1L, reviewId));
     }
 
     @DeleteMapping("/v1/stores/{storeId}/reviews/{reviewId}")
     public ApiResponse<Object> deleteReview(@PathVariable Long storeId, @PathVariable Long reviewId) {
         //인증 필요
-        reviewService.deleteReview(1L, storeId, reviewId);
+        reviewService.deleteReview(1L, reviewId);
         return ApiResponse.success(null);
     }
 

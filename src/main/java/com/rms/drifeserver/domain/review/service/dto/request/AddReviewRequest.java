@@ -27,6 +27,6 @@ public class AddReviewRequest {
     }
 
     public Review toReview(User user, Store store) {
-        return Review.of(user, store, this.contents);
+        return Review.of(user, store, this.contents, this.keywordIds);
     }
 }

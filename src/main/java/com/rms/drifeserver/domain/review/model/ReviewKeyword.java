@@ -1,11 +1,13 @@
 package com.rms.drifeserver.domain.review.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
+@Getter
 public class ReviewKeyword {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
