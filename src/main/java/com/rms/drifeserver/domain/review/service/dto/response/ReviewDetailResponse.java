@@ -1,11 +1,14 @@
 package com.rms.drifeserver.domain.review.service.dto.response;
 
 import com.rms.drifeserver.domain.review.model.Review;
+import com.rms.drifeserver.domain.review.model.ReviewKeywordType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -43,8 +46,7 @@ public class ReviewDetailResponse {
     private Long myVisitCount;
     //user 정보
 
-
-    private List<ReviewKeywordTypeResponse> reviewKeywordTypes;
+    private final List<ReviewKeywordTypeResponse> reviewKeywordTypes = new ArrayList<>();
 
     private List<String> images;
 
@@ -54,6 +56,12 @@ public class ReviewDetailResponse {
     }
 
     public static ReviewDetailResponse of(Review review) {
-        return new ReviewDetailResponse(review.getId(), review.getContents());
+        ReviewDetailResponse response = new ReviewDetailResponse(review.getId(), review.getContents());
+
+
+
+        review.getReviewKeywords()
+                .forEach(reviewKeyword -> response.reviewKeywordTypes.add(ReviewKeywordTypeResponse.of(reviewKeyword.getReviewKeywordType())));
+        return response;
     }
 }
