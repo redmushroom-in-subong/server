@@ -2,12 +2,9 @@ package com.rms.drifeserver.domain.review.service;
 
 import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
-import com.rms.drifeserver.domain.review.dao.ReviewKeywordRepository;
-import com.rms.drifeserver.domain.review.dao.ReviewKeywordTypeRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
 import com.rms.drifeserver.domain.review.model.Review;
-import com.rms.drifeserver.domain.review.model.ReviewKeywordType;
 import com.rms.drifeserver.domain.review.model.Visit;
 import com.rms.drifeserver.domain.review.service.dto.request.AddReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.request.UpdateReviewRequest;
@@ -29,8 +26,6 @@ public class ReviewServiceImpl implements ReviewService{
     private final VisitRepository visitRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
-    private final ReviewKeywordRepository reviewKeywordRepository;
-    private final ReviewKeywordTypeRepository reviewKeywordTypeRepository;
 
     @Transactional
     @Override
