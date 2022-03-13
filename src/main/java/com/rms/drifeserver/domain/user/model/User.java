@@ -106,6 +106,7 @@ public class User {
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 100) String username,
             @NotNull @Size(max = 512) String email,
+            @NotNull @Size(max = 512) String password,
             @NotNull @Size(max = 1) String emailVerifiedYn,
             @NotNull @Size(max = 512) String profileImageUrl,
             @NotNull ProviderType providerType,
@@ -116,6 +117,7 @@ public class User {
         this.userId = userId;
         this.username = username;
         this.email = email != null ? email : "NO_EMAIL";
+        this.password = password != null ? password : "NO_EMAIL";
         this.emailVerifiedYn = emailVerifiedYn;
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;
