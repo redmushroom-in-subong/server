@@ -14,10 +14,7 @@ public class ReviewsResponse {
 
     private List<ReviewDetailResponse> results = new ArrayList<>();
 
-    public static ReviewsResponse of (List<Review> reviews) {
-        List<ReviewDetailResponse> results = reviews.stream()
-                .map(ReviewDetailResponse::of)
-                .collect(Collectors.toList());
+    public static ReviewsResponse of (List<ReviewDetailResponse> results) {
         return new ReviewsResponse(results);
     }
 }
