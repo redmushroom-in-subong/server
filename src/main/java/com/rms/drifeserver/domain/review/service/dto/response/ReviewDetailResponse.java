@@ -3,8 +3,10 @@ package com.rms.drifeserver.domain.review.service.dto.response;
 import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.model.ReviewKeywordType;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class ReviewDetailResponse {
     //store 정보
     private Long storeId;
 
-    private Long storeName;
+    private String storeName;
 
     private Long storeVisitCount;
 
@@ -50,15 +52,41 @@ public class ReviewDetailResponse {
 
     private List<String> images;
 
-    private ReviewDetailResponse(Long reviewId, String contents) {
+    @Builder(access = AccessLevel.PRIVATE)
+    public ReviewDetailResponse(Long reviewId, String contents, @Nullable Long storeId, @Nullable String storeName, Long storeVisitCount, Long storeReviewCount, Long storeCustomCount, Long userId, String nickName, String profileImage, String badgeName, String myStoreTier, Long myReviewCount, Long myVisitCount) {
         this.reviewId = reviewId;
         this.contents = contents;
+        this.storeId = storeId;
+        this.storeName = storeName;
+        this.storeVisitCount = storeVisitCount;
+        this.storeReviewCount = storeReviewCount;
+        this.storeCustomCount = storeCustomCount;
+        this.userId = userId;
+        this.nickName = nickName;
+        this.profileImage = profileImage;
+        this.badgeName = badgeName;
+        this.myStoreTier = myStoreTier;
+        this.myReviewCount = myReviewCount;
+        this.myVisitCount = myVisitCount;
     }
 
-    public static ReviewDetailResponse of(Review review) {
-        ReviewDetailResponse response = new ReviewDetailResponse(review.getId(), review.getContents());
-
-
+    public static ReviewDetailResponse of(Review review, ReviewCounterResponse counter) {
+        ReviewDetailResponse response = ReviewDetailResponse.builder()
+                .reviewId(review.getId())
+                .contents(review.getContents())
+                .storeId(1L)
+                .storeName("")
+                .storeVisitCount(counter.getStoreVisitCount())
+                .storeReviewCount(counter.getStoreReviewCount())
+                .storeCustomCount(counter.getStoreCustomCount())
+                .userId(review.getUser().getId())
+                .nickName(review.getUser().getUsername())
+                .profileImage(review.getUser().getProfileImageUrl())
+                .badgeName(review.getUser().getMyBadge().getBadgeCode().getBadgeName())
+                .myStoreTier(counter.getMyStoreTier())
+                .myReviewCount(counter.getMyReviewCount())
+                .myVisitCount(counter.getMyVisitCount())
+                .build();
 
         review.getReviewKeywords()
                 .forEach(reviewKeyword -> response.reviewKeywordTypes.add(ReviewKeywordTypeResponse.of(reviewKeyword.getReviewKeywordType())));
