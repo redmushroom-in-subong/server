@@ -14,7 +14,6 @@ import com.rms.drifeserver.domain.review.service.dto.response.ReviewDetailRespon
 import com.rms.drifeserver.domain.store.dao.StoreRepository;
 import com.rms.drifeserver.domain.store.model.Store;
 import com.rms.drifeserver.domain.user.model.User;
-import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,12 +42,13 @@ public class ReviewServiceImpl implements ReviewService{
         visitRepository.save(Visit.of(user, store));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public ReviewDetailResponse getReviewDetail(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_REVIEW));
-        return ReviewDetailResponse.of(review);
+
+        return ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository, reviewRepository, review));
     }
 
     @Transactional
@@ -61,7 +61,7 @@ public class ReviewServiceImpl implements ReviewService{
 
         review.update(request.getContents(), reviewKeywordTypes);
 
-        return ReviewDetailResponse.of(review);
+        return ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository, reviewRepository, review));
     }
 
     @Transactional
