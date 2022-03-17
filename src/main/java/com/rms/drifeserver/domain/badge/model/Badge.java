@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.badge.model;
 
+import com.rms.drifeserver.domain.badgecode.model.BadgeCode;
 import com.rms.drifeserver.domain.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Badge {
     @JoinColumn(name = "badge_code")
     private BadgeCode badgeCode;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 }
