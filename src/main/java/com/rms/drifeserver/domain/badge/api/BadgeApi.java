@@ -21,7 +21,7 @@ public class BadgeApi {
     final private BadgeService badgeService;
     @PostMapping("")
     @ResponseBody
-    public ApiResponse addBadgeCode(){
+    public ApiResponse getUserAllBadges(){
         try{
             List<UserBadgeResponse> ret=badgeService.findAllUserBadges();
             return ApiResponse.success(ret);
