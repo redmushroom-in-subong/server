@@ -7,7 +7,8 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 public class UserBadgeEvent extends ApplicationEvent {
     private Long userId;
-    public UserBadgeEvent(Object source){
+    public UserBadgeEvent(Object source,Long userId){
         super(source);
+        this.userId=userId;
     }
 }

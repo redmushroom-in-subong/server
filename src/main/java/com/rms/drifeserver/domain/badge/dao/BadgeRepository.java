@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface BadgeRepository extends JpaRepository<Badge,Long> {
     @Query(value="select bc.id as badgeId , bc.badgeName as badgeName,(b.user.id is not null) as isActive " +
-            "from BadgeCode bc left join Badge b " +
+            "from BadgeCode bc left join bc.badges b " +
             "where b.user.id=:userId or b.user.id is null  ")
     List<Map<String,Object>> findAllUserBadges(Long userId);
     @Query(value="select badge from BadgeCode badge where badge.reviewCount=:reviewCount")

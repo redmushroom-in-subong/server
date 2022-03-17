@@ -50,7 +50,7 @@ public class BadgeServiceImpl implements BadgeService {
     @Override
     public List<UserBadgeResponse> findAllUserBadges(){
         User user=userService.getUserEntity();
-        publisher.publishEvent(new UserBadgeEvent(user.getId()));
+        publisher.publishEvent(new UserBadgeEvent(this,user.getId()));
 
         List<Map<String,Object>> result=badgeRepository.findAllUserBadges(user.getId());
         List<UserBadgeResponse> ret = new ArrayList<>();

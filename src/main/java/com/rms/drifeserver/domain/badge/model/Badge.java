@@ -24,7 +24,7 @@ public class Badge {
     @JoinColumn(name = "badge_code")
     private BadgeCode badgeCode;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 }
