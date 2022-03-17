@@ -1,4 +1,4 @@
-package com.rms.drifeserver.domain.badge.model;
+package com.rms.drifeserver.domain.badgecode.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +22,5 @@ public class BadgeCode {
     @Column(name = "badge_name")
     private String badgeName;
     @Column(name="review_cnt")
-    private int review_cnt;
-    @OneToMany(mappedBy = "badgeCode")
-    private List<Badge> badges=new ArrayList<>();
+    private int reviewCount;
 }
