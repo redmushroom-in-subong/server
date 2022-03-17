@@ -2,11 +2,13 @@ package com.rms.drifeserver.domain.store.model;
 
 import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.model.Visit;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 public class Store {
 
@@ -16,7 +18,11 @@ public class Store {
     //카카오 장소 아이디
     private String kakaoPlaceId;
 
+    //가게이름
+    private String storeName;
+    //가게설명
     private String storeDesc;
+    //가게 sns주소
     private String snsAddress;
 
     //메뉴
