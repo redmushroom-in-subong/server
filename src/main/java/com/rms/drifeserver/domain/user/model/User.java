@@ -71,11 +71,6 @@ public class User {
     @NotNull
     private RoleType roleType;
 
-
-
-    /**
-     *
-     */
     @OneToOne
     @JoinColumn(name="badge_id")
     private Badge myBadge;

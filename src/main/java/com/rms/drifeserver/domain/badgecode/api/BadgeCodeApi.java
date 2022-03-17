@@ -1,27 +1,28 @@
-package com.rms.drifeserver.domain.badge.api;
+package com.rms.drifeserver.domain.badgecode.api;
 
+import com.rms.drifeserver.domain.badgecode.service.BadgeCodeService;
+import com.rms.drifeserver.domain.badgecode.service.dto.request.AddBadgeCodeRequest;
 import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
-import com.rms.drifeserver.domain.user.model.User;
-import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("v1/badge")
+@RequestMapping("v1/badge-code")
 @RequiredArgsConstructor
 public class BadgeCodeApi {
-    final private UserService userService;
+    final private BadgeCodeService badgeCodeService;
     @PostMapping("")
     @ResponseBody
-    public ApiResponse addBadgeCode(){
+    public ApiResponse addBadgeCode(@RequestBody AddBadgeCodeRequest addBadgeCodeRequest){
         try{
-            User user = userService.getUserEntity();
-            return ApiResponse.success(user);
+            badgeCodeService.addBadgeCode(addBadgeCodeRequest);
+            return ApiResponse.success("success");
         }catch (BaseException baseException){
             return ApiResponse.error(baseException.getErrorCode());
         }catch (Exception exception){

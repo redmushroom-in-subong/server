@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BadgeService {
     void addBadge(Long userId,Long badgeId);
-    public void checkBadgeEarnCondition() throws BaseException;
-    List<UserBadgeResponse> findAllUserBadges(Long userId);
+    public void checkBadgeEarnCondition(Long id) throws BaseException;
+    List<UserBadgeResponse> findAllUserBadges();
 
 }

@@ -44,7 +44,7 @@ public class UserApi {
     @ResponseBody
     public ApiResponse editUserInfo( @RequestBody EditProfileReq editReq){
         try{
-            userService.EditUserProfile(editReq);
+            userService.editUserProfile(editReq);
             return ApiResponse.success(userService.getUserEntity());
         }catch (BaseException baseException){
             return ApiResponse.error(baseException.getErrorCode());

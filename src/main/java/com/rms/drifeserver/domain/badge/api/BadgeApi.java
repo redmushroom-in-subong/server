@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("v1/admin/badge")
+@RequestMapping("v1/badge")
 @RequiredArgsConstructor
 public class BadgeApi {
     final private UserService userService;
@@ -23,9 +23,22 @@ public class BadgeApi {
     @ResponseBody
     public ApiResponse addBadgeCode(){
         try{
-            User user = userService.getUserEntity();
-            List<UserBadgeResponse> ret=badgeService.findAllUserBadges(user.getId());
+            List<UserBadgeResponse> ret=badgeService.findAllUserBadges();
             return ApiResponse.success(ret);
+        }catch (BaseException baseException){
+            return ApiResponse.error(baseException.getErrorCode());
+        }catch (Exception exception){
+            System.out.println("unhandled exception :" + exception.getMessage());
+            exception.printStackTrace();
+            return ApiResponse.error(ErrorCode.INVALID);
+        }
+    }
+    @PutMapping("/{badgeId}")
+    @ResponseBody
+    public ApiResponse editBadge(@PathVariable Long badgeId){
+        try{
+            userService.editUsingBadge(badgeId);
+            return ApiResponse.success("success");
         }catch (BaseException baseException){
             return ApiResponse.error(baseException.getErrorCode());
         }catch (Exception exception){
