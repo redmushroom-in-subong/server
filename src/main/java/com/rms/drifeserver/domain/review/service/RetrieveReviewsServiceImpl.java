@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
-    private  final VisitRepository visitRepository;
+    private final VisitRepository visitRepository;
     private final ReviewRepository reviewRepository;
 
     @Transactional(readOnly = true)

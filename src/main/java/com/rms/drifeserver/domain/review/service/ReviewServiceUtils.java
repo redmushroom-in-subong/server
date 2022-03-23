@@ -7,24 +7,24 @@ import com.rms.drifeserver.domain.review.service.dto.response.ReviewCounterRespo
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 @NoArgsConstructor
 public class ReviewServiceUtils {
 
     @NotNull
     public static ReviewCounterResponse findCount(VisitRepository visitRepository, ReviewRepository reviewRepository, Review review) {
-
-        long storeVisitCount = visitRepository.countByStore(review.getStore());
-        long storeReviewCount = visitRepository.countByStoreWithCustom(review.getStore());
-        long storeCustomCount = reviewRepository.countByStore(review.getStore());
-        long myVisitCount = visitRepository.countByStoreAndUser(review.getStore(), review.getUser());
-        long myReviewCount = reviewRepository.countByStoreAndUser(review.getStore(), review.getUser());
+        Long storeVisitCount = visitRepository.countByStore(review.getStore());
+        Long storeReviewCount = reviewRepository.countByStore(review.getStore());
+        Long storeCustomCount = Optional.ofNullable(visitRepository.countByStoreWithCustom(review.getStore())).orElse(0L);
+        Long myVisitCount = visitRepository.countByStoreAndUser(review.getStore(), review.getUser());
+        Long myReviewCount = reviewRepository.countByStoreAndUser(review.getStore(), review.getUser());
         String myStoreTier = getMyStoreTierByCount(myVisitCount);
 
         return ReviewCounterResponse.of(storeVisitCount, storeReviewCount, storeCustomCount, myVisitCount, myReviewCount, myStoreTier);
     }
 
-    private static String getMyStoreTierByCount(long count) {
+    private static String getMyStoreTierByCount(Long count) {
 
         if (count >= 20) {
             return "소울메이트";
