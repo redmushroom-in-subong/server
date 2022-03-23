@@ -53,7 +53,7 @@ public class ReviewDetailResponse {
     private List<String> images;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public ReviewDetailResponse(Long reviewId, String contents, @Nullable Long storeId, @Nullable String storeName, Long storeVisitCount, Long storeReviewCount, Long storeCustomCount, Long userId, String nickName, String profileImage, String badgeName, String myStoreTier, Long myReviewCount, Long myVisitCount) {
+    public ReviewDetailResponse(Long reviewId, String contents, Long storeId, String storeName, Long storeVisitCount, Long storeReviewCount, Long storeCustomCount, Long userId, String nickName, String profileImage, @Nullable String badgeName, String myStoreTier, Long myReviewCount, Long myVisitCount) {
         this.reviewId = reviewId;
         this.contents = contents;
         this.storeId = storeId;
@@ -82,7 +82,7 @@ public class ReviewDetailResponse {
                 .userId(review.getUser().getId())
                 .nickName(review.getUser().getUsername())
                 .profileImage(review.getUser().getProfileImageUrl())
-                .badgeName(review.getUser().getMyBadge().getBadgeCode().getBadgeName())
+                .badgeName("")
                 .myStoreTier(counter.getMyStoreTier())
                 .myReviewCount(counter.getMyReviewCount())
                 .myVisitCount(counter.getMyVisitCount())
