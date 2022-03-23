@@ -1,19 +1,20 @@
 package com.rms.drifeserver.domain.badge.service.impl;
 
-import com.rms.drifeserver.domain.badge.dao.BadgeCodeRepository;
+import com.rms.drifeserver.domain.badge.event.UserBadgeEvent;
+import com.rms.drifeserver.domain.badgecode.dao.BadgeCodeRepository;
 import com.rms.drifeserver.domain.badge.dao.BadgeRepository;
 import com.rms.drifeserver.domain.badge.model.Badge;
-import com.rms.drifeserver.domain.badge.model.BadgeCode;
+import com.rms.drifeserver.domain.badgecode.model.BadgeCode;
 import com.rms.drifeserver.domain.badge.service.BadgeService;
 import com.rms.drifeserver.domain.badge.service.dto.response.UserBadgeResponse;
 import com.rms.drifeserver.domain.common.exception.BaseException;
-import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,37 +24,38 @@ import java.util.Map;
 public class BadgeServiceImpl implements BadgeService {
     final private UserService userService;
     final private BadgeRepository badgeRepository;
-    final private BadgeCodeRepository badgeCodeRepository;
+    final private ApplicationEventPublisher publisher;
     @Override
-    public void checkBadgeEarnCondition() throws BaseException {
-        User user=userService.getUserEntity();
+    @Transactional
+    public void checkBadgeEarnCondition(Long id) throws BaseException {
+        User user=userService.getUserById(id);
         int reviewCount=user.getMyReviewList().size();
-       // List<Badge> userBadgeList=user.getMyBadgeList();
-        List<BadgeCode> allBadgeList=badgeCodeRepository.findAll();
-//        List<BadgeCode>
-        //추가
+        List<BadgeCode> EarnedBadges=badgeRepository.findNextBadge(reviewCount+1);
+        for(BadgeCode earned:EarnedBadges){
+            Badge badge=new Badge();
+            badge.setBadgeCode(earned);
+            badge.setUser(user);
+            badgeRepository.save(badge);
+        }
     }
     @Override
    public void addBadge(Long userId,Long badgeId){
-        Badge badge=new Badge(0l,new BadgeCode(),userId);
+        User user=new User();
+        user.setId(userId);
+        Badge badge=new Badge(0l,new BadgeCode(),user);
         badge.getBadgeCode().setId(badgeId);
         badgeRepository.save(badge);
     }
 
     @Override
-    public List<UserBadgeResponse> findAllUserBadges(Long userId){
-        List<UserBadgeResponse> ret=new ArrayList<>();
-        List userBadgeResults= badgeRepository.findAllUserBadges(userId);
-        BadgeCode badgeCode;
-        Badge badge;
-        for(Object item:userBadgeResults){
-            Object[] result=(Object[])item;
-            System.out.println("badgeCode = " + result[0]+"\nbadge"+result[1]);
-            boolean isNotNull=(result[1]!=null);
-            badge=(Badge) result[1];
-            badgeCode=(BadgeCode) result[0];
-            System.out.println("badge log = " + badge+" , "+badgeCode);
-            ret.add(new UserBadgeResponse(badgeCode.getId(),badgeCode.getBadgeName(),isNotNull));
+    public List<UserBadgeResponse> findAllUserBadges(){
+        User user=userService.getUserEntity();
+        publisher.publishEvent(new UserBadgeEvent(this,user.getId()));
+
+        List<Map<String,Object>> result=badgeRepository.findAllUserBadges(user.getId());
+        List<UserBadgeResponse> ret = new ArrayList<>();
+        for (Map<String,Object> a:result){
+            ret.add(UserBadgeResponse.of(a));
         }
         return ret;
     }

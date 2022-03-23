@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.user.service;
 
+import com.rms.drifeserver.domain.badge.model.Badge;
 import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.user.model.User;
@@ -20,9 +21,6 @@ public class UserService {
         return userRepository.findById(uId).get();
     }
     public User getUserByUserId(String userId) throws BaseException {
-        if(userId=="234"){
-            throw new BaseException(ErrorCode.BAD_GATEWAY);
-        }
         return userRepository.findByUserId(userId);
     }
     public User getUserEntity() throws BaseException{
@@ -32,10 +30,17 @@ public class UserService {
         return user;
     }
     @Transactional
-    public void EditUserProfile(EditProfileReq editProfileReq) throws BaseException{
+    public void editUserProfile(EditProfileReq editProfileReq) throws BaseException{
         User user=getUserEntity();
         user.setUsername(editProfileReq.getNickname());
         user.setProfileImageUrl(editProfileReq.getProfileImageUrl());
+    }
+    @Transactional
+    public void editUsingBadge(Long badgeId){
+        Badge badge = new Badge();
+        badge.setId(badgeId);
+        User user=getUserEntity();
+        user.setMyBadge(badge);
     }
     public boolean checkExistence(String username){
         if(userRepository.findByUsername(username)==null) return false;
