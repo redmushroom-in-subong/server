@@ -1,29 +1,45 @@
 package com.rms.drifeserver.domain.review.service;
 
+import com.rms.drifeserver.domain.like.dao.ReviewLikesRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
 import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewCounterResponse;
-import com.rms.drifeserver.domain.store.model.Store;
-import com.rms.drifeserver.domain.user.model.User;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 @NoArgsConstructor
 public class ReviewServiceUtils {
 
     @NotNull
-    static ReviewCounterResponse findCount(VisitRepository visitRepository, ReviewRepository reviewRepository, Review review) {
+    public static ReviewCounterResponse findCount(VisitRepository visitRepository, ReviewRepository reviewRepository,
+                                                  ReviewLikesRepository reviewLikesRepository, Review review) {
+        Long storeVisitCount = visitRepository.countByStore(review.getStore());
+        Long storeReviewCount = reviewRepository.countByStore(review.getStore());
+        Long storeCustomCount = Optional.ofNullable(visitRepository.countByStoreWithCustom(review.getStore())).orElse(0L);
+        Long storeLikes = reviewLikesRepository.countByStore(review.getStore());
+        Long myVisitCount = visitRepository.countByStoreAndUser(review.getStore(), review.getUser());
+        Long myReviewCount = reviewRepository.countByStoreAndUser(review.getStore(), review.getUser());
+        Boolean myIsLiked = Optional.ofNullable(reviewLikesRepository.findByUserAndReview(review.getUser(), review)).isPresent();
+        String myStoreTier = getMyStoreTierByCount(myVisitCount);
 
-        long storeVisitCount = visitRepository.countByStore(review.getStore());
-        long storeReviewCount = visitRepository.countByStoreWithCustom(review.getStore());
-        long storeCustomCount = reviewRepository.countByStore(review.getStore());
-        long myVisitCount = visitRepository.countByStoreAndUser(review.getStore(), review.getUser());
-        long myReviewCount = reviewRepository.countByStoreAndUser(review.getStore(), review.getUser());
-        String myStoreTier = "";
+        return ReviewCounterResponse.of(storeVisitCount, storeReviewCount, storeCustomCount, storeLikes, myVisitCount, myReviewCount, myIsLiked, myStoreTier);
+    }
 
-        return ReviewCounterResponse.of(storeVisitCount, storeReviewCount, storeCustomCount, myVisitCount, myReviewCount, myStoreTier);
+    private static String getMyStoreTierByCount(Long count) {
+
+        if (count >= 20) {
+            return "소울메이트";
+        } else if (count >= 10) {
+            return "절친한 사이";
+        } else if (count >= 5) {
+            return "친한 사이";
+        } else if (count >= 1) {
+            return "어색한 사이";
+        }
+        return "모르는 사이";
     }
 
 }
