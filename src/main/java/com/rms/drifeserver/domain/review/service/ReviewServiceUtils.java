@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.review.service;
 
+import com.rms.drifeserver.domain.like.dao.ReviewLikesRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
 import com.rms.drifeserver.domain.review.model.Review;
@@ -13,15 +14,18 @@ import java.util.Optional;
 public class ReviewServiceUtils {
 
     @NotNull
-    public static ReviewCounterResponse findCount(VisitRepository visitRepository, ReviewRepository reviewRepository, Review review) {
+    public static ReviewCounterResponse findCount(VisitRepository visitRepository, ReviewRepository reviewRepository,
+                                                  ReviewLikesRepository reviewLikesRepository, Review review) {
         Long storeVisitCount = visitRepository.countByStore(review.getStore());
         Long storeReviewCount = reviewRepository.countByStore(review.getStore());
         Long storeCustomCount = Optional.ofNullable(visitRepository.countByStoreWithCustom(review.getStore())).orElse(0L);
+        Long storeLikes = reviewLikesRepository.countByStore(review.getStore());
         Long myVisitCount = visitRepository.countByStoreAndUser(review.getStore(), review.getUser());
         Long myReviewCount = reviewRepository.countByStoreAndUser(review.getStore(), review.getUser());
+        Boolean myIsLiked = Optional.ofNullable(reviewLikesRepository.findByUserAndReview(review.getUser(), review)).isPresent();
         String myStoreTier = getMyStoreTierByCount(myVisitCount);
 
-        return ReviewCounterResponse.of(storeVisitCount, storeReviewCount, storeCustomCount, myVisitCount, myReviewCount, myStoreTier);
+        return ReviewCounterResponse.of(storeVisitCount, storeReviewCount, storeCustomCount, storeLikes, myVisitCount, myReviewCount, myIsLiked, myStoreTier);
     }
 
     private static String getMyStoreTierByCount(Long count) {

@@ -1,6 +1,7 @@
 package com.rms.drifeserver.domain.like.model;
 
 import com.rms.drifeserver.domain.review.model.Review;
+import com.rms.drifeserver.domain.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,15 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @DiscriminatorValue(value = "review")
 public class ReviewLikes extends Like {
     @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
+
+    public static ReviewLikes of(User user, Review review) {
+        ReviewLikes reviewLikes = new ReviewLikes(review);
+        reviewLikes.setUser(user);
+        return reviewLikes;
+    }
 }

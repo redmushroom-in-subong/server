@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.review.service;
 
+import com.rms.drifeserver.domain.like.dao.ReviewLikesRepository;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
 import com.rms.drifeserver.domain.review.model.Review;
@@ -17,13 +18,15 @@ import java.util.stream.Collectors;
 public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
     private final VisitRepository visitRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewLikesRepository reviewLikesRepository;
 
     @Transactional(readOnly = true)
     @Override
     public ReviewsResponse getAllReviewsInStore(Long storeId) {
         List<Review> reviews = reviewRepository.findAllByStoreId(storeId);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
-                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository, reviewRepository, review)))
+                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository,
+                        reviewRepository, reviewLikesRepository, review)))
                 .collect(Collectors.toList());
         return ReviewsResponse.of(reviewDetailResponses);
     }
@@ -33,7 +36,8 @@ public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
     public ReviewsResponse getAllReviewsInStoreWithUserId(Long storeId, Long userId) {
         List<Review> reviews = reviewRepository.findAllByStoreIdAndUserId(storeId, userId);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
-                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository, reviewRepository, review)))
+                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository,
+                        reviewRepository, reviewLikesRepository, review)))
                 .collect(Collectors.toList());
         return ReviewsResponse.of(reviewDetailResponses);
     }
@@ -43,7 +47,8 @@ public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
     public ReviewsResponse getAllReviewsInStoreWithKeywordId(Long storeId, Long keywordId) {
         List<Review> reviews = reviewRepository.findAllByStoreIdAndKeywordTypeId(storeId, keywordId);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
-                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository, reviewRepository, review)))
+                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository,
+                        reviewRepository, reviewLikesRepository, review)))
                 .collect(Collectors.toList());
         return ReviewsResponse.of(reviewDetailResponses);
     }
