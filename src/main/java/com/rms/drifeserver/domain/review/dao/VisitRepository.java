@@ -13,6 +13,6 @@ public interface VisitRepository extends JpaRepository<Visit, Long> {
 
     long countByStoreAndUser(Store store, User user);
 
-    @Query("select count(r) from Review r where r.store = :store group by r.user.id having count(r) >= 10")
-    long countByStoreWithCustom(@Param("store") Store store);
+    @Query("select count(distinct r.user.id) from Review r where r.store = :store group by r.user.id having count(r) >= 10")
+    Long countByStoreWithCustom(@Param("store") Store store);
 }
