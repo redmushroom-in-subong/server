@@ -30,6 +30,8 @@ public class ReviewDetailResponse {
     private Long storeReviewCount;
 
     private Long storeCustomCount;
+
+    private Long storeLikes;
     //store 정보
 
     //user 정보
@@ -46,6 +48,8 @@ public class ReviewDetailResponse {
     private Long myReviewCount;
 
     private Long myVisitCount;
+
+    private Boolean myIsLiked;
     //user 정보
 
     private final List<ReviewKeywordTypeResponse> reviewKeywordTypes = new ArrayList<>();
@@ -53,7 +57,10 @@ public class ReviewDetailResponse {
     private List<String> images;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public ReviewDetailResponse(Long reviewId, String contents, Long storeId, String storeName, Long storeVisitCount, Long storeReviewCount, Long storeCustomCount, Long userId, String nickName, String profileImage, @Nullable String badgeName, String myStoreTier, Long myReviewCount, Long myVisitCount) {
+    public ReviewDetailResponse(Long reviewId, String contents, Long storeId, String storeName, Long storeVisitCount,
+                                Long storeReviewCount, Long storeCustomCount, Long storeLikes, Long userId, String nickName,
+                                String profileImage, @Nullable String badgeName, String myStoreTier, Long myReviewCount,
+                                Boolean myIsLiked, Long myVisitCount) {
         this.reviewId = reviewId;
         this.contents = contents;
         this.storeId = storeId;
@@ -61,6 +68,7 @@ public class ReviewDetailResponse {
         this.storeVisitCount = storeVisitCount;
         this.storeReviewCount = storeReviewCount;
         this.storeCustomCount = storeCustomCount;
+        this.storeLikes = storeLikes;
         this.userId = userId;
         this.nickName = nickName;
         this.profileImage = profileImage;
@@ -68,6 +76,7 @@ public class ReviewDetailResponse {
         this.myStoreTier = myStoreTier;
         this.myReviewCount = myReviewCount;
         this.myVisitCount = myVisitCount;
+        this.myIsLiked = myIsLiked;
     }
 
     public static ReviewDetailResponse of(Review review, ReviewCounterResponse counter) {
