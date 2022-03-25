@@ -88,6 +88,7 @@ public class ReviewDetailResponse {
                 .storeVisitCount(counter.getStoreVisitCount())
                 .storeReviewCount(counter.getStoreReviewCount())
                 .storeCustomCount(counter.getStoreCustomCount())
+                .storeLikes(counter.getStoreLikes())
                 .userId(review.getUser().getId())
                 .nickName(review.getUser().getUsername())
                 .profileImage(review.getUser().getProfileImageUrl())
@@ -95,6 +96,7 @@ public class ReviewDetailResponse {
                 .myStoreTier(counter.getMyStoreTier())
                 .myReviewCount(counter.getMyReviewCount())
                 .myVisitCount(counter.getMyVisitCount())
+                .myIsLiked(counter.getMyIsLiked())
                 .build();
 
         review.getReviewKeywords()
