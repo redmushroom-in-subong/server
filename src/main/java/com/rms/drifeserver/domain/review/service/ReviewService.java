@@ -16,5 +16,5 @@ public interface ReviewService {
 
     void deleteReview(Long reviewId, User user);
 
-    void likeReview(Long reviewId, User user);
+    void toggleReviewLike(Long reviewId, User user);
 }

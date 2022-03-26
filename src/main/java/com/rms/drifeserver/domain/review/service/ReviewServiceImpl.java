@@ -79,7 +79,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Transactional
     @Override
-    public void likeReview(Long reviewId, User user) {
+    public void toggleReviewLike(Long reviewId, User user) {
         Review review = reviewRepository.getById(reviewId);
         ReviewLikes reviewLikes = reviewLikesRepository.findByUserAndReview(user, review);
 
