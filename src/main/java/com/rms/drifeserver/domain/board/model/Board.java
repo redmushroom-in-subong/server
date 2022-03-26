@@ -1,7 +1,9 @@
 package com.rms.drifeserver.domain.board.model;
 
 import com.rms.drifeserver.domain.comment.model.Comment;
+import com.rms.drifeserver.domain.common.model.BaseTimeEntity;
 import com.rms.drifeserver.domain.user.model.User;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -11,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Board {
+@Getter
+public class Board extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +35,4 @@ public class Board {
     private String contents;
 
     private Long viewCnt;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 }
