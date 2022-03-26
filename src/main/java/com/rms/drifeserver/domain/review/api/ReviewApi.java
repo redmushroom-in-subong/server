@@ -61,9 +61,9 @@ public class ReviewApi {
     }
 
     @PostMapping("/v1/stores/{storeId}/reviews/{reviewId}/like")
-    public ApiResponse<Object> likeReview(@PathVariable Long storeId, @PathVariable Long reviewId) {
+    public ApiResponse<Object> toggleReviewLike(@PathVariable Long storeId, @PathVariable Long reviewId) {
         User user = userService.getUserEntity();
-        reviewService.likeReview(reviewId, user);
+        reviewService.toggleReviewLike(reviewId, user);
         return ApiResponse.success(null);
     }
 }
