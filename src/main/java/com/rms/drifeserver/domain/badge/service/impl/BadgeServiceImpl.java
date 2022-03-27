@@ -32,10 +32,15 @@ public class BadgeServiceImpl implements BadgeService {
         int reviewCount=user.getMyReviewList().size();
         List<BadgeCode> EarnedBadges=badgeRepository.findNextBadge(reviewCount+1);
         for(BadgeCode earned:EarnedBadges){
+            //TODO 혹시 여러개 얻어야할 상황에 대비해서 loop , 현재 무조건 1번수행
             Badge badge=new Badge();
             badge.setBadgeCode(earned);
             badge.setUser(user);
             badgeRepository.save(badge);
+            System.out.println(
+                              "#################################### " +
+                            "\n########## congratulation!! ########" +
+                            "\nuser (id:"+id+") earned badge named "+badge.getBadgeCode().getBadgeName());
         }
     }
     @Override

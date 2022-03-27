@@ -13,17 +13,17 @@ public class CommentApi {
         return null;
     }
 
-    @PutMapping("/v1/boards/{boardId}/comments/{{commentId}}")
+    @PutMapping("/v1/boards/{boardId}/comments/{commentId}")
     public ApiResponse<Object> updateComment(@PathVariable Long boardId, @PathVariable Long commentId) {
         return null;
     }
 
-    @DeleteMapping("/v1/boards/{boardId}/comments/{{commentId}}")
+    @DeleteMapping("/v1/boards/{boardId}/comments/{commentId}")
     public ApiResponse<Object> deleteComment(@PathVariable Long boardId, @PathVariable Long commentId) {
         return null;
     }
 
-    @PostMapping("/v1/boards/{boardId}/comments/{{commentId}}/like")
+    @PostMapping("/v1/boards/{boardId}/comments/{commentId}/like")
     public ApiResponse<Object> likeComment(@PathVariable Long boardId, @PathVariable Long commentId) {
         return null;
     }
