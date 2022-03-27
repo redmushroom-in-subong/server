@@ -1,6 +1,5 @@
 package com.rms.drifeserver.domain.like.model;
 
-import com.rms.drifeserver.domain.common.model.TimeStamp;
 import com.rms.drifeserver.domain.user.model.User;
 import lombok.Setter;
 
@@ -14,9 +13,9 @@ import javax.persistence.*;
 public class Like {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    protected User user;
 
 }

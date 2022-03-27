@@ -13,18 +13,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor
 @DiscriminatorValue(value = "review")
 public class ReviewLikes extends Like {
     @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
 
+    private ReviewLikes(User user, Review review) {
+        this.user = user;
+        this.review = review;
+    }
+
     public static ReviewLikes of(User user, Review review) {
-        ReviewLikes reviewLikes = new ReviewLikes(review);
-        reviewLikes.setUser(user);
-        return reviewLikes;
+        return new ReviewLikes(user,review);
     }
 }
