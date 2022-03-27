@@ -12,6 +12,6 @@ public interface ReviewLikesRepository extends JpaRepository<ReviewLikes,Long> {
 
     ReviewLikes findByUserAndReview(User user, Review review);
 
-    @Query("select count(rl) from ReviewLikes rl where rl.review.store = :store")
-    Long countByStore(@Param("store") Store store);
+    @Query("select count(rl) from ReviewLikes rl where rl.review = :review  and rl.review.store = :store")
+    Long countByStoreAndReview(@Param("store") Store store, @Param("review") Review review);
 }
