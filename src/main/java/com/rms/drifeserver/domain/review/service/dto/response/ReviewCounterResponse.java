@@ -8,18 +8,31 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReviewCounterResponse {
-    private Long storeVisitCount;
-    private Long storeReviewCount;
-    private Long storeCustomCount;
-    private Long storeLikes;
+
+    private StoreReviewCountInfoResponse storeReviewCountInfo;
+    private Long reviewLikes;
     private Long myVisitCount;
     private Long myReviewCount;
     private Boolean myIsLiked;
     private String myStoreTier;
 
-    static public ReviewCounterResponse of(Long storeVisitCount, Long storeReviewCount, Long storeCustomCount,
-            Long storeLikes, Long myVisitCount, Long myReviewCount, Boolean myIsLiked, String myStoreTier) {
-        return new ReviewCounterResponse(storeVisitCount, storeReviewCount, storeCustomCount, storeLikes, myVisitCount,
-                myReviewCount, myIsLiked, myStoreTier);
+    static public ReviewCounterResponse of(StoreReviewCountInfoResponse storeReviewCountInfo,
+            Long reviewLikes, Long myVisitCount, Long myReviewCount, Boolean myIsLiked) {
+        return new ReviewCounterResponse(storeReviewCountInfo, reviewLikes, myVisitCount,
+                myReviewCount, myIsLiked, getMyStoreTierByCount(myVisitCount));
+    }
+
+    static private String getMyStoreTierByCount(Long count) {
+
+        if (count >= 20) {
+            return "소울메이트";
+        } else if (count >= 10) {
+            return "절친한 사이";
+        } else if (count >= 5) {
+            return "친한 사이";
+        } else if (count >= 1) {
+            return "어색한 사이";
+        }
+        return "모르는 사이";
     }
 }

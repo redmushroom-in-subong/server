@@ -25,7 +25,7 @@ public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
     public ReviewsResponse getAllReviewsInStore(Long storeId) {
         List<Review> reviews = reviewRepository.findAllByStoreId(storeId);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
-                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository,
+                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository,
                         reviewRepository, reviewLikesRepository, review)))
                 .collect(Collectors.toList());
         return ReviewsResponse.of(reviewDetailResponses);
@@ -36,7 +36,7 @@ public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
     public ReviewsResponse getAllReviewsInStoreWithUserId(Long storeId, Long userId) {
         List<Review> reviews = reviewRepository.findAllByStoreIdAndUserId(storeId, userId);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
-                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository,
+                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository,
                         reviewRepository, reviewLikesRepository, review)))
                 .collect(Collectors.toList());
         return ReviewsResponse.of(reviewDetailResponses);
@@ -47,7 +47,7 @@ public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
     public ReviewsResponse getAllReviewsInStoreWithKeywordId(Long storeId, Long keywordId) {
         List<Review> reviews = reviewRepository.findAllByStoreIdAndKeywordTypeId(storeId, keywordId);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
-                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository,
+                .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository,
                         reviewRepository, reviewLikesRepository, review)))
                 .collect(Collectors.toList());
         return ReviewsResponse.of(reviewDetailResponses);

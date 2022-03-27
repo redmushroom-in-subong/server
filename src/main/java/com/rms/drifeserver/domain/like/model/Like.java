@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Table(name = "likes")
-public class Like extends TimeStamp {
+public class Like {
     @Id
     @GeneratedValue
     private long id;
