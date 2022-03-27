@@ -51,7 +51,7 @@ public class ReviewServiceImpl implements ReviewService{
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_REVIEW));
 
-        return ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository, reviewRepository,
+        return ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository, reviewRepository,
                 reviewLikesRepository, review));
     }
 
@@ -65,7 +65,7 @@ public class ReviewServiceImpl implements ReviewService{
 
         review.update(request.getContents(), reviewKeywordTypes);
 
-        return ReviewDetailResponse.of(review, ReviewServiceUtils.findCount(visitRepository, reviewRepository,
+        return ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository, reviewRepository,
                 reviewLikesRepository, review));
     }
 

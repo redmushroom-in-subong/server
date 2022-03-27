@@ -30,9 +30,9 @@ public class ReviewDetailResponse {
     private Long storeReviewCount;
 
     private Long storeCustomCount;
-
-    private Long storeLikes;
     //store 정보
+
+    private Long reviewLikes;
 
     //user 정보
     private Long userId;
@@ -58,7 +58,7 @@ public class ReviewDetailResponse {
 
     @Builder(access = AccessLevel.PRIVATE)
     public ReviewDetailResponse(Long reviewId, String contents, Long storeId, String storeName, Long storeVisitCount,
-                                Long storeReviewCount, Long storeCustomCount, Long storeLikes, Long userId, String nickName,
+                                Long storeReviewCount, Long storeCustomCount, Long reviewLikes, Long userId, String nickName,
                                 String profileImage, @Nullable String badgeName, String myStoreTier, Long myReviewCount,
                                 Boolean myIsLiked, Long myVisitCount) {
         this.reviewId = reviewId;
@@ -68,7 +68,7 @@ public class ReviewDetailResponse {
         this.storeVisitCount = storeVisitCount;
         this.storeReviewCount = storeReviewCount;
         this.storeCustomCount = storeCustomCount;
-        this.storeLikes = storeLikes;
+        this.reviewLikes = reviewLikes;
         this.userId = userId;
         this.nickName = nickName;
         this.profileImage = profileImage;
@@ -85,10 +85,10 @@ public class ReviewDetailResponse {
                 .contents(review.getContents())
                 .storeId(review.getStore().getId())
                 .storeName(review.getStore().getStoreName())
-                .storeVisitCount(counter.getStoreVisitCount())
-                .storeReviewCount(counter.getStoreReviewCount())
-                .storeCustomCount(counter.getStoreCustomCount())
-                .storeLikes(counter.getStoreLikes())
+                .storeVisitCount(counter.getStoreReviewCountInfo().getStoreVisitCount())
+                .storeReviewCount(counter.getStoreReviewCountInfo().getStoreReviewCount())
+                .storeCustomCount(counter.getStoreReviewCountInfo().getStoreCustomCount())
+                .reviewLikes(counter.getReviewLikes())
                 .userId(review.getUser().getId())
                 .nickName(review.getUser().getUsername())
                 .profileImage(review.getUser().getProfileImageUrl())
