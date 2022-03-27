@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.review.api;
 
+import com.rms.drifeserver.domain.badge.event.UserBadgeEvent;
 import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.review.service.RetrieveReviewsService;
@@ -11,6 +12,7 @@ import com.rms.drifeserver.domain.review.service.dto.response.ReviewsResponse;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,7 +22,8 @@ public class ReviewApi {
     private final ReviewService reviewService;
     private final UserService userService;
     private final RetrieveReviewsService retrieveReviewsService;
-
+    //TODO to publish event
+    private final ApplicationEventPublisher eventPublisher;
     @GetMapping("/v1/stores/{storeId}/reviews")
     public ApiResponse<ReviewsResponse> getReviews(@RequestParam(required = false) Long userId, @RequestParam(required = false) Long keywordId, @PathVariable Long storeId) {
         if (userId == null && keywordId == null) {
@@ -38,7 +41,11 @@ public class ReviewApi {
     @PostMapping("/v1/stores/{storeId}/reviews")
     public ApiResponse<Object> addReview(@RequestBody AddReviewRequest request, @PathVariable Long storeId) {
         User user = userService.getUserEntity();
+        //TODO publish event
+        eventPublisher.publishEvent(new UserBadgeEvent(this,user.getId()));
+
         reviewService.addReview(request, storeId, user);
+
         return ApiResponse.success(null);
     }
 
