@@ -18,7 +18,7 @@ public class ReviewServiceUtils {
     @NotNull
     public static ReviewCounterResponse getReviewCount(VisitRepository visitRepository, ReviewRepository reviewRepository,
                                                   ReviewLikesRepository reviewLikesRepository, Review review) {
-        StoreReviewCountInfoResponse storeReviewCountInfo = getStoreReviewCount(visitRepository, reviewRepository, review.getStore());
+        StoreReviewCountInfoResponse storeReviewCountInfo = getStoreReviewCountInfo(visitRepository, reviewRepository, review.getStore());
         Long reviewLikes = reviewLikesRepository.countByStoreAndReview(review.getStore(), review);
         Long myVisitCount = visitRepository.countByStoreAndUser(review.getStore(), review.getUser());
         Long myReviewCount = reviewRepository.countByStoreAndUser(review.getStore(), review.getUser());
@@ -28,7 +28,7 @@ public class ReviewServiceUtils {
     }
 
     @NotNull
-    public static StoreReviewCountInfoResponse getStoreReviewCount(VisitRepository visitRepository, ReviewRepository reviewRepository, Store store) {
+    public static StoreReviewCountInfoResponse getStoreReviewCountInfo(VisitRepository visitRepository, ReviewRepository reviewRepository, Store store) {
         Long storeVisitCount = visitRepository.countByStore(store);
         Long storeReviewCount = reviewRepository.countByStore(store);
         Long storeCustomCount = Optional.ofNullable(visitRepository.countByStoreWithCustom(store)).orElse(0L);
