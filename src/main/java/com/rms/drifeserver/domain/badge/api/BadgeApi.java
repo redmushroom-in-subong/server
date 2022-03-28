@@ -19,7 +19,7 @@ import java.util.List;
 public class BadgeApi {
     final private UserService userService;
     final private BadgeService badgeService;
-    @PostMapping("")
+    @GetMapping("")
     @ResponseBody
     public ApiResponse getUserAllBadges(){
         try{
