@@ -67,8 +67,8 @@ public class KakaoGeoLocationApi {
         System.out.println("response = " + jsonObject.toJSONString());
 
         return new KakaoRegionResponse(
-                atFirst.get("address_name").toString(),
-                atFirst.get("code").toString()
+                atFirst.get("code").toString(),
+                atFirst.get("address_name").toString()
         );
     }
 }
