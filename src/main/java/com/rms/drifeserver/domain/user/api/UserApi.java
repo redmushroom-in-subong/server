@@ -15,9 +15,13 @@ import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2Aut
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
-@Controller
+import static com.rms.drifeserver.domain.common.exception.type.ErrorCode.*;
+import static com.rms.drifeserver.domain.common.util.geolocation.KakaoGeoLocationApi.getRegionCodeByGeoLocation;
+
+@RestController
 @RequestMapping("v1/users")
 @RequiredArgsConstructor
 public class UserApi {
@@ -37,7 +41,7 @@ public class UserApi {
         }catch (Exception exception){
             System.out.println("unhandled exception :" + exception.getMessage());
             exception.printStackTrace();
-            return ApiResponse.error(ErrorCode.INVALID);
+            return ApiResponse.error(INVALID);
         }
     }
     @PutMapping("")
@@ -51,7 +55,7 @@ public class UserApi {
         }catch (Exception exception){
             System.out.println("unhandled exception :" + exception.getMessage());
             exception.printStackTrace();
-            return ApiResponse.error(ErrorCode.INVALID);
+            return ApiResponse.error(INVALID);
         }
     }
 
@@ -61,4 +65,17 @@ public class UserApi {
         return ApiResponse.success(userService.checkExistence(username));
     }
 
+    @GetMapping("/regions")
+    @ResponseBody
+    ApiResponse getRegionInfo(@RequestParam String xCor,@RequestParam String yCor){
+        try{
+            System.out.println("x = " + xCor);
+            System.out.println("y = " + yCor);
+            return ApiResponse.success(getRegionCodeByGeoLocation(xCor,yCor));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ApiResponse.error(INVALID);
+        }
+
+    }
 }
