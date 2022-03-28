@@ -4,16 +4,17 @@ import com.rms.drifeserver.domain.badge.service.BadgeService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserBadgeEventHandler implements ApplicationListener<UserBadgeEvent> {
+public class UserBadgeEventHandler {
     private final BadgeService badgeService;
 
-    @Override
+    @EventListener
     public void onApplicationEvent(UserBadgeEvent event) {
-        System.out.println("check user badge event at "+event.getTimestamp());
+        System.out.println("check user badge event  ");
         badgeService.checkBadgeEarnCondition(event.getUserId());
     }
 
