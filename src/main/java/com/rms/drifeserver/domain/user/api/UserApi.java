@@ -1,22 +1,13 @@
 package com.rms.drifeserver.domain.user.api;
-
-import com.rms.drifeserver.domain.badge.service.dto.response.UserBadgeResponse;
 import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.common.exception.BaseException;
-import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import com.rms.drifeserver.domain.user.service.dto.request.EditProfileReq;
+import com.rms.drifeserver.domain.user.service.dto.request.EditRegionReq;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.Authorization;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.util.List;
 
 import static com.rms.drifeserver.domain.common.exception.type.ErrorCode.*;
 import static com.rms.drifeserver.domain.common.util.geolocation.KakaoGeoLocationApi.getRegionCodeByGeoLocation;
@@ -69,13 +60,21 @@ public class UserApi {
     @ResponseBody
     ApiResponse getRegionInfo(@RequestParam String xCor,@RequestParam String yCor){
         try{
-            System.out.println("x = " + xCor);
-            System.out.println("y = " + yCor);
             return ApiResponse.success(getRegionCodeByGeoLocation(xCor,yCor));
         }catch (Exception e){
             e.printStackTrace();
             return ApiResponse.error(INVALID);
         }
-
+    }
+    @PutMapping("/regions")
+    @ResponseBody
+    ApiResponse editRegionInfo(@RequestBody EditRegionReq editRegionReq){
+        try{
+            userService.editUserRegion(editRegionReq);
+            return ApiResponse.success("good");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ApiResponse.error(INVALID);
+        }
     }
 }

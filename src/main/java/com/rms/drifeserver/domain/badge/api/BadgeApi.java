@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("v1/badge")
+@RequestMapping("v1/users/badges")
 @RequiredArgsConstructor
 public class BadgeApi {
     final private UserService userService;
@@ -33,9 +33,9 @@ public class BadgeApi {
             return ApiResponse.error(ErrorCode.INVALID);
         }
     }
-    @PutMapping("/{badgeId}")
+    @PutMapping("")
     @ResponseBody
-    public ApiResponse editBadge(@PathVariable Long badgeId){
+    public ApiResponse editBadge(@RequestParam(name="badgeCode")Long badgeId){
         try{
             userService.editUsingBadge(badgeId);
             return ApiResponse.success("success");
