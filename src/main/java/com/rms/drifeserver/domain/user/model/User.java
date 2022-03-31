@@ -75,16 +75,17 @@ public class User {
     @JoinColumn(name="badge_id")
     private Badge myBadge;
 
-    @Column(name = "x_pos")
-    private int xPos;
-    @Column(name = "y_pos")
-    private int yPos;
     @Column(name = "phone")
     private String phone;
     @Column(name = "region_code")
-    private int region_code;
+    private String regionCode;
+    @Column(name = "region_name")
+    private String regionName;
 
 
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<Badge> myBadgeList = new ArrayList();
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Review> myReviewList = new ArrayList();
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -112,7 +113,7 @@ public class User {
         this.userId = userId;
         this.username = username;
         this.email = email != null ? email : "NO_EMAIL";
-        this.password = password != null ? password : "NO_EMAIL";
+        this.password = password != null ? password : "NO_PASS";
         this.emailVerifiedYn = emailVerifiedYn;
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;

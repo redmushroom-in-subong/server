@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +16,12 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "badge_code")
+@Table(name="badge_code",uniqueConstraints={@UniqueConstraint(columnNames={"badge_name"})})
 public class BadgeCode {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(name = "badge_name")
+    @Column(name = "badge_name",unique = true)
     private String badgeName;
     @Column(name="review_cnt")
     private int reviewCount;
