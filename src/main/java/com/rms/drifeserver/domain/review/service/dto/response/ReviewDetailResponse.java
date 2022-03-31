@@ -10,6 +10,7 @@ import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -53,15 +54,16 @@ public class ReviewDetailResponse {
 
     private final List<ReviewKeywordTypeResponse> reviewKeywordTypes = new ArrayList<>();
 
-    private List<String> images;
+    private List<String> reviewImages;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public ReviewDetailResponse(Long reviewId, String contents, Long storeId, String storeName, Long storeVisitCount,
+    public ReviewDetailResponse(Long reviewId, String contents, List<String> reviewImages, Long storeId, String storeName, Long storeVisitCount,
                                 Long storeReviewCount, Long storeCustomCount, Long reviewLikes, Long userId, String nickName,
                                 String profileImage, @Nullable String badgeName, String myStoreTier, Long myReviewCount,
                                 Boolean myIsLiked, Long myVisitCount) {
         this.reviewId = reviewId;
         this.contents = contents;
+        this.reviewImages = reviewImages;
         this.storeId = storeId;
         this.storeName = storeName;
         this.storeVisitCount = storeVisitCount;
@@ -82,6 +84,9 @@ public class ReviewDetailResponse {
         ReviewDetailResponse response = ReviewDetailResponse.builder()
                 .reviewId(review.getId())
                 .contents(review.getContents())
+                .reviewImages(review.getReviewImages().stream()
+                        .map(reviewImage -> reviewImage.getImageUrl())
+                        .collect(Collectors.toList()))
                 .storeId(review.getStore().getId())
                 .storeName(review.getStore().getStoreName())
                 .storeVisitCount(counter.getStoreReviewCountInfo().getStoreVisitCount())
@@ -91,7 +96,7 @@ public class ReviewDetailResponse {
                 .userId(review.getUser().getId())
                 .nickName(review.getUser().getUsername())
                 .profileImage(review.getUser().getProfileImageUrl())
-                .badgeName("")
+                .badgeName(review.getUser().getMyBadge().getBadgeCode().getBadgeName())
                 .myStoreTier(counter.getMyStoreTier())
                 .myReviewCount(counter.getMyReviewCount())
                 .myVisitCount(counter.getMyVisitCount())
