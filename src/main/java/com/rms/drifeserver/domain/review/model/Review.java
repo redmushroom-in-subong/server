@@ -1,6 +1,7 @@
 package com.rms.drifeserver.domain.review.model;
 
 import com.rms.drifeserver.domain.common.model.BaseTimeEntity;
+import com.rms.drifeserver.domain.image.model.ReviewImage;
 import com.rms.drifeserver.domain.store.model.Store;
 import com.rms.drifeserver.domain.user.model.User;
 import lombok.AccessLevel;
@@ -31,10 +32,10 @@ public class Review extends BaseTimeEntity {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
-    private String contents;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewImage> reviewImages = new ArrayList<>();
 
-    @Transient
-    private Long likes;
+    private String contents;
 
     private Review(User user, Store store, String contents) {
         this.user = user;
@@ -42,16 +43,19 @@ public class Review extends BaseTimeEntity {
         this.contents = contents;
     }
 
-    public static Review of(User user, Store store, String contents, List<Long> reviewKeywordIds){
+    public static Review of(User user, Store store, String contents, List<Long> reviewKeywordIds, List<String> imageUrls){
         Review review = new Review(user,store, contents);
         review.addReviewKeyword(reviewKeywordIds);
+        review.addReviewImages(imageUrls);
         return review;
     }
 
-    public void update(String contents, List<ReviewKeywordType> reviewKeywordTypes) {
+    public void update(String contents, List<ReviewKeywordType> reviewKeywordTypes, List<String> imageUrls) {
         this.contents = contents;
         this.reviewKeywords.clear();
         updateReviewKeyword(reviewKeywordTypes);
+        this.reviewImages.clear();
+        addReviewImages(imageUrls);
     }
 
     public void addReviewKeyword(List<Long> reviewKeywordIds) {
@@ -60,5 +64,9 @@ public class Review extends BaseTimeEntity {
 
     public void updateReviewKeyword(List<ReviewKeywordType> reviewKeywordTypes) {
         reviewKeywordTypes.forEach(type -> this.reviewKeywords.add(ReviewKeyword.of(this, type)));
+    }
+
+    public void addReviewImages(List<String> imageUrls) {
+        imageUrls.forEach(imageUrl -> this.reviewImages.add(ReviewImage.of(this.user, this, imageUrl)));
     }
 }
