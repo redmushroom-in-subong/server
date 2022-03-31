@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface VisitRepository extends JpaRepository<Visit, Long> {
 
-    long countByStore(Store store);
+    Long countByStore(Store store);
 
-    long countByStoreAndUser(Store store, User user);
+    Long countByStoreAndUser(Store store, User user);
 
-    @Query("select count(distinct r.user.id) from Review r where r.store = :store group by r.user.id having count(r) >= 10")
-    Long countByStoreWithCustom(@Param("store") Store store);
+    @Query(nativeQuery = true, value = "select count(*) from (select user_id from visit where store_id = :storeId group by user_id having count(*) >= 10) as custom")
+    Long countByStoreWithCustom(@Param("storeId") Long storeId);
 }
