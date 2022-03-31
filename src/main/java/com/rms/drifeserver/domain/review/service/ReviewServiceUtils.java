@@ -31,7 +31,7 @@ public class ReviewServiceUtils {
     public static StoreReviewCountInfoResponse getStoreReviewCountInfo(VisitRepository visitRepository, ReviewRepository reviewRepository, Store store) {
         Long storeVisitCount = visitRepository.countByStore(store);
         Long storeReviewCount = reviewRepository.countByStore(store);
-        Long storeCustomCount = Optional.ofNullable(visitRepository.countByStoreWithCustom(store)).orElse(0L);
+        Long storeCustomCount = visitRepository.countByStoreWithCustom(store.getId());
 
         return StoreReviewCountInfoResponse.of(storeVisitCount, storeReviewCount, storeCustomCount);
     }

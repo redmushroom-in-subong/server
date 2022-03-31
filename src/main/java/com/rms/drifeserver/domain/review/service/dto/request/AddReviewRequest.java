@@ -18,15 +18,9 @@ public class AddReviewRequest {
 
     private List<Long> keywordIds;
 
-    private List<String> images;
-
-    //test용 생성자
-    public AddReviewRequest(String contents, List<Long> keywordIds) {
-        this.contents = contents;
-        this.keywordIds = keywordIds;
-    }
+    private List<String> imageUrls;
 
     public Review toReview(User user, Store store) {
-        return Review.of(user, store, this.contents, this.keywordIds);
+        return Review.of(user, store, this.contents, this.keywordIds, this.imageUrls);
     }
 }
