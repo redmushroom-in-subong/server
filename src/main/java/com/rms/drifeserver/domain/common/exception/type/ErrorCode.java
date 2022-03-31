@@ -24,6 +24,7 @@ public enum ErrorCode {
     INVALID_EMPTY_UPLOAD_FILE_NAME( "BR206", "잘못된 파일입니다\n파일의 이름이 없습니다."),
     INVALID_UPLOAD_FILE_TYPE("BR207", "잘못된 파일 확장자입니다"),
     INVALID_UPLOAD_FILE_SIZE("BR208", "업로드 가능한 파일 크기를 초과했습니다"),
+    INVALID_BADGE_CODE( "BR209", "잘못된 뱃지코드입니다."),
 
     // 401 UnAuthorized
     UNAUTHORIZED("UA000", "세션이 만료되었습니다. 다시 로그인 해주세요"),
@@ -44,6 +45,7 @@ public enum ErrorCode {
     NOTFOUND_BOSS("N008", "존재하지 않는 사장님 계정입니다"),
     NOTFOUND_BOSS_OWNED_STORE("NF009", "사장님이 운영하는 가게가 존재하지 않습니다."),
     NOTFOUND_SIGNUP_REGISTRATION("NF010", "해당하는 가입 신청은 존재하지 않습니다"),
+    NOTFOUND_BADGE("N006", "보유하고 있지 않은 뱃지입니다"),
 
 
     // 405 Method Not Allowed
@@ -61,6 +63,7 @@ public enum ErrorCode {
     CONFLICT_DELETE_REQUEST_STORE("CF003", "이미 해당하는 가게에 삭제요청 하였습니다."),
     CONFLICT_VISIT_HISTORY( "CF004", "오늘 이미 방문 인증한 가게입니다.\n다음에 다시 인증해주세요"),
     CONFLICT_REGISTER_BOSS("CF005", "이미 사장님 가입을 신청하셨습니다"),
+    CONFLICT_BADGE_NAME( "CF006", "이미 사용중인 뱃지코드입니다."),
 
 
     // 415 Unsupported Media Type
