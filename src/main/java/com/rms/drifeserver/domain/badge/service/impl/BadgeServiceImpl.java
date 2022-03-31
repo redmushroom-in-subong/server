@@ -7,7 +7,9 @@ import com.rms.drifeserver.domain.badge.model.Badge;
 import com.rms.drifeserver.domain.badgecode.model.BadgeCode;
 import com.rms.drifeserver.domain.badge.service.BadgeService;
 import com.rms.drifeserver.domain.badge.service.dto.response.UserBadgeResponse;
+import com.rms.drifeserver.domain.badgecode.service.BadgeCodeService;
 import com.rms.drifeserver.domain.common.exception.BaseException;
+import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +20,16 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import static com.rms.drifeserver.domain.common.exception.type.ErrorCode.INVALID_BADGE_CODE;
 
 @Service
 @RequiredArgsConstructor
 public class BadgeServiceImpl implements BadgeService {
     final private UserService userService;
     final private BadgeRepository badgeRepository;
-    final private ApplicationEventPublisher publisher;
+    final private BadgeCodeService badgeCodeService;
     @Override
     @Transactional
     public void checkBadgeEarnCondition(Long id) throws BaseException {
@@ -44,19 +49,18 @@ public class BadgeServiceImpl implements BadgeService {
         }
     }
     @Override
-   public void addBadge(Long userId,Long badgeId){
+   public void addBadge(Long userId,Long badgeId) throws Exception {
         User user=new User();
         user.setId(userId);
         Badge badge=new Badge(0l,new BadgeCode(),user);
-        badge.getBadgeCode().setId(badgeId);
+        Optional<BadgeCode> badgeCode = badgeCodeService.findById(badgeId);
+        badge.setBadgeCode(badgeCode.get());
         badgeRepository.save(badge);
     }
 
     @Override
     public List<UserBadgeResponse> findAllUserBadges(){
         User user=userService.getUserEntity();
-        publisher.publishEvent(new UserBadgeEvent(this,user.getId()));
-
         List<Map<String,Object>> result=badgeRepository.findAllUserBadges(user.getId());
         List<UserBadgeResponse> ret = new ArrayList<>();
         for (Map<String,Object> a:result){

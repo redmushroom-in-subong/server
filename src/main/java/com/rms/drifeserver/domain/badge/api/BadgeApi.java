@@ -21,30 +21,14 @@ public class BadgeApi {
     final private BadgeService badgeService;
     @GetMapping("")
     @ResponseBody
-    public ApiResponse getUserAllBadges(){
-        try{
-            List<UserBadgeResponse> ret=badgeService.findAllUserBadges();
-            return ApiResponse.success(ret);
-        }catch (BaseException baseException){
-            return ApiResponse.error(baseException.getErrorCode());
-        }catch (Exception exception){
-            System.out.println("unhandled exception :" + exception.getMessage());
-            exception.printStackTrace();
-            return ApiResponse.error(ErrorCode.INVALID);
-        }
+    public ApiResponse getUserAllBadges() throws Exception{
+        List<UserBadgeResponse> ret=badgeService.findAllUserBadges();
+        return ApiResponse.success(ret);
     }
     @PutMapping("")
     @ResponseBody
-    public ApiResponse editBadge(@RequestParam(name="badgeCode")Long badgeId){
-        try{
-            userService.editUsingBadge(badgeId);
-            return ApiResponse.success("success");
-        }catch (BaseException baseException){
-            return ApiResponse.error(baseException.getErrorCode());
-        }catch (Exception exception){
-            System.out.println("unhandled exception :" + exception.getMessage());
-            exception.printStackTrace();
-            return ApiResponse.error(ErrorCode.INVALID);
-        }
+    public ApiResponse editBadge(@RequestParam(name="badgeCode")Long badgeId)throws Exception{
+        userService.editUsingBadge(badgeId);
+        return ApiResponse.success("success");
     }
 }

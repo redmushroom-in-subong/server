@@ -16,38 +16,43 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+import static com.rms.drifeserver.domain.common.exception.type.ErrorCode.*;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final BadgeCodeService badgeCodeService;
-    public User getUserById(Long uId)throws BaseException{
+    public User getUserById(Long uId){
+        if(userRepository.findById(uId).isEmpty()) throw new BaseException(NOTFOUND_USER);
         return userRepository.findById(uId).get();
     }
     public User getUserByUserId(String userId) throws BaseException {
-        return userRepository.findByUserId(userId);
+        if(userRepository.findByUserId(userId).isEmpty())  throw new BaseException(NOTFOUND_USER);
+        return userRepository.findByUserId(userId).get();
     }
     public User getUserEntity() throws BaseException{
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         User user = getUserByUserId(principal.getUsername());
         return user;
     }
     @Transactional
     public void editUserProfile(EditProfileReq editProfileReq) throws BaseException{
         User user=getUserEntity();
+        if(checkExistence(editProfileReq.getNickname())) throw new BaseException(CONFLICT_NICKNAME);
         user.setUsername(editProfileReq.getNickname());
         user.setProfileImageUrl(editProfileReq.getProfileImageUrl());
     }
     @Transactional
     public void editUserRegion(EditRegionReq editRegionReq) throws BaseException{
         User user=getUserEntity();
+        //TODO 한국 좌표 범위 적용?
         user.setRegionName(editRegionReq.getRegionName());
         user.setRegionCode(editRegionReq.getRegionCode());
     }
     @Transactional
-    public void editUsingBadge(Long badgeCodeId){
-        Optional<BadgeCode> badgeCode = badgeCodeService.findBadgeCodeById(badgeCodeId);
+    public void editUsingBadge(Long badgeCodeId)throws Exception{
+        Optional<BadgeCode> badgeCode = badgeCodeService.findById(badgeCodeId);
         if(badgeCode.isPresent()){
             User user=getUserEntity();
             Long target=-1L;
@@ -67,14 +72,16 @@ public class UserService {
 
             }else{
                 System.out.println("error badge not exist");
+                throw new BaseException(NOTFOUND_BADGE);
             }
         }else{
             System.out.println("error invalid badgeId");
+            throw new BaseException(INVALID_BADGE_CODE);
+
         }
 
     }
     public boolean checkExistence(String username){
-        if(userRepository.findByUsername(username)==null) return false;
-        return true;
+        return userRepository.findByUsername(username).isPresent();
     }
 }
