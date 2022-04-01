@@ -19,7 +19,12 @@ public class BoardApi {
     private final UserService userService;
 
     @GetMapping("/v1/boards")
-    public ApiResponse<Object> getBoards() {
+    public ApiResponse<BoardsResponse> getBoards() {
+        return null;
+    }
+
+    @GetMapping("/v1/boards/hot")
+    public ApiResponse<BoardsResponse> getHotBoards() {
         return null;
     }
 

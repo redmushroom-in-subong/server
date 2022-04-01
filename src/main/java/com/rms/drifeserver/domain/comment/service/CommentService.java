@@ -12,4 +12,6 @@ public interface CommentService {
     CommentInfoResponse updateComment(UpdateCommentRequest request, Long commentId, User user);
 
     void deleteComment(Long commentId, User user);
+
+    void toggleCommentLike(Long commentId, User user);
 }
