@@ -11,7 +11,7 @@ public class StoreReviewCountInfoResponse {
     private Long storeReviewCount;
     private Long storeCustomCount;
 
-    static public StoreReviewCountInfoResponse of(Long storeVisitCount, Long storeReviewCount, Long storeCustomCount) {
+    public static StoreReviewCountInfoResponse of(Long storeVisitCount, Long storeReviewCount, Long storeCustomCount) {
         return new StoreReviewCountInfoResponse(storeVisitCount, storeReviewCount, storeCustomCount);
     }
 }
