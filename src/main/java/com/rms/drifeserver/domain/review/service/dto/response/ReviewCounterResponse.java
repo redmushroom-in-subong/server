@@ -16,13 +16,13 @@ public class ReviewCounterResponse {
     private Boolean myIsLiked;
     private String myStoreTier;
 
-    static public ReviewCounterResponse of(StoreReviewCountInfoResponse storeReviewCountInfo,
+    public static ReviewCounterResponse of(StoreReviewCountInfoResponse storeReviewCountInfo,
             Long reviewLikes, Long myVisitCount, Long myReviewCount, Boolean myIsLiked) {
         return new ReviewCounterResponse(storeReviewCountInfo, reviewLikes, myVisitCount,
                 myReviewCount, myIsLiked, getMyStoreTierByCount(myVisitCount));
     }
 
-    static private String getMyStoreTierByCount(Long count) {
+    private static String getMyStoreTierByCount(Long count) {
 
         if (count >= 20) {
             return "소울메이트";
