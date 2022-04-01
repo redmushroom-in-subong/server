@@ -2,6 +2,7 @@ package com.rms.drifeserver.domain.review.service.dto.response;
 
 import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.model.ReviewKeywordType;
+import com.rms.drifeserver.domain.user.service.dto.response.UserInfo;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,11 +36,7 @@ public class ReviewDetailResponse {
     private Long reviewLikes;
 
     //user 정보
-    private Long userId;
-
-    private String nickName;
-
-    private String profileImage;
+    private UserInfo userInfo;
 
     private String badgeName;
 
@@ -57,10 +54,10 @@ public class ReviewDetailResponse {
     private List<String> reviewImages;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public ReviewDetailResponse(Long reviewId, String contents, List<String> reviewImages, Long storeId, String storeName, Long storeVisitCount,
-                                Long storeReviewCount, Long storeCustomCount, Long reviewLikes, Long userId, String nickName,
-                                String profileImage, @Nullable String badgeName, String myStoreTier, Long myReviewCount,
-                                Boolean myIsLiked, Long myVisitCount) {
+    public ReviewDetailResponse(Long reviewId, String contents, List<String> reviewImages, Long storeId,
+                                String storeName, Long storeVisitCount, Long storeReviewCount, Long storeCustomCount,
+                                Long reviewLikes, UserInfo userInfo, @Nullable String badgeName, String myStoreTier,
+                                Long myReviewCount, Boolean myIsLiked, Long myVisitCount) {
         this.reviewId = reviewId;
         this.contents = contents;
         this.reviewImages = reviewImages;
@@ -70,9 +67,7 @@ public class ReviewDetailResponse {
         this.storeReviewCount = storeReviewCount;
         this.storeCustomCount = storeCustomCount;
         this.reviewLikes = reviewLikes;
-        this.userId = userId;
-        this.nickName = nickName;
-        this.profileImage = profileImage;
+        this.userInfo = userInfo;
         this.badgeName = badgeName;
         this.myStoreTier = myStoreTier;
         this.myReviewCount = myReviewCount;
@@ -93,9 +88,7 @@ public class ReviewDetailResponse {
                 .storeReviewCount(counter.getStoreReviewCountInfo().getStoreReviewCount())
                 .storeCustomCount(counter.getStoreReviewCountInfo().getStoreCustomCount())
                 .reviewLikes(counter.getReviewLikes())
-                .userId(review.getUser().getId())
-                .nickName(review.getUser().getUsername())
-                .profileImage(review.getUser().getProfileImageUrl())
+                .userInfo(UserInfo.of(review.getUser()))
                 .badgeName(review.getUser().getMyBadge().getBadgeCode().getBadgeName())
                 .myStoreTier(counter.getMyStoreTier())
                 .myReviewCount(counter.getMyReviewCount())

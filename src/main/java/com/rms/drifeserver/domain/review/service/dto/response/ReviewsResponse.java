@@ -4,17 +4,15 @@ import com.rms.drifeserver.domain.review.model.Review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
 public class ReviewsResponse {
 
-    private List<ReviewDetailResponse> results = new ArrayList<>();
+    private List<ReviewDetailResponse> results;
 
-    public static ReviewsResponse of (List<ReviewDetailResponse> results) {
+    public static ReviewsResponse of(List<ReviewDetailResponse> results) {
         return new ReviewsResponse(results);
     }
 }
