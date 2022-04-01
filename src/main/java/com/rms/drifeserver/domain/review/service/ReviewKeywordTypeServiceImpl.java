@@ -5,6 +5,7 @@ import com.rms.drifeserver.domain.review.service.dto.response.ReviewKeywordTypeR
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class ReviewKeywordTypeServiceImpl implements ReviewKeywordTypeService{
     private final ReviewKeywordTypeRepository reviewKeywordTypeRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public List<ReviewKeywordTypeResponse> getReviewKeywordTypes() {
         return reviewKeywordTypeRepository.findAll()
