@@ -12,7 +12,7 @@ public class UserInfo {
     private String username;
     private String profileImageUrl;
 
-    static public UserInfo of(User user) {
+    public static UserInfo of(User user) {
         return new UserInfo(user.getId(), user.getUsername(), user.getProfileImageUrl());
     }
 }
