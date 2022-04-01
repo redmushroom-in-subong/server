@@ -45,6 +45,11 @@ public class CommentApi {
 
     @PostMapping("/v1/boards/{boardId}/comments/{commentId}/like")
     public ApiResponse<Object> likeComment(@PathVariable Long boardId, @PathVariable Long commentId) {
-        return null;
+
+        User user = userService.getUserEntity();
+
+        commentService.toggleCommentLike(commentId, user);
+
+        return ApiResponse.success(null);
     }
 }
