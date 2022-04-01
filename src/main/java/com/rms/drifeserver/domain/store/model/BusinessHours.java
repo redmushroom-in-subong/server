@@ -1,8 +1,11 @@
 package com.rms.drifeserver.domain.store.model;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class BusinessHours {
 
     @Id
