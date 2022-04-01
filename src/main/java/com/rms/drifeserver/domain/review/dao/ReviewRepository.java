@@ -20,7 +20,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select r from Review r left join ReviewKeyword rk on ( r.id = rk.review.id ) where ( r.store.id = :storeId and rk.reviewKeywordType.id = :keywordTypeId )")
     List<Review> findAllByStoreIdAndKeywordTypeId(@Param("storeId") Long storeId, @Param("keywordTypeId") Long keywordTypeId);
 
-    long countByStore(Store store);
+    Long countByStore(Store store);
 
-    long countByStoreAndUser(Store store, User user);
+    Long countByStoreAndUser(Store store, User user);
 }
