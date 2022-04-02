@@ -11,7 +11,9 @@ public interface BoardService {
 
     BoardDetailResponse getBoardDetail(Long boardId);
 
-    BoardDetailResponse updateBoard(UpdateBoardRequest request, Long BoardId, User user);
+    BoardDetailResponse updateBoard(UpdateBoardRequest request, Long boardId, User user);
 
-    void deleteBoard(Long BoardId, User user);
+    void deleteBoard(Long boardId, User user);
+
+    void toggleBoardLike(Long boardId, User user);
 }

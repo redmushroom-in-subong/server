@@ -30,10 +30,10 @@ public class Review extends BaseTimeEntity {
     private Store store;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
+    private final List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReviewImage> reviewImages = new ArrayList<>();
+    private final List<ReviewImage> reviewImages = new ArrayList<>();
 
     private String contents;
 
