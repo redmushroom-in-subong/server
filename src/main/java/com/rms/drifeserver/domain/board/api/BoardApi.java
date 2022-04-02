@@ -63,6 +63,11 @@ public class BoardApi {
 
     @PostMapping("/v1/boards/{boardId}/like")
     public ApiResponse<Object> likeBoard(@PathVariable Long boardId) {
-        return null;
+
+        User user = userService.getUserEntity();
+
+        boardService.toggleBoardLike(boardId, user);
+
+        return ApiResponse.success(null);
     }
 }
