@@ -1,9 +1,9 @@
 package com.rms.drifeserver.domain.comment.service;
 
 import com.rms.drifeserver.domain.board.model.Board;
-import com.rms.drifeserver.domain.board.repository.BoardRepository;
+import com.rms.drifeserver.domain.board.dao.BoardRepository;
 import com.rms.drifeserver.domain.comment.model.Comment;
-import com.rms.drifeserver.domain.comment.repository.CommentRepository;
+import com.rms.drifeserver.domain.comment.dao.CommentRepository;
 import com.rms.drifeserver.domain.comment.service.dto.request.AddCommentRequest;
 import com.rms.drifeserver.domain.comment.service.dto.request.UpdateCommentRequest;
 import com.rms.drifeserver.domain.comment.service.dto.response.CommentInfoResponse;
