@@ -54,7 +54,7 @@ public class ReviewDetailResponse {
     private List<String> reviewImages;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public ReviewDetailResponse(Long reviewId, String contents, List<String> reviewImages, Long storeId,
+    private ReviewDetailResponse(Long reviewId, String contents, List<String> reviewImages, Long storeId,
                                 String storeName, Long storeVisitCount, Long storeReviewCount, Long storeCustomCount,
                                 Long reviewLikes, UserInfo userInfo, @Nullable String badgeName, String myStoreTier,
                                 Long myReviewCount, Boolean myIsLiked, Long myVisitCount) {
