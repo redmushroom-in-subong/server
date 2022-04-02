@@ -1,6 +1,7 @@
 package com.rms.drifeserver.domain.board.api;
 
 import com.rms.drifeserver.domain.board.service.BoardService;
+import com.rms.drifeserver.domain.board.service.RetrieveBoardsService;
 import com.rms.drifeserver.domain.board.service.dto.request.AddBoardRequest;
 import com.rms.drifeserver.domain.board.service.dto.request.UpdateBoardRequest;
 import com.rms.drifeserver.domain.board.service.dto.response.BoardDetailResponse;
@@ -15,17 +16,24 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BoardApi {
 
-    private final BoardService boardService;
     private final UserService userService;
+    private final BoardService boardService;
+    private final RetrieveBoardsService retrieveBoardsService;
 
     @GetMapping("/v1/boards")
     public ApiResponse<BoardsResponse> getBoards() {
-        return null;
+
+        User user = userService.getUserEntity();
+
+        return ApiResponse.success(retrieveBoardsService.getBoards(user));
     }
 
     @GetMapping("/v1/boards/hot")
     public ApiResponse<BoardsResponse> getHotBoards() {
-        return null;
+
+        User user = userService.getUserEntity();
+
+        return ApiResponse.success(retrieveBoardsService.getHotBoards(user));
     }
 
     @PostMapping("/v1/boards")

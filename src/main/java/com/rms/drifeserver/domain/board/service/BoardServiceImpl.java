@@ -1,7 +1,7 @@
 package com.rms.drifeserver.domain.board.service;
 
 import com.rms.drifeserver.domain.board.model.Board;
-import com.rms.drifeserver.domain.board.repository.BoardRepository;
+import com.rms.drifeserver.domain.board.dao.BoardRepository;
 import com.rms.drifeserver.domain.board.service.dto.request.AddBoardRequest;
 import com.rms.drifeserver.domain.board.service.dto.request.UpdateBoardRequest;
 import com.rms.drifeserver.domain.board.service.dto.response.BoardDetailResponse;
