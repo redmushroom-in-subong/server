@@ -4,7 +4,9 @@ import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
+import com.rms.drifeserver.domain.review.service.ReviewKeywordService;
 import com.rms.drifeserver.domain.review.service.ReviewServiceUtils;
+import com.rms.drifeserver.domain.review.service.dto.response.ReviewKeywordCountResponse;
 import com.rms.drifeserver.domain.review.service.dto.response.StoreReviewCountInfoResponse;
 import com.rms.drifeserver.domain.store.dao.BusinessHoursRepository;
 import com.rms.drifeserver.domain.store.dao.MenuRepository;
@@ -21,11 +23,12 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class StoreService {
-    public final StoreRepository storeRepository;
-    public final MenuRepository menuRepository;
-    public final BusinessHoursRepository businessHoursRepository;
+    private final StoreRepository storeRepository;
+    private final MenuRepository menuRepository;
+    private final BusinessHoursRepository businessHoursRepository;
     private final VisitRepository visitRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewKeywordService reviewKeywordService;
 
     //가게 정보 조회하기
     public Store getStore(Long storeId) {
@@ -49,8 +52,10 @@ public class StoreService {
     }
 
     //해당 가게 리뷰 키워드 조회하기
-    public void getReviewKeywordsInStore(Long storeId){
-
+    public List<ReviewKeywordCountResponse> getReviewKeywordsInStore(Long storeId){
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
+        return reviewKeywordService.getReviewKeywordCountByStore(store);
     }
 
     //해당 가게 단골 조회하기
