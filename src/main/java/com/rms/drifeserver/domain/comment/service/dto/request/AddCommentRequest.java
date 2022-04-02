@@ -3,11 +3,11 @@ package com.rms.drifeserver.domain.comment.service.dto.request;
 import com.rms.drifeserver.domain.board.model.Board;
 import com.rms.drifeserver.domain.comment.model.Comment;
 import com.rms.drifeserver.domain.user.model.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor
 public class AddCommentRequest {
     private String contents;
 
