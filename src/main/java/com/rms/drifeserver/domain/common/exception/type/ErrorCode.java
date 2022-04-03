@@ -47,6 +47,7 @@ public enum ErrorCode {
     NOTFOUND_BOSS("N009", "존재하지 않는 사장님 계정입니다"),
     NOTFOUND_BOSS_OWNED_STORE("NF010", "사장님이 운영하는 가게가 존재하지 않습니다."),
     NOTFOUND_SIGNUP_REGISTRATION("NF011", "해당하는 가입 신청은 존재하지 않습니다"),
+    NOTFOUND_MENU("NF012", "삭제되거나 존재하지 않는 메뉴입니다"),
 
 
     // 405 Method Not Allowed
