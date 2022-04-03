@@ -55,8 +55,8 @@ public class StoreApi {
     }
 
     @PutMapping("/{storeId}/menus/{menuId}")    //메뉴 수정하기
-    public ApiResponse updateMenu(@PathVariable Long storeId, @PathVariable Long menuId){
-        return null;
+    public ApiResponse updateMenu(@RequestBody AddMenuRequest req, @PathVariable Long storeId, @PathVariable Long menuId){
+        return ApiResponse.success(storeService.updateMenu(storeId, menuId, req));
     }
 
     @DeleteMapping("/{storeId}/menus/{menuId}")    //메뉴 삭제하기
