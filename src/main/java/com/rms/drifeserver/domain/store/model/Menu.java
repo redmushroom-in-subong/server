@@ -9,7 +9,6 @@ import javax.persistence.*;
 public class Menu {
 
     @Id @GeneratedValue
-    //@Column(name = "")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
