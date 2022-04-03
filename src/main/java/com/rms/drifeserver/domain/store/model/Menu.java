@@ -18,4 +18,16 @@ public class Menu {
 
     private String item;
     private Integer price;
+
+    private Menu(Store store, String item, Integer price){
+        this.store = store;
+        this.item = item;
+        this.price = price;
+        store.getMenus().add(this);
+    }
+
+    public static Menu createMenu(Store store, String item, Integer price){
+        Menu menu = new Menu(store, item, price);
+        return menu;
+    }
 }
