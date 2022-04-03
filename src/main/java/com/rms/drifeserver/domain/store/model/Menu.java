@@ -1,11 +1,13 @@
 package com.rms.drifeserver.domain.store.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Menu {
 
     @Id @GeneratedValue
@@ -28,5 +30,13 @@ public class Menu {
     public static Menu createMenu(Store store, String item, Integer price){
         Menu menu = new Menu(store, item, price);
         return menu;
+    }
+
+    public void updateItem(String item){
+        this.item = item;
+    }
+
+    public void updatePrice(Integer price){
+        this.price = price;
     }
 }
