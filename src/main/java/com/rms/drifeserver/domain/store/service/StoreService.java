@@ -86,13 +86,16 @@ public class StoreService {
     //메뉴 수정하기
     @Transactional
     public MenuResponse updateMenu(Long storeId, Long menuId, AddMenuRequest req){
-        Menu findMenu = menuRepository.findByIdAndStoreId(menuId, storeId);
-        if(req.getItem()!=null && req.getPrice()!=null){
-            findMenu.updateItem(req.getItem());
-            findMenu.updatePrice(req.getPrice());
+        Menu findMenu = menuRepository.findByIdAndStoreId(menuId, storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_MENU));
+        if(req.getItem()==null && req.getPrice()==null){
+            throw new BaseException(ErrorCode.INVALID);
         } else if(req.getPrice()==null){
             findMenu.updateItem(req.getItem());
+        } else if(req.getItem()==null){
+            findMenu.updatePrice(req.getPrice());
         } else{
+            findMenu.updateItem(req.getItem());
             findMenu.updatePrice(req.getPrice());
         }
         menuRepository.save(findMenu);
@@ -102,7 +105,8 @@ public class StoreService {
     //메뉴 삭제하기
     @Transactional
     public void deleteMenu(Long storeId, Long menuId){
-        Menu findMenu = menuRepository.findByIdAndStoreId(menuId, storeId);
+        Menu findMenu = menuRepository.findByIdAndStoreId(menuId, storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_MENU));
         menuRepository.delete(findMenu);
     }
 

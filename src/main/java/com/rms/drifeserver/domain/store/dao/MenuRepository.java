@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
@@ -14,5 +15,5 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     List<MenuResponse> findAllByStoreId(@Param("storeId") Long storeId);
 
     @Query("select m from Menu m where m.store.id = :storeId and m.id = :menuId")
-    Menu findByIdAndStoreId(@Param("menuId") Long menuId, @Param("storeId") Long storeId);
+    Optional<Menu> findByIdAndStoreId(@Param("menuId") Long menuId, @Param("storeId") Long storeId);
 }
