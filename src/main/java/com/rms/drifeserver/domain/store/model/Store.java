@@ -43,4 +43,11 @@ public class Store {
     private List<Visit> visits = new ArrayList<>();
     
     //가게사진
+
+    public BusinessHours createBhours(String mon, String tue, String wed, String thu,
+                                      String fri, String sat, String sun){
+        BusinessHours businessHours = new BusinessHours(this, mon, tue, wed, thu, fri, sat, sun);
+        this.businessHours = businessHours;
+        return businessHours;
+    }
 }
