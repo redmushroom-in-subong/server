@@ -69,7 +69,7 @@ public class StoreService {
     }
 
     //메뉴 조회하기
-    public List<Menu> getAllMenus(Long storeId){
+    public List<MenuResponse> getAllMenus(Long storeId){
         return menuRepository.findAllByStoreId(storeId);
     }
 
@@ -85,9 +85,18 @@ public class StoreService {
 
     //메뉴 수정하기
     @Transactional
-    public void updateMenu(Long storeId, Long menuId){
+    public MenuResponse updateMenu(Long storeId, Long menuId, AddMenuRequest req){
         Menu findMenu = menuRepository.findByIdAndStoreId(menuId, storeId);
-
+        if(req.getItem()!=null && req.getPrice()!=null){
+            findMenu.updateItem(req.getItem());
+            findMenu.updatePrice(req.getPrice());
+        } else if(req.getPrice()==null){
+            findMenu.updateItem(req.getItem());
+        } else{
+            findMenu.updatePrice(req.getPrice());
+        }
+        menuRepository.save(findMenu);
+        return MenuResponse.of(findMenu);
     }
 
     //메뉴 삭제하기
