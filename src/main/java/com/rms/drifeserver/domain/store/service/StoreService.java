@@ -11,8 +11,13 @@ import com.rms.drifeserver.domain.review.service.dto.response.StoreReviewCountIn
 import com.rms.drifeserver.domain.store.dao.BusinessHoursRepository;
 import com.rms.drifeserver.domain.store.dao.MenuRepository;
 import com.rms.drifeserver.domain.store.dao.StoreRepository;
+import com.rms.drifeserver.domain.store.model.BusinessHours;
 import com.rms.drifeserver.domain.store.model.Menu;
 import com.rms.drifeserver.domain.store.model.Store;
+import com.rms.drifeserver.domain.store.service.dto.request.AddBusinessHoursRequest;
+import com.rms.drifeserver.domain.store.service.dto.request.AddMenuRequest;
+import com.rms.drifeserver.domain.store.service.dto.response.BusinessHoursResponse;
+import com.rms.drifeserver.domain.store.service.dto.response.MenuResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,8 +75,12 @@ public class StoreService {
 
     //메뉴 추가하기
     @Transactional
-    public void addMenu(Long storeId){
-
+    public MenuResponse addMenu(Long storeId, AddMenuRequest req){
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
+        Menu menu = req.toMenu(store);
+        menuRepository.save(menu);
+        return MenuResponse.of(menu);
     }
 
     //메뉴 수정하기
@@ -85,17 +94,24 @@ public class StoreService {
     @Transactional
     public void deleteMenu(Long storeId, Long menuId){
         Menu findMenu = menuRepository.findByIdAndStoreId(menuId, storeId);
-
+        menuRepository.delete(findMenu);
     }
 
     //영업시간 추가하기
     @Transactional
-    public void addBusinessHours(Long stordId){
+    public BusinessHoursResponse addBusinessHours(Long storeId, AddBusinessHoursRequest req){
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
+        BusinessHours bhours = req.toBhours(store);
+        businessHoursRepository.save(bhours);
+        return BusinessHoursResponse.of(bhours);
     }
 
-    //영업시간 삭제하기
+    //영업시간 수정하기
     @Transactional
-    public void deleteBusinessHours(Long storeId){
+    public void updateBusinessHours(Long storeId){
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
 
     }
 
