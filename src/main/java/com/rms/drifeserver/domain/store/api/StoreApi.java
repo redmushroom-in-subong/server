@@ -3,6 +3,8 @@ package com.rms.drifeserver.domain.store.api;
 import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.store.service.StoreService;
+import com.rms.drifeserver.domain.store.service.dto.request.AddBusinessHoursRequest;
+import com.rms.drifeserver.domain.store.service.dto.request.AddMenuRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,12 +46,12 @@ public class StoreApi {
 
     @GetMapping("/menus")   //메뉴 조회하기
     public ApiResponse getMenus(@RequestParam Long storeId){
-        return null;
+        return ApiResponse.success(storeService.getAllMenus(storeId));
     }
 
     @PostMapping("/{storeId}/menus")    //메뉴 추가하기
-    public ApiResponse addMenu(@PathVariable Long storeId){
-        return null;
+    public ApiResponse addMenu(@RequestBody AddMenuRequest req, @PathVariable Long storeId){
+        return ApiResponse.success(storeService.addMenu(storeId, req));
     }
 
     @PutMapping("/{storeId}/menus/{menuId}")    //메뉴 수정하기
@@ -59,12 +61,13 @@ public class StoreApi {
 
     @DeleteMapping("/{storeId}/menus/{menuId}")    //메뉴 삭제하기
     public ApiResponse deleteMenu(@PathVariable Long storeId, @PathVariable Long menuId){
-        return null;
+        storeService.deleteMenu(storeId, menuId);
+        return ApiResponse.success(null);
     }
 
     @PostMapping("/{storeId}/bhours")    //영업시간 추가하기
-    public ApiResponse addBusinessHours(@PathVariable Long storeId){
-        return null;
+    public ApiResponse addBusinessHours(@RequestBody AddBusinessHoursRequest req, @PathVariable Long storeId){
+        return ApiResponse.success(storeService.addBusinessHours(storeId, req));
     }
 
     @PutMapping("/{storeId}/bhours")    //영업시간 수정하기
