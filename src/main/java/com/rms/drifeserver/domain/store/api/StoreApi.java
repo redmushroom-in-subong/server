@@ -74,4 +74,5 @@ public class StoreApi {
     public ApiResponse updateBusinessHours(@PathVariable Long storeId){
         return null;
     }
+
 }

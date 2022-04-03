@@ -10,7 +10,6 @@ public class BusinessHours {
 
     @Id
     @GeneratedValue
-    //@Column(name = "")
     private Long id;
 
     @OneToOne(mappedBy = "businessHours", fetch = FetchType.LAZY)
@@ -34,9 +33,6 @@ public class BusinessHours {
         this.fri = fri;
         this.sat = sat;
         this.sun = sun;
-
     }
-
-
 
 }
