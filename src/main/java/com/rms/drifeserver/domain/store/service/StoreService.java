@@ -14,10 +14,14 @@ import com.rms.drifeserver.domain.store.dao.StoreRepository;
 import com.rms.drifeserver.domain.store.model.BusinessHours;
 import com.rms.drifeserver.domain.store.model.Menu;
 import com.rms.drifeserver.domain.store.model.Store;
+import com.rms.drifeserver.domain.store.model.Tier;
 import com.rms.drifeserver.domain.store.service.dto.request.AddBusinessHoursRequest;
 import com.rms.drifeserver.domain.store.service.dto.request.AddMenuRequest;
 import com.rms.drifeserver.domain.store.service.dto.response.BusinessHoursResponse;
 import com.rms.drifeserver.domain.store.service.dto.response.MenuResponse;
+import com.rms.drifeserver.domain.store.service.dto.response.UserInStoreResponse;
+import com.rms.drifeserver.domain.user.dao.UserRepository;
+import com.rms.drifeserver.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +37,7 @@ public class StoreService {
     private final BusinessHoursRepository businessHoursRepository;
     private final VisitRepository visitRepository;
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
     private final ReviewKeywordService reviewKeywordService;
 
     //가게 정보 조회하기
@@ -49,11 +54,13 @@ public class StoreService {
     }
 
     //해당 가게에 대한 유저 정보 조회하기
-    public void getUserInfoInStore(Long storeId, Long userId){
+    public UserInStoreResponse getUserInfoInStore(Long storeId, Long userId){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
-
-
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_USER));
+        Long visitCnt = visitRepository.countByStoreAndUser(store, user);
+        return UserInStoreResponse.of(store, user, visitCnt);
     }
 
     //해당 가게 리뷰 키워드 조회하기
@@ -122,11 +129,14 @@ public class StoreService {
 
     //영업시간 수정하기
     @Transactional
-    public void updateBusinessHours(Long storeId){
+    public BusinessHoursResponse updateBusinessHours(Long storeId, AddBusinessHoursRequest req){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
-
+        BusinessHours bhours = store.getBusinessHours();
+        bhours.updateBhours(req.getMon(),req.getTue(),req.getWed(),req.getThu(),
+                req.getFri(),req.getSat(),req.getSun());
+        businessHoursRepository.save(bhours);
+        return BusinessHoursResponse.of(bhours);
     }
-
 
 }
