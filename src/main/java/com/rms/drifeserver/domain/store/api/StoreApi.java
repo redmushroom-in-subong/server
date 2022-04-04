@@ -41,7 +41,7 @@ public class StoreApi {
 
     @GetMapping("/regular-customers") //해당 가게 단골 조회하기
     public ApiResponse getRegularCustomersInStore(@RequestParam Long storeId){
-        return null;
+        return ApiResponse.success(storeService.getRegularCustomersInStore(storeId));
     }
 
     @GetMapping("/menus")   //메뉴 조회하기

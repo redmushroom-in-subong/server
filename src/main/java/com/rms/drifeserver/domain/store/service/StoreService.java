@@ -22,10 +22,12 @@ import com.rms.drifeserver.domain.store.service.dto.response.MenuResponse;
 import com.rms.drifeserver.domain.store.service.dto.response.UserInStoreResponse;
 import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.user.model.User;
+import com.rms.drifeserver.domain.user.service.dto.response.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,7 +62,8 @@ public class StoreService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_USER));
         Long visitCnt = visitRepository.countByStoreAndUser(store, user);
-        return UserInStoreResponse.of(store, user, visitCnt);
+        Long reviewCnt = reviewRepository.countByStoreAndUser(store, user);
+        return UserInStoreResponse.of(store, user, visitCnt, reviewCnt);
     }
 
     //해당 가게 리뷰 키워드 조회하기
@@ -71,8 +74,17 @@ public class StoreService {
     }
 
     //해당 가게 단골 조회하기
-    public void getRegularCustomersInStore(Long storeId){
-
+    public List<UserInStoreResponse> getRegularCustomersInStore(Long storeId){
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
+        List<User> regCustom = userRepository.findRegCustom(storeId);
+        List<UserInStoreResponse> ret = new ArrayList<>();
+        for(User u : regCustom){
+            ret.add(UserInStoreResponse.of(store, u,
+                    visitRepository.countByStoreAndUser(store, u),
+                    reviewRepository.countByStoreAndUser(store, u)));
+        }
+        return ret;
     }
 
     //메뉴 조회하기
