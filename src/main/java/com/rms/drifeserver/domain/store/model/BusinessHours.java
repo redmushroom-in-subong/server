@@ -26,8 +26,19 @@ public class BusinessHours {
     private String sun;
 
     protected BusinessHours(Store store, String mon, String tue, String wed, String thu,
-                          String fri, String sat, String sun) {
+                            String fri, String sat, String sun) {
         this.store = store;
+        this.mon = mon;
+        this.tue = tue;
+        this.wed = wed;
+        this.thu = thu;
+        this.fri = fri;
+        this.sat = sat;
+        this.sun = sun;
+    }
+
+    public void updateBhours(String mon, String tue, String wed, String thu,
+                                String fri, String sat, String sun){
         this.mon = mon;
         this.tue = tue;
         this.wed = wed;
