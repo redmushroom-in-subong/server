@@ -13,8 +13,10 @@ public class UserInStoreResponse {
     private Long userId;
     private String myStoreTier;
     private Long myVisitCount;
+    private Long myReviewCount;
 
-    public static UserInStoreResponse of(Store store, User user, Long myVisitCount){
-        return new UserInStoreResponse(store.getId(), user.getId(), Tier.getTier(myVisitCount), myVisitCount);
+    public static UserInStoreResponse of(Store store, User user, Long myVisitCount, Long myReviewCount){
+        return new UserInStoreResponse(store.getId(), user.getId(), Tier.getTier(myVisitCount),
+                myVisitCount, myReviewCount);
     }
 }
