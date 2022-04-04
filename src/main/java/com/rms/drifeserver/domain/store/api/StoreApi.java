@@ -23,7 +23,7 @@ public class StoreApi {
             //return
         }
         else if (themeId == null) { //해당 가게에 대한 유저 정보 조회하기
-
+            return ApiResponse.success(storeService.getUserInfoInStore(storeId, userId));
         }
         return ApiResponse.error(ErrorCode.INVALID);
 
@@ -36,7 +36,7 @@ public class StoreApi {
 
     @GetMapping("/keywords") //해당 가게 리뷰 키워드 조회하기
     public ApiResponse getReviewKeywordsInStore(@RequestParam Long storeId){
-        return null;
+        return ApiResponse.success(storeService.getReviewKeywordsInStore(storeId));
     }
 
     @GetMapping("/regular-customers") //해당 가게 단골 조회하기
@@ -71,8 +71,8 @@ public class StoreApi {
     }
 
     @PutMapping("/{storeId}/bhours")    //영업시간 수정하기
-    public ApiResponse updateBusinessHours(@PathVariable Long storeId){
-        return null;
+    public ApiResponse updateBusinessHours(@RequestBody AddBusinessHoursRequest req, @PathVariable Long storeId){
+        return ApiResponse.success(storeService.updateBusinessHours(storeId, req));
     }
 
 }
