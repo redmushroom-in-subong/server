@@ -5,6 +5,8 @@ import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.store.service.StoreService;
 import com.rms.drifeserver.domain.store.service.dto.request.AddBusinessHoursRequest;
 import com.rms.drifeserver.domain.store.service.dto.request.AddMenuRequest;
+import com.rms.drifeserver.domain.user.model.User;
+import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +15,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/stores")
 public class StoreApi {
     private final StoreService storeService;
+    private final UserService userService;
 
     @GetMapping("")
-    public ApiResponse getStore(@RequestParam Long storeId, @RequestParam(required = false) Long userId, @RequestParam(required = false) Long themeId){
-        if (userId == null && themeId == null) { //가게 정보 조회하기
+    public ApiResponse getStore(@RequestParam Long storeId, @RequestParam(required = false) Long themeId){
+        if (themeId == null) { //가게 정보 조회하기
             return ApiResponse.success(storeService.getStore(storeId));
         }
-        else if (userId == null) { //테마별 가게 조회하기
+        else { //테마별 가게 조회하기
             //return
         }
-        else if (themeId == null) { //해당 가게에 대한 유저 정보 조회하기
-            return ApiResponse.success(storeService.getUserInfoInStore(storeId, userId));
-        }
         return ApiResponse.error(ErrorCode.INVALID);
-
     }
+
+    @GetMapping("/user-info") //해당 가게에 대한 유저 정보 조회하기
+    public ApiResponse getUserInfoInStore(@RequestParam Long storeId) {
+        return ApiResponse.success(storeService.getUserInfoInStore(storeId));
+    }
+
 
     @GetMapping("/short-ver") //가게 정보 간단 조회하기
     public ApiResponse getShortStore(@RequestParam Long storeId){
@@ -42,6 +47,13 @@ public class StoreApi {
     @GetMapping("/regular-customers") //해당 가게 단골 조회하기
     public ApiResponse getRegularCustomersInStore(@RequestParam Long storeId){
         return ApiResponse.success(storeService.getRegularCustomersInStore(storeId));
+    }
+
+    @PostMapping("/{storeId}/like") //해당 가게 좋아요
+    public ApiResponse toggleStoreLike(@PathVariable Long storeId){
+        User user= userService.getUserEntity();
+        storeService.toggleStoreLike(storeId, user);
+        return ApiResponse.success(null);
     }
 
     @GetMapping("/menus")   //메뉴 조회하기
