@@ -2,6 +2,8 @@ package com.rms.drifeserver.domain.store.service;
 
 import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
+import com.rms.drifeserver.domain.like.dao.StoreLikesRepository;
+import com.rms.drifeserver.domain.like.model.StoreLikes;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
 import com.rms.drifeserver.domain.review.dao.VisitRepository;
 import com.rms.drifeserver.domain.review.service.ReviewKeywordService;
@@ -22,6 +24,7 @@ import com.rms.drifeserver.domain.store.service.dto.response.MenuResponse;
 import com.rms.drifeserver.domain.store.service.dto.response.UserInStoreResponse;
 import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.user.model.User;
+import com.rms.drifeserver.domain.user.service.UserService;
 import com.rms.drifeserver.domain.user.service.dto.response.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,6 +44,8 @@ public class StoreService {
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final ReviewKeywordService reviewKeywordService;
+    private final StoreLikesRepository storeLikesRepository;
+    private final UserService userService;
 
     //가게 정보 조회하기
     public Store getStore(Long storeId) {
@@ -51,16 +56,16 @@ public class StoreService {
     public StoreReviewCountInfoResponse getShortStore(Long storeId){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
-        //Store store = storeRepository.findById(storeId).get();
         return ReviewServiceUtils.getStoreReviewCountInfo(visitRepository, reviewRepository, store);
     }
 
     //해당 가게에 대한 유저 정보 조회하기
-    public UserInStoreResponse getUserInfoInStore(Long storeId, Long userId){
+    public UserInStoreResponse getUserInfoInStore(Long storeId){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_USER));
+//        User u = userRepository.findById(userId)
+//                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_USER));
+        User user = userService.getUserEntity();
         Long visitCnt = visitRepository.countByStoreAndUser(store, user);
         Long reviewCnt = reviewRepository.countByStoreAndUser(store, user);
         return UserInStoreResponse.of(store, user, visitCnt, reviewCnt);
@@ -85,6 +90,20 @@ public class StoreService {
                     reviewRepository.countByStoreAndUser(store, u)));
         }
         return ret;
+    }
+
+    //해당 가게 좋아요
+    @Transactional
+    public void toggleStoreLike(Long storeId, User user){
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
+        StoreLikes storeLikes = storeLikesRepository.findByUserAndStore(user, store);
+
+        if (storeLikes != null) {
+            storeLikesRepository.delete(storeLikes);
+        } else{
+            storeLikesRepository.save(StoreLikes.of(user, store));
+        }
     }
 
     //메뉴 조회하기
