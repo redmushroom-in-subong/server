@@ -50,4 +50,12 @@ public class Store {
         this.businessHours = businessHours;
         return businessHours;
     }
+
+    public void updateDesc(String desc){
+        this.storeDesc = desc;
+    }
+
+    public void updateSnsAdr(String snsAdr){
+        this.snsAddress = snsAdr;
+    }
 }

@@ -5,6 +5,7 @@ import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import com.rms.drifeserver.domain.store.service.StoreService;
 import com.rms.drifeserver.domain.store.service.dto.request.AddBusinessHoursRequest;
 import com.rms.drifeserver.domain.store.service.dto.request.AddMenuRequest;
+import com.rms.drifeserver.domain.store.service.dto.request.AddStoreDetailRequest;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -85,6 +86,11 @@ public class StoreApi {
     @PutMapping("/{storeId}/bhours")    //영업시간 수정하기
     public ApiResponse updateBusinessHours(@RequestBody AddBusinessHoursRequest req, @PathVariable Long storeId){
         return ApiResponse.success(storeService.updateBusinessHours(storeId, req));
+    }
+
+    @PutMapping("/{storeId}/details")   //가게 상세정보 추가 및 수정하기
+    public ApiResponse updateStoreDetail(@RequestBody AddStoreDetailRequest req, @PathVariable Long storeId){
+        return ApiResponse.success(storeService.updateStoreDetail(storeId, req));
     }
 
 }
