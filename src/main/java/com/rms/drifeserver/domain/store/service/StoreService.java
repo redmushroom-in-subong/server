@@ -19,8 +19,10 @@ import com.rms.drifeserver.domain.store.model.Store;
 import com.rms.drifeserver.domain.store.model.Tier;
 import com.rms.drifeserver.domain.store.service.dto.request.AddBusinessHoursRequest;
 import com.rms.drifeserver.domain.store.service.dto.request.AddMenuRequest;
+import com.rms.drifeserver.domain.store.service.dto.request.AddStoreDetailRequest;
 import com.rms.drifeserver.domain.store.service.dto.response.BusinessHoursResponse;
 import com.rms.drifeserver.domain.store.service.dto.response.MenuResponse;
+import com.rms.drifeserver.domain.store.service.dto.response.StoreDetailResponse;
 import com.rms.drifeserver.domain.store.service.dto.response.UserInStoreResponse;
 import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.user.model.User;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class StoreService {
     private final StoreRepository storeRepository;
@@ -48,11 +50,13 @@ public class StoreService {
     private final UserService userService;
 
     //가게 정보 조회하기
+    @Transactional(readOnly = true)
     public Store getStore(Long storeId) {
         return storeRepository.findByKakaoPlaceId(storeId);
     }
 
     //가게 정보 간단 조회하기 - 방문수/리뷰수/단골수
+    @Transactional(readOnly = true)
     public StoreReviewCountInfoResponse getShortStore(Long storeId){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
@@ -60,6 +64,7 @@ public class StoreService {
     }
 
     //해당 가게에 대한 유저 정보 조회하기
+    @Transactional(readOnly = true)
     public UserInStoreResponse getUserInfoInStore(Long storeId){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
@@ -72,6 +77,7 @@ public class StoreService {
     }
 
     //해당 가게 리뷰 키워드 조회하기
+    @Transactional(readOnly = true)
     public List<ReviewKeywordCountResponse> getReviewKeywordsInStore(Long storeId){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
@@ -79,6 +85,7 @@ public class StoreService {
     }
 
     //해당 가게 단골 조회하기
+    @Transactional(readOnly = true)
     public List<UserInStoreResponse> getRegularCustomersInStore(Long storeId){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
@@ -93,7 +100,6 @@ public class StoreService {
     }
 
     //해당 가게 좋아요
-    @Transactional
     public void toggleStoreLike(Long storeId, User user){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
@@ -107,12 +113,12 @@ public class StoreService {
     }
 
     //메뉴 조회하기
+    @Transactional(readOnly = true)
     public List<MenuResponse> getAllMenus(Long storeId){
         return menuRepository.findAllByStoreId(storeId);
     }
 
     //메뉴 추가하기
-    @Transactional
     public MenuResponse addMenu(Long storeId, AddMenuRequest req){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
@@ -122,7 +128,6 @@ public class StoreService {
     }
 
     //메뉴 수정하기
-    @Transactional
     public MenuResponse updateMenu(Long storeId, Long menuId, AddMenuRequest req){
         Menu findMenu = menuRepository.findByIdAndStoreId(menuId, storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_MENU));
@@ -141,7 +146,6 @@ public class StoreService {
     }
 
     //메뉴 삭제하기
-    @Transactional
     public void deleteMenu(Long storeId, Long menuId){
         Menu findMenu = menuRepository.findByIdAndStoreId(menuId, storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_MENU));
@@ -149,7 +153,6 @@ public class StoreService {
     }
 
     //영업시간 추가하기
-    @Transactional
     public BusinessHoursResponse addBusinessHours(Long storeId, AddBusinessHoursRequest req){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
@@ -159,7 +162,6 @@ public class StoreService {
     }
 
     //영업시간 수정하기
-    @Transactional
     public BusinessHoursResponse updateBusinessHours(Long storeId, AddBusinessHoursRequest req){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
@@ -170,4 +172,22 @@ public class StoreService {
         return BusinessHoursResponse.of(bhours);
     }
 
+    //가게 상세정보 추가 및 수정하기
+    public StoreDetailResponse updateStoreDetail(Long storeId, AddStoreDetailRequest req){
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
+
+        if(req.getStoreDesc()==null && req.getSnsAddress()==null){
+            throw new BaseException(ErrorCode.INVALID);
+        } else if(req.getSnsAddress()==null){
+            store.updateDesc(req.getStoreDesc());
+        } else if(req.getStoreDesc()==null){
+            store.updateSnsAdr(req.getSnsAddress());
+        } else{
+            store.updateDesc(req.getStoreDesc());
+            store.updateSnsAdr(req.getSnsAddress());
+        }
+        storeRepository.save(store);
+        return StoreDetailResponse.of(store);
+    }
 }
