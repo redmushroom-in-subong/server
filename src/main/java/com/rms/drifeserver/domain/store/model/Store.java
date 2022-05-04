@@ -16,14 +16,20 @@ public class Store {
     private Long id;
 
     //카카오 장소 아이디
-    private String kakaoPlaceId;
+    //private String kakaoPlaceId;
 
+    private String phone;
+    private String roadAddressName;
+    private String x;
+    private String y;
+    private String regionCode;
     //가게이름
     private String storeName;
     //가게설명
     private String storeDesc;
     //가게 sns주소
     private String snsAddress;
+
 
     //메뉴
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)

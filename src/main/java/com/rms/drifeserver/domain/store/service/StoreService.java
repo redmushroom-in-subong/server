@@ -52,7 +52,7 @@ public class StoreService {
     //가게 정보 조회하기
     @Transactional(readOnly = true)
     public Store getStore(Long storeId) {
-        return storeRepository.findByKakaoPlaceId(storeId);
+        return storeRepository.findById(storeId).get();
     }
 
     //가게 정보 간단 조회하기 - 방문수/리뷰수/단골수
