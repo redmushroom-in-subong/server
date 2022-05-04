@@ -20,10 +20,7 @@ import com.rms.drifeserver.domain.store.model.Tier;
 import com.rms.drifeserver.domain.store.service.dto.request.AddBusinessHoursRequest;
 import com.rms.drifeserver.domain.store.service.dto.request.AddMenuRequest;
 import com.rms.drifeserver.domain.store.service.dto.request.AddStoreDetailRequest;
-import com.rms.drifeserver.domain.store.service.dto.response.BusinessHoursResponse;
-import com.rms.drifeserver.domain.store.service.dto.response.MenuResponse;
-import com.rms.drifeserver.domain.store.service.dto.response.StoreDetailResponse;
-import com.rms.drifeserver.domain.store.service.dto.response.UserInStoreResponse;
+import com.rms.drifeserver.domain.store.service.dto.response.*;
 import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
@@ -49,10 +46,14 @@ public class StoreService {
     private final StoreLikesRepository storeLikesRepository;
     private final UserService userService;
 
+    //법정동 코드로 가게 리스트 조회
+
     //가게 정보 조회하기
     @Transactional(readOnly = true)
-    public Store getStore(Long storeId) {
-        return storeRepository.findById(storeId).get();
+    public StoreResponse getStore(Long storeId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
+        return StoreResponse.of(store);
     }
 
     //가게 정보 간단 조회하기 - 방문수/리뷰수/단골수
@@ -68,8 +69,6 @@ public class StoreService {
     public UserInStoreResponse getUserInfoInStore(Long storeId){
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
-//        User u = userRepository.findById(userId)
-//                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_USER));
         User user = userService.getUserEntity();
         Long visitCnt = visitRepository.countByStoreAndUser(store, user);
         Long reviewCnt = reviewRepository.countByStoreAndUser(store, user);
