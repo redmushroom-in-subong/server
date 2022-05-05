@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.common.dto;
 
+import com.rms.drifeserver.domain.common.exception.model.ErrorDTO;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
 import lombok.*;
 
@@ -13,13 +14,13 @@ public class ApiResponse<T> {
 
     private T data;
 
-    private ErrorCode error;
+    private ErrorDTO error;
 
     public static <T> ApiResponse<T> success(T data) {
         return new ApiResponse<>(true, data, null);
     }
 
     public static <T> ApiResponse<T> error(ErrorCode errorCode) {
-        return new ApiResponse<T>(false , null, errorCode);
+        return new ApiResponse<T>(false , null, ErrorDTO.of(errorCode));
     }
 }
