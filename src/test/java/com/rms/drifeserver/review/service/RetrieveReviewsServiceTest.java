@@ -8,6 +8,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,13 +19,14 @@ class RetrieveReviewsServiceTest{
 
     @Autowired
     private RetrieveReviewsService retrieveReviewsService;
+    private Pageable pageable;
 
     @Test
     void 해당_가게의_리뷰들을_가져온다() {
         //given
 
         //when
-        ReviewsResponse reviews = retrieveReviewsService.getAllReviewsInStore(1L);
+        ReviewsResponse reviews = retrieveReviewsService.getAllReviewsInStore(1L, pageable);
         //then
         Assertions.assertThat(reviews.getResults()).hasSize(4);
     }
@@ -34,7 +36,7 @@ class RetrieveReviewsServiceTest{
         //given
 
         //when
-        ReviewsResponse reviews = retrieveReviewsService.getAllReviewsInStoreWithUserId(1L, 16L);
+        ReviewsResponse reviews = retrieveReviewsService.getAllReviewsInStoreWithUserId(1L, 16L, pageable);
         //then
         Assertions.assertThat(reviews.getResults()).hasSize(4);
     }
@@ -44,7 +46,7 @@ class RetrieveReviewsServiceTest{
         //given
 
         //when
-        ReviewsResponse reviews = retrieveReviewsService.getAllReviewsInStoreWithKeywordId(1L, 1L);
+        ReviewsResponse reviews = retrieveReviewsService.getAllReviewsInStoreWithKeywordId(1L, 1L, pageable);
         //then
         Assertions.assertThat(reviews.getResults()).hasSize(2);
     }

@@ -89,7 +89,9 @@ public class ReviewDetailResponse {
                 .storeCustomCount(counter.getStoreReviewCountInfo().getStoreCustomCount())
                 .reviewLikes(counter.getReviewLikes())
                 .userInfo(UserInfo.of(review.getUser()))
-                .badgeName(review.getUser().getMyBadge().getBadgeCode().getBadgeName())
+                .badgeName((review.getUser().getMyBadge() == null ?
+                        "배지 없음" :
+                        review.getUser().getMyBadge().getBadgeCode().getBadgeName()))
                 .myStoreTier(counter.getMyStoreTier())
                 .myReviewCount(counter.getMyReviewCount())
                 .myVisitCount(counter.getMyVisitCount())

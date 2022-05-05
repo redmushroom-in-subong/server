@@ -13,6 +13,7 @@ import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,15 +26,17 @@ public class ReviewApi {
     //TODO to publish event
     private final ApplicationEventPublisher eventPublisher;
     @GetMapping("/v1/stores/{storeId}/reviews")
-    public ApiResponse<ReviewsResponse> getReviews(@RequestParam(required = false) Long userId, @RequestParam(required = false) Long keywordId, @PathVariable Long storeId) {
+    public ApiResponse<ReviewsResponse> getReviews(@RequestParam(required = false) Long userId,
+                                                   @RequestParam(required = false) Long keywordId,
+                                                   @PathVariable Long storeId, Pageable pageable) {
         if (userId == null && keywordId == null) {
-           return ApiResponse.success(retrieveReviewsService.getAllReviewsInStore(storeId));
+           return ApiResponse.success(retrieveReviewsService.getAllReviewsInStore(storeId, pageable));
         }
         else if (userId == null) {
-            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStoreWithKeywordId(storeId, keywordId));
+            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStoreWithKeywordId(storeId, keywordId, pageable));
         }
         else if (keywordId == null) {
-            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStoreWithUserId(storeId, userId));
+            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStoreWithUserId(storeId, userId, pageable));
         }
         return ApiResponse.error(ErrorCode.INVALID);
     }
