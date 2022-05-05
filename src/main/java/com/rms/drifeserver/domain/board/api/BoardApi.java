@@ -10,6 +10,7 @@ import com.rms.drifeserver.domain.common.dto.ApiResponse;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,19 +22,19 @@ public class BoardApi {
     private final RetrieveBoardsService retrieveBoardsService;
 
     @GetMapping("/v1/boards")
-    public ApiResponse<BoardsResponse> getBoards() {
+    public ApiResponse<BoardsResponse> getBoards(Pageable pageable) {
 
         User user = userService.getUserEntity();
 
-        return ApiResponse.success(retrieveBoardsService.getBoards(user));
+        return ApiResponse.success(retrieveBoardsService.getBoards(user, pageable));
     }
 
     @GetMapping("/v1/boards/hot")
-    public ApiResponse<BoardsResponse> getHotBoards() {
+    public ApiResponse<BoardsResponse> getHotBoards(Pageable pageable) {
 
         User user = userService.getUserEntity();
 
-        return ApiResponse.success(retrieveBoardsService.getHotBoards(user));
+        return ApiResponse.success(retrieveBoardsService.getHotBoards(user, pageable));
     }
 
     @PostMapping("/v1/boards")
