@@ -46,7 +46,11 @@ public class StoreService {
     private final StoreLikesRepository storeLikesRepository;
     private final UserService userService;
 
-    //법정동 코드로 가게 리스트 조회
+    //법정동 코드로 가게 좌표 조회
+    @Transactional(readOnly = true)
+    public List<StorePosResponse> getAllRegionStorePos(String regionCode){
+        return storeRepository.findAllByRegionCode(regionCode);
+    }
 
     //가게 정보 조회하기
     @Transactional(readOnly = true)
@@ -62,6 +66,12 @@ public class StoreService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
         return ReviewServiceUtils.getStoreReviewCountInfo(visitRepository, reviewRepository, store);
+    }
+
+    //가게 사진 조회하기
+    @Transactional(readOnly = true)
+    public void getStoreImages(Long storeId){
+
     }
 
     //해당 가게에 대한 유저 정보 조회하기
