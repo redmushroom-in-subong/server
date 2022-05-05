@@ -8,6 +8,7 @@ import com.rms.drifeserver.domain.comment.dao.CommentRepository;
 import com.rms.drifeserver.domain.like.dao.BoardLikesRepository;
 import com.rms.drifeserver.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +25,8 @@ public class RetrieveBoardsServiceImpl implements RetrieveBoardsService {
 
     @Transactional(readOnly = true)
     @Override
-    public BoardsResponse getBoards(User user) {
-        List<Board> boards = boardRepository.findByCodeOrderByCreatedAtDesc(user.getRegionCode());
+    public BoardsResponse getBoards(User user, Pageable pageable) {
+        List<Board> boards = boardRepository.findByCodeOrderByCreatedAtDesc(user.getRegionCode(), pageable);
 
         List<BoardInfoResponse> boardInfoResponses = boards.stream()
                 .map(board -> BoardInfoResponse.of(board, commentRepository.countByBoard(board),
@@ -37,8 +38,8 @@ public class RetrieveBoardsServiceImpl implements RetrieveBoardsService {
 
     @Transactional(readOnly = true)
     @Override
-    public BoardsResponse getHotBoards(User user) {
-        List<Board> boards = boardRepository.findHotBoards(user.getRegionCode());
+    public BoardsResponse getHotBoards(User user, Pageable pageable) {
+        List<Board> boards = boardRepository.findHotBoards(user.getRegionCode(), pageable);
 
         List<BoardInfoResponse> boardInfoResponses = boards.stream()
                 .map(board -> BoardInfoResponse.of(board, commentRepository.countByBoard(board),
