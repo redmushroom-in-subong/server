@@ -7,6 +7,7 @@ import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewDetailResponse;
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewsResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +23,8 @@ public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
 
     @Transactional(readOnly = true)
     @Override
-    public ReviewsResponse getAllReviewsInStore(Long storeId) {
-        List<Review> reviews = reviewRepository.findAllByStoreId(storeId);
+    public ReviewsResponse getAllReviewsInStore(Long storeId, Pageable pageable) {
+        List<Review> reviews = reviewRepository.findAllByStoreId(storeId, pageable);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
                 .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository,
                         reviewRepository, reviewLikesRepository, review)))
@@ -33,8 +34,8 @@ public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
 
     @Transactional(readOnly = true)
     @Override
-    public ReviewsResponse getAllReviewsInStoreWithUserId(Long storeId, Long userId) {
-        List<Review> reviews = reviewRepository.findAllByStoreIdAndUserId(storeId, userId);
+    public ReviewsResponse getAllReviewsInStoreWithUserId(Long storeId, Long userId, Pageable pageable) {
+        List<Review> reviews = reviewRepository.findAllByStoreIdAndUserId(storeId, userId, pageable);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
                 .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository,
                         reviewRepository, reviewLikesRepository, review)))
@@ -44,8 +45,8 @@ public class RetrieveReviewsServiceImpl implements RetrieveReviewsService{
 
     @Transactional(readOnly = true)
     @Override
-    public ReviewsResponse getAllReviewsInStoreWithKeywordId(Long storeId, Long keywordId) {
-        List<Review> reviews = reviewRepository.findAllByStoreIdAndKeywordTypeId(storeId, keywordId);
+    public ReviewsResponse getAllReviewsInStoreWithKeywordId(Long storeId, Long keywordId, Pageable pageable) {
+        List<Review> reviews = reviewRepository.findAllByStoreIdAndKeywordTypeId(storeId, keywordId, pageable);
         List<ReviewDetailResponse> reviewDetailResponses = reviews.stream()
                 .map(review -> ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository,
                         reviewRepository, reviewLikesRepository, review)))
