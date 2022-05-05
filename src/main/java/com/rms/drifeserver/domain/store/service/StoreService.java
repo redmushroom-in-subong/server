@@ -46,7 +46,11 @@ public class StoreService {
     private final StoreLikesRepository storeLikesRepository;
     private final UserService userService;
 
-    //법정동 코드로 가게 리스트 조회
+    //법정동 코드로 가게 좌표 조회
+    @Transactional(readOnly = true)
+    public List<StorePosResponse> getAllRegionStorePos(String regionCode){
+        return storeRepository.findAllByRegionCode(regionCode);
+    }
 
     //가게 정보 조회하기
     @Transactional(readOnly = true)

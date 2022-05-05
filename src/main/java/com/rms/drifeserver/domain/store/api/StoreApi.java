@@ -18,6 +18,11 @@ public class StoreApi {
     private final StoreService storeService;
     private final UserService userService;
 
+    @GetMapping("/pos")
+    public ApiResponse getAllRegionStorePos(@RequestParam String regionCode){
+        return ApiResponse.success(storeService.getAllRegionStorePos(regionCode));
+    }
+
     @GetMapping("")
     public ApiResponse getStore(@RequestParam Long storeId, @RequestParam(required = false) Long themeId){
         if (themeId == null) { //가게 정보 조회하기
