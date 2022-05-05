@@ -34,8 +34,13 @@ public class StoreApi {
         return ApiResponse.error(ErrorCode.INVALID);
     }
 
+    @GetMapping("/image")
+    public ApiResponse getStoreImages(@RequestParam Long storeId){
+        return null;
+    }
+
     @GetMapping("/user-info") //해당 가게에 대한 유저 정보 조회하기
-    public ApiResponse getUserInfoInStore(@RequestParam Long storeId) {
+    public ApiResponse getUserInfoInStore(@RequestParam Long storeId){
         return ApiResponse.success(storeService.getUserInfoInStore(storeId));
     }
 

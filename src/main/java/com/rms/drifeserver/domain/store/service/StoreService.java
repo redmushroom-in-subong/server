@@ -68,6 +68,12 @@ public class StoreService {
         return ReviewServiceUtils.getStoreReviewCountInfo(visitRepository, reviewRepository, store);
     }
 
+    //가게 사진 조회하기
+    @Transactional(readOnly = true)
+    public void getStoreImages(Long storeId){
+
+    }
+
     //해당 가게에 대한 유저 정보 조회하기
     @Transactional(readOnly = true)
     public UserInStoreResponse getUserInfoInStore(Long storeId){
