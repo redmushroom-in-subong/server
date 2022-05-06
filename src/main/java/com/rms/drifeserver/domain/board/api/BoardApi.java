@@ -37,6 +37,14 @@ public class BoardApi {
         return ApiResponse.success(retrieveBoardsService.getHotBoards(user, pageable));
     }
 
+    @GetMapping("/v1/boards/search")
+    public ApiResponse<BoardsResponse> getBoardsByKeyword(String keyword, Pageable pageable) {
+
+        User user = userService.getUserEntity();
+
+        return ApiResponse.success(retrieveBoardsService.getBoardsByKeyword(user, keyword, pageable));
+    }
+
     @PostMapping("/v1/boards")
     public ApiResponse<Object> addBoard(@RequestBody AddBoardRequest request) {
 
