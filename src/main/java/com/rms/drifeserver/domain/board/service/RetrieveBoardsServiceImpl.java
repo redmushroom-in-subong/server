@@ -48,4 +48,17 @@ public class RetrieveBoardsServiceImpl implements RetrieveBoardsService {
 
         return BoardsResponse.of(boardInfoResponses);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public BoardsResponse getBoardsByKeyword(User user, String keyword, Pageable pageable) {
+        List<Board> boards = boardRepository.findBoardsByKeyword(user.getRegionCode(), keyword, pageable);
+
+        List<BoardInfoResponse> boardInfoResponses = boards.stream()
+                .map(board -> BoardInfoResponse.of(board, commentRepository.countByBoard(board),
+                        boardLikesRepository.countByBoard(board)))
+                .collect(Collectors.toList());
+
+        return BoardsResponse.of(boardInfoResponses);
+    }
 }
