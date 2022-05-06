@@ -18,4 +18,9 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query("select b from BoardLikes bl join Board b on (b.code = :code) group by b having count(b) >=10")
     List<Board> findHotBoards(@Param("code") String code, Pageable pageable);
+
+    @Query("select b from Board b where b.code = :code and (b.title like %:keyword% or b.contents like %:keyword%) " +
+            "order by b.createdAt desc")
+    List<Board> findBoardsByKeyword(@Param("code") String code, @Param("keyword") String keyword,
+                                    Pageable pageable);
 }
