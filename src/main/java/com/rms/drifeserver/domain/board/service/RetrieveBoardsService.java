@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 public interface RetrieveBoardsService {
 
     BoardsResponse getBoards(User user, Pageable pageable);
-
     BoardsResponse getHotBoards(User user, Pageable pageable);
+
+    BoardsResponse getBoardsByKeyword(User user, String keyword, Pageable pageable);
 }
