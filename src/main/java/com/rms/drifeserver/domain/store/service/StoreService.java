@@ -2,6 +2,7 @@ package com.rms.drifeserver.domain.store.service;
 
 import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
+import com.rms.drifeserver.domain.image.dao.ReviewImageRepository;
 import com.rms.drifeserver.domain.like.dao.StoreLikesRepository;
 import com.rms.drifeserver.domain.like.model.StoreLikes;
 import com.rms.drifeserver.domain.review.dao.ReviewRepository;
@@ -45,6 +46,7 @@ public class StoreService {
     private final ReviewKeywordService reviewKeywordService;
     private final StoreLikesRepository storeLikesRepository;
     private final UserService userService;
+    private final ReviewImageRepository reviewImageRepository;
 
     //법정동 코드로 가게 좌표 조회
     @Transactional(readOnly = true)
@@ -70,8 +72,10 @@ public class StoreService {
 
     //가게 사진 조회하기
     @Transactional(readOnly = true)
-    public void getStoreImages(Long storeId){
-
+    public List<StoreImageResponse> getStoreImages(Long storeId){
+        List<StoreImageResponse> storeImages = reviewImageRepository.findStoreImages(storeId);
+        if(storeImages.isEmpty()) throw new BaseException(ErrorCode.NOTFOUND_STORE_IMAGE);
+        return storeImages;
     }
 
     //해당 가게에 대한 유저 정보 조회하기
