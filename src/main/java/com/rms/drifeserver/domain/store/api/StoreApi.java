@@ -36,7 +36,7 @@ public class StoreApi {
 
     @GetMapping("/image")
     public ApiResponse getStoreImages(@RequestParam Long storeId){
-        return null;
+        return ApiResponse.success(storeService.getStoreImages(storeId));
     }
 
     @GetMapping("/user-info") //해당 가게에 대한 유저 정보 조회하기
