@@ -1,9 +1,9 @@
 package com.rms.drifeserver.domain.oauth.service;
 
 import com.rms.drifeserver.domain.user.model.User;
-import com.rms.drifeserver.domain.user.dao.UserRepository;
 import com.rms.drifeserver.domain.oauth.entity.UserPrincipal;
 import com.rms.drifeserver.domain.user.service.UserService;
+import com.rms.drifeserver.domain.user.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
