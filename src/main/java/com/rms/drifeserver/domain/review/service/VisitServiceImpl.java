@@ -18,13 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class VisitServiceImpl implements VisitService {
     private final VisitRepository visitRepository;
-    private final UserRepository userRepository;
     private final StoreRepository storeRepository;
 
     @Transactional
     @Override
-    public void addVisit(Long userId, Long storeId) {
-        User user = userRepository.getById(userId);
+    public void addVisit(User user, Long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
 
