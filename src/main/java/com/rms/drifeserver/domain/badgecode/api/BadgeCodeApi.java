@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import static com.rms.drifeserver.domain.common.dto.ApiResponse.*;
+
 @RestController
 @RequestMapping("v1/badge-code")
 @RequiredArgsConstructor
@@ -18,6 +20,6 @@ public class BadgeCodeApi {
     @ResponseBody
     public ApiResponse addBadgeCode(@RequestBody AddBadgeCodeRequest addBadgeCodeRequest) throws BaseException,Exception{
         badgeCodeService.addBadgeCode(addBadgeCodeRequest);
-        return ApiResponse.success("success");
+        return success("success");
     }
 }
