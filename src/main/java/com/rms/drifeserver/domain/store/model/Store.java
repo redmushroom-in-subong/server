@@ -1,5 +1,6 @@
 package com.rms.drifeserver.domain.store.model;
 
+import com.rms.drifeserver.domain.like.model.StoreLikes;
 import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.model.Visit;
 import lombok.Getter;
@@ -43,6 +44,10 @@ public class Store {
     //리뷰
     @OneToMany(mappedBy = "store")
     private List<Review> reviews = new ArrayList<>();
+
+    //좋아요
+    @OneToMany(mappedBy = "store")
+    private List<StoreLikes> likes = new ArrayList<>();
 
     //방문
     @OneToMany(mappedBy = "store")
