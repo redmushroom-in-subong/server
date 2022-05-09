@@ -1,16 +1,12 @@
 package com.rms.drifeserver.domain.user.service;
 
-import com.rms.drifeserver.domain.store.model.Store;
 import com.rms.drifeserver.domain.user.dao.MyStoreRepository;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.domain.user.service.dto.response.MyStoreResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

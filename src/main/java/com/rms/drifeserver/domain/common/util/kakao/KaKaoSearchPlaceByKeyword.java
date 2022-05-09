@@ -1,8 +1,6 @@
 package com.rms.drifeserver.domain.common.util.kakao;
 
 import com.rms.drifeserver.domain.common.exception.BaseException;
-import com.rms.drifeserver.domain.common.exception.type.ErrorCode;
-import com.rms.drifeserver.domain.common.util.geolocation.KakaoRegionResponse;
 import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,21 +11,18 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.rms.drifeserver.domain.common.exception.type.ErrorCode.*;
+import static com.rms.drifeserver.domain.common.exception.type.ErrorCode.INVALID;
 import static java.lang.Long.parseLong;
+
 @Component
-public class SearchPlaceByKey {
+public class KaKaoSearchPlaceByKeyword {
     private static String restApiKey="KakaoAK 16891297e4d22f1b77bfd94aff2f528e";
     private static String requestUrl="http://dapi.kakao.com/v2/local/search/keyword.json";
 
@@ -45,14 +40,13 @@ public class SearchPlaceByKey {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", restApiKey);
-        headers.set("header2", "header2");
-        headers.set("charset", "utf-8");
+        headers.set("Content-Type", "application/json;charset=utf-8");
 
         if(sReq.getQuery().isEmpty()){
             throw new BaseException(INVALID);
         }
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(requestUrl)
-                .queryParam("query",sReq.getQuery());
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(requestUrl);
+//                .queryParam("query",sReq.getQuery());
 
         if(sReq.getCategory()!=null){
             uriBuilder.queryParam("category",sReq.getCategory());
@@ -81,7 +75,7 @@ public class SearchPlaceByKey {
         HttpEntity request = new HttpEntity(headers);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response=restTemplate.exchange(
-                uriBuilder.toUriString(),
+                uriBuilder.toUriString()+"&query="+sReq.getQuery(),
                 HttpMethod.GET,
                 request,
                 String.class
@@ -100,16 +94,5 @@ public class SearchPlaceByKey {
         }
         System.out.println("ret.toString() = " + ret.toString());
         return ret;
-    }
-
-    public static void main(String[] args) {
-        PlaceSearchRequest ps=new PlaceSearchRequest("인하칼국수","FD6");
-        try{
-            searchPlaceByKeyWord(ps);
-        }catch (BaseException | ParseException | JSONException  e){
-            e.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }
