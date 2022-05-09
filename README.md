@@ -1,12 +1,12 @@
 # RMS_SERVER
 Red Mushroom in Subong
 
-#신속배포
+# 신속배포 ( ~ 에서 )
 ```
-/~$ sudo lsof -t -i:8080. #이전 실행되고 있는 Process
->>pid
-/~$ kill -9 pid #종료시키기
-/~$ bash build.sh
+~]$ sudo lsof -t -i:8080. #이전 실행되고 있는 Process
+pid
+~]$ kill -9 pid #종료시키기
+~]$ bash build.sh
 ```
 
 # git 사용 규칙
