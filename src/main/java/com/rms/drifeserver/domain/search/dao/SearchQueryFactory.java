@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SearchQueryFactory extends JpaRepository<Store, Long>{
-    @Query("select s from Store s where s. in (:inQuery)")
-    List<Store> findSearchResult(List<Long> inQuery);
+    @Query("select s from Store s where s.id in(:inQuery)")
+    List<Store> findSearchResult(String inQuery);
 }
