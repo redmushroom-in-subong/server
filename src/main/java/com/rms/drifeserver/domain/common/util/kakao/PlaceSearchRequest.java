@@ -23,16 +23,4 @@ public class PlaceSearchRequest {
         this.radius = radius;
         this.sort = sort;
     }
-    public PlaceSearchRequest(String query, String category, String sort) {
-        this.query = query;
-        this.category = category;
-        this.sort = sort;
-    }
-    public PlaceSearchRequest(String query) {
-        this.query = query;
-    }
-    public PlaceSearchRequest(String query, String category) {
-        this.query = query;
-        this.category = category;
-    }
 }
