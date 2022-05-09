@@ -12,8 +12,9 @@ public class UserInfo {
     private String username;
     private String profileImageUrl;
     private String regionName;
+    private Long usingBadgeId;
 
     public static UserInfo of(User user) {
-        return new UserInfo(user.getId(), user.getUsername(), user.getProfileImageUrl(),user.getRegionName());
+        return new UserInfo(user.getId(), user.getUsername(), user.getProfileImageUrl(),user.getRegionName(),user.getMyBadge().getId());
     }
 }
