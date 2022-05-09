@@ -19,7 +19,7 @@ public class SearchServiceImpl implements SearchService{
         List<Long> resultIdList=KaKaoSearchPlaceByKeyword.searchPlaceByKeyWord(placeSearchRequest);
         String inQuery=resultIdList.toString().replace('[','(').replace(']',')');
         System.out.println("this is inQUery :::: " + inQuery);
-        List<Store> storeList = searchQF.findSearchResult(resultIdList);
+        List<Store> storeList = searchQF.findSearchResult(inQuery);
         System.out.println("!!");
         System.out.println("SearchResponse.ListOf(storeList) = " + SearchResponse.ListOf(storeList));
         return SearchResponse.ListOf(storeList);
