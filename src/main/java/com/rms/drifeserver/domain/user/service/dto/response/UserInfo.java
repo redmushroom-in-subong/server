@@ -15,6 +15,8 @@ public class UserInfo {
     private Long usingBadgeId;
 
     public static UserInfo of(User user) {
-        return new UserInfo(user.getId(), user.getUsername(), user.getProfileImageUrl(),user.getRegionName(),user.getMyBadge().getId());
+        return new UserInfo(user.getId(), user.getUsername(),
+                user.getProfileImageUrl(),user.getRegionName(),
+                (user.getMyBadge()==null?0L:user.getMyBadge().getId()));
     }
 }
