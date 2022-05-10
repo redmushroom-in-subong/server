@@ -1,7 +1,7 @@
 # RMS_SERVER
 Red Mushroom in Subong
 
-# 신속배포 ( ~ 에서 == home )
+# 신속배포 ( ~ 에서 == home directory )
 ```
 ~]$ sudo lsof -t -i:8080. #이전 실행되고 있는 Process
 pid
