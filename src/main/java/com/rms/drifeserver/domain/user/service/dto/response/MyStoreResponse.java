@@ -14,11 +14,11 @@ public class MyStoreResponse {
     private String storeName;
     private String visitedAt;
     private String thumbnailImage;
-    private int regularCustomerCount;
+    private long regularCustomerCount;
     private int visitCount;
     private boolean isLike;
 
-    public MyStoreResponse(Long storeId, String storeName, LocalDateTime visitedAt, String thumbnailImage, int regularCustomerCount, int visitCount, boolean isLike) {
+    public MyStoreResponse(Long storeId, String storeName, LocalDateTime visitedAt, String thumbnailImage, long regularCustomerCount, int visitCount, boolean isLike) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.visitedAt = visitedAt.toString().substring(0,10);
@@ -28,12 +28,15 @@ public class MyStoreResponse {
         this.isLike = isLike;
     }
 
-    public MyStoreResponse(Long storeId, String storeName, String thumbnailImage, int regularCustomerCount, int visitCount, boolean isLike) {
+    public MyStoreResponse(Long storeId, String storeName, String thumbnailImage, long regularCustomerCount, int visitCount, boolean isLike) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.thumbnailImage = thumbnailImage;
         this.regularCustomerCount = regularCustomerCount;
         this.visitCount = visitCount;
         this.isLike = isLike;
+    }
+    static public MyStoreResponse of(Long storeId, String storeName, String thumbnailImage, long regularCustomerCount, int visitCount, boolean isLike) {
+        return new MyStoreResponse( storeId,  storeName,  thumbnailImage,  regularCustomerCount,  visitCount,  isLike);
     }
 }
