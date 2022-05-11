@@ -23,7 +23,7 @@ import static com.rms.drifeserver.domain.common.exception.type.ErrorCode.CONFLIC
 public class BadgeCodeServiceImpl implements BadgeCodeService {
     final private BadgeCodeRepository badgeCodeRepository;
     @Override
-    public List<BadgeCode> findAll() throws Exception{
+    public List<BadgeCode> findAll(){
         return badgeCodeRepository.findAll();
     }
     @Override
@@ -33,22 +33,9 @@ public class BadgeCodeServiceImpl implements BadgeCodeService {
     @Override
     @Transactional
     public void addBadgeCode(AddBadgeCodeRequest addBadgeCodeRequest){
-
-        try{
-            BadgeCode badgeCode=new BadgeCode();
-            badgeCode.setBadgeName(addBadgeCodeRequest.getBadgeName());
-            badgeCode.setReviewCount(addBadgeCodeRequest.getReviewCount());
-            System.out.println("HERE1");
-            badgeCodeRepository.save(badgeCode);
-            System.out.println("HERE2");
-        }catch (DataIntegrityViolationException  e){
-            System.out.println("HERE3");
-            //throw new BaseException(CONFLICT_BADGE_NAME);
-        }catch (Exception e){
-            System.out.println("HEREHERAR");
-
-            throw new BaseException(CONFLICT_BADGE_NAME);
-        }
+        BadgeCode badgeCode=new BadgeCode();
+        badgeCode.setBadgeName(addBadgeCodeRequest.getBadgeName());
+        badgeCode.setReviewCount(addBadgeCodeRequest.getReviewCount());
     }
     @Override
     public void removeBadgeCode(Long id){
