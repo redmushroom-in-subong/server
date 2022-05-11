@@ -80,7 +80,8 @@ public class ReviewServiceImpl implements ReviewService{
     @Transactional
     @Override
     public void toggleReviewLike(Long reviewId, User user) {
-        Review review = reviewRepository.getById(reviewId);
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_REVIEW));
         ReviewLikes reviewLikes = reviewLikesRepository.findByUserAndReview(user, review);
 
         if (reviewLikes != null) {
