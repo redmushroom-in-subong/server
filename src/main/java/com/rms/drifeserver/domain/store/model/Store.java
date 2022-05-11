@@ -16,9 +16,6 @@ public class Store {
     @Id @GeneratedValue
     private Long id;
 
-    //카카오 장소 아이디
-    //private String kakaoPlaceId;
-
     private String phone;
     private String roadAddressName;
     private String x;
