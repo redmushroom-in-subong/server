@@ -1,6 +1,5 @@
 package com.rms.drifeserver.domain.review.service;
 
-import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.review.service.dto.request.AddReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.request.UpdateReviewRequest;
 import com.rms.drifeserver.domain.review.service.dto.response.ReviewDetailResponse;
@@ -8,7 +7,7 @@ import com.rms.drifeserver.domain.user.model.User;
 
 public interface ReviewService {
 
-    void addReview(AddReviewRequest request, Long storeId, User user) throws BaseException;
+    void addReview(AddReviewRequest request, Long storeId, User user);
 
     ReviewDetailResponse getReviewDetail(Long reviewId);
 
