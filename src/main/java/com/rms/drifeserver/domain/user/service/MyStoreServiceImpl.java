@@ -24,8 +24,9 @@ public class MyStoreServiceImpl implements MyStoreService{
     @Override
     public List<MyRecentStoreResponse> getMyRecentStores() {
         User user=userService.getUserEntity();
-        List<Map<String,Object>> result= myStoreRepository.findRecentStore(user.getId());
-        return result.stream().map(elem->MyRecentStoreResponse.of(elem)).collect(Collectors.toList());
+//        List<Map<String,Object>> result= myStoreRepository.findRecentStore(user.getId());
+//        return result.stream().map(elem->MyRecentStoreResponse.of(elem)).collect(Collectors.toList());
+        return myStoreRepository.findRecentStore(user.getId());
     }
 
     //TODO 미완
