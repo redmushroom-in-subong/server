@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +24,8 @@ public class MyStoreServiceImpl implements MyStoreService{
     @Override
     public List<MyRecentStoreResponse> getMyRecentStores() {
         User user=userService.getUserEntity();
-        return myStoreRepository.findRecentStore(user.getId());
+        List<Map<String,Object>> result= myStoreRepository.findRecentStore(user.getId());
+        return result.stream().map(elem->MyRecentStoreResponse.of(elem)).collect(Collectors.toList());
     }
 
     //TODO 미완
