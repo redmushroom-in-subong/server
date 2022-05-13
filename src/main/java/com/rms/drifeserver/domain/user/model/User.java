@@ -71,7 +71,7 @@ public class User {
     @NotNull
     private RoleType roleType;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="badge_id")
     private Badge myBadge;
 
@@ -84,7 +84,7 @@ public class User {
 
 
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Badge> myBadgeList = new ArrayList();
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Review> myReviewList = new ArrayList();
