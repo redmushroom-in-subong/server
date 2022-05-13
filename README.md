@@ -3,7 +3,7 @@ Red Mushroom in Subong
 
 # 신속배포 ( ~ 에서 == home directory 에서 )
 ```
-~]$ sudo lsof -t -i:8080. #이전 실행되고 있는 Process
+~]$ sudo lsof -ti:8080. #이전 실행되고 있는 Process
 pid
 ~]$ kill -9 pid #종료시키기
 ~]$ bash build.sh
