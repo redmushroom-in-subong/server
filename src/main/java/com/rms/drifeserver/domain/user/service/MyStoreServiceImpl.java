@@ -7,9 +7,9 @@ import com.rms.drifeserver.domain.user.service.dto.response.MyStoreResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -22,14 +22,11 @@ public class MyStoreServiceImpl implements MyStoreService{
         return myStoreRepository.findFavoriteStore(user.getId());
     }
     @Override
-    public List<MyRecentStoreResponse> getMyRecentStores() {
+    public Stream<MyRecentStoreResponse> getMyRecentStores() {
         User user=userService.getUserEntity();
-//        List<Map<String,Object>> result= myStoreRepository.findRecentStore(user.getId());
-//        return result.stream().map(elem->MyRecentStoreResponse.of(elem)).collect(Collectors.toList());
-        return myStoreRepository.findRecentStore(user.getId());
+        return myStoreRepository.findRecentStore(user.getId()).stream().sorted(Comparator.comparing(MyRecentStoreResponse::getVisitedAt).reversed());
     }
 
-    //TODO 미완
     @Override
     public List<MyStoreResponse> getMyFrequentStores() {
         User user=userService.getUserEntity();
