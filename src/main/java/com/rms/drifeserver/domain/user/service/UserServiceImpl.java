@@ -33,8 +33,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUserEntity() throws BaseException{
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = getUserByUserId(principal.getUsername());
-        return user;
+        return getUserByUserId(principal.getUsername());
     }
     @Override
     @Transactional
@@ -58,31 +57,15 @@ public class UserServiceImpl implements UserService{
         Optional<BadgeCode> badgeCode = badgeCodeService.findById(badgeCodeId);
         if(badgeCode.isPresent()){
             User user=getUserEntity();
-            Long target=-1L;
-            //TODO 보유한 뱃지 아이디 (target) 리턴하는 함수로 빼기
-
-          //  System.out.println("intended N+1 prob");
-            for (Badge badge : user.getMyBadgeList()) {
-            //    System.out.println("for 1 time"+badge.getBadgeCode().getBadgeName());
-                if(badge.getBadgeCode().equals(badgeCode.get())){
-                    target=badge.getId();
-                }
-            }
-            if(!target.equals(-1L)){
-                Badge toEdit = new Badge();
-                toEdit.setId(target);
-                user.setMyBadge(toEdit);
-
+            Optional<Badge> target=user.getMyBadgeList().stream().filter(badge -> badge.getBadgeCode().equals(badgeCode.get())).findAny();
+            if(target.isPresent()){
+                user.setMyBadge(target.get());
             }else{
-                System.out.println("error badge not exist");
                 throw new BaseException(NOTFOUND_BADGE);
             }
         }else{
-            System.out.println("error invalid badgeId");
             throw new BaseException(INVALID_BADGE_CODE);
-
         }
-
     }
     @Override
     public boolean checkExistence(String username){

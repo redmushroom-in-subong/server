@@ -20,12 +20,17 @@ public class MyStoreApi {
     final private MyStoreService myStoreService;
     @GetMapping("/recent-visited")
     @ResponseBody
-    public ApiResponse getMyRecentStore(){
+    public ApiResponse getMyRecentStores(){
         return success(myStoreService.getMyRecentStores());
     }
     @GetMapping("/favorite-place")
     @ResponseBody
-    public ApiResponse getMyFavoriteStore(){
+    public ApiResponse getMyFavoriteStores(){
         return success(myStoreService.getMyFavoriteStores());
+    }
+    @GetMapping("/frequent-place")
+    @ResponseBody
+    public ApiResponse getMyFrequentStores(){
+        return success(myStoreService.getMyFrequentStores());
     }
 }

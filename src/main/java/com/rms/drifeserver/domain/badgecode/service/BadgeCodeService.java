@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface BadgeCodeService {
     Optional<BadgeCode> findById(Long id)throws Exception;
-    void addBadgeCode(AddBadgeCodeRequest addBadgeCodeRequest)throws Exception, BaseException;
+    void addBadgeCode(AddBadgeCodeRequest addBadgeCodeRequest)throws Exception ;
     void removeBadgeCode(Long id)throws Exception;
     List<BadgeCode> findAll()throws Exception;
 }
