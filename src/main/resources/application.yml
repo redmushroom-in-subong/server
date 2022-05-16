@@ -59,7 +59,7 @@ spring:
 #            - profile_image
 #          clientName: Naver
         kakao:
-          clientId: 16891297e4d22f1b77bfd94aff2f528e
+          clientId: 61347f0bb7a325859a04a73873440b7c
           clientSecret: p7TDb520Boj57VaKIRD6moSNBFvGi7s6
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
