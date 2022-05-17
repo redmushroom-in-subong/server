@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class BoardApi {
@@ -46,7 +48,7 @@ public class BoardApi {
     }
 
     @PostMapping("/v1/boards")
-    public ApiResponse<Object> addBoard(@RequestBody AddBoardRequest request) {
+    public ApiResponse<Object> addBoard(@Valid @RequestBody AddBoardRequest request) {
 
         User user = userService.getUserEntity();
 
@@ -61,7 +63,7 @@ public class BoardApi {
     }
 
     @PutMapping("/v1/boards/{boardId}")
-    public ApiResponse<BoardDetailResponse> updateBoard(@RequestBody UpdateBoardRequest request, @PathVariable Long boardId) {
+    public ApiResponse<BoardDetailResponse> updateBoard(@Valid @RequestBody UpdateBoardRequest request, @PathVariable Long boardId) {
 
         User user = userService.getUserEntity();
 
