@@ -60,7 +60,7 @@ public class ReviewApi {
     }
 
     @PutMapping("/v1/store/reviews/{reviewId}")
-    public ApiResponse<ReviewDetailResponse> updateReview(@RequestBody UpdateReviewRequest request, @PathVariable Long reviewId) {
+    public ApiResponse<ReviewDetailResponse> updateReview(@Valid @RequestBody UpdateReviewRequest request, @PathVariable Long reviewId) {
         User user = userService.getUserEntity();
         return ApiResponse.success(reviewService.updateReview(request, reviewId, user));
     }

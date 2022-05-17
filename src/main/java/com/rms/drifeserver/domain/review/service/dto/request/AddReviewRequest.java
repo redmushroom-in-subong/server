@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AddReviewRequest {
 
+    @NotNull(message = "{store.storeId.notNull}")
     private Long storeId;
     @Size(max = 300, message = "{review.content.size}")
     @NotBlank(message = "{review.content.notBlank}")
@@ -23,6 +25,7 @@ public class AddReviewRequest {
 
     private List<Long> keywordIds;
 
+    @Size(max = 10, message = "사진은 최대 10장까지만 가능합니다.")
     private List<String> imageUrls;
 
     public Review toReview(User user, Store store) {
