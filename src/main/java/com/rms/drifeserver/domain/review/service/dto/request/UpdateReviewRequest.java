@@ -12,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateReviewRequest {
 
-    @Size(max = 300, message = "{review.content.size}")
-    @NotBlank(message = "{review.content.notBlank}")
+    @Size(max = 300, message = "리뷰 글자수가 300자를 초과하였습니다.")
+    @NotBlank(message = "리뷰 내용이 비어있습니다.")
     private String contents;
 
     private List<Long> keywordIds;
