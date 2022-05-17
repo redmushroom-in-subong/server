@@ -63,7 +63,7 @@ public class ReviewServiceImpl implements ReviewService{
 
         List<ReviewKeywordType> reviewKeywordTypes = reviewKeywordTypeRepository.findAllById(request.getKeywordIds());
 
-        review.update(request.getContents(), reviewKeywordTypes, request.getImages());
+        review.update(request.getContents(), reviewKeywordTypes, request.getImageUrls());
 
         return ReviewDetailResponse.of(review, ReviewServiceUtils.getReviewCount(visitRepository, reviewRepository,
                 reviewLikesRepository, review));
