@@ -35,8 +35,8 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Transactional
     @Override
-    public void addReview(AddReviewRequest request, Long storeId, User user) {
-        Store store = storeRepository.findById(storeId)
+    public void addReview(AddReviewRequest request, User user) {
+        Store store = storeRepository.findById(request.getStoreId())
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_STORE));
 
         Review review = request.toReview(user, store);
