@@ -16,6 +16,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -25,10 +27,10 @@ public class ReviewApi {
     private final RetrieveReviewsService retrieveReviewsService;
     //TODO to publish event
     private final ApplicationEventPublisher eventPublisher;
-    @GetMapping("/v1/stores/{storeId}/reviews")
+    @GetMapping("/v1/store/reviews")
     public ApiResponse<ReviewsResponse> getReviews(@RequestParam(required = false) Long userId,
                                                    @RequestParam(required = false) Long keywordId,
-                                                   @PathVariable Long storeId, Pageable pageable) {
+                                                   @RequestParam Long storeId, Pageable pageable) {
         if (userId == null && keywordId == null) {
            return ApiResponse.success(retrieveReviewsService.getAllReviewsInStore(storeId, pageable));
         }
@@ -41,37 +43,37 @@ public class ReviewApi {
         return ApiResponse.error(ErrorCode.INVALID);
     }
 
-    @PostMapping("/v1/stores/{storeId}/reviews")
-    public ApiResponse<Object> addReview(@RequestBody AddReviewRequest request, @PathVariable Long storeId) {
+    @PostMapping("/v1/store/reviews")
+    public ApiResponse<Object> addReview(@Valid @RequestBody AddReviewRequest request) {
         User user = userService.getUserEntity();
         //TODO publish event
         eventPublisher.publishEvent(new UserBadgeEvent(this,user.getId()));
 
-        reviewService.addReview(request, storeId, user);
+        reviewService.addReview(request, user);
 
         return ApiResponse.success(null);
     }
 
-    @GetMapping("/v1/stores/{storeId}/reviews/{reviewId}")
-    public ApiResponse<ReviewDetailResponse> getReview(@PathVariable Long storeId, @PathVariable Long reviewId) {
+    @GetMapping("/v1/store/reviews/{reviewId}")
+    public ApiResponse<ReviewDetailResponse> getReview(@PathVariable Long reviewId) {
         return ApiResponse.success(reviewService.getReviewDetail(reviewId));
     }
 
-    @PutMapping("/v1/stores/{storeId}/reviews/{reviewId}")
-    public ApiResponse<ReviewDetailResponse> updateReview(@RequestBody UpdateReviewRequest request, @PathVariable Long storeId, @PathVariable Long reviewId) {
+    @PutMapping("/v1/store/reviews/{reviewId}")
+    public ApiResponse<ReviewDetailResponse> updateReview(@Valid @RequestBody UpdateReviewRequest request, @PathVariable Long reviewId) {
         User user = userService.getUserEntity();
         return ApiResponse.success(reviewService.updateReview(request, reviewId, user));
     }
 
-    @DeleteMapping("/v1/stores/{storeId}/reviews/{reviewId}")
-    public ApiResponse<Object> deleteReview(@PathVariable Long storeId, @PathVariable Long reviewId) {
+    @DeleteMapping("/v1/store/reviews/{reviewId}")
+    public ApiResponse<Object> deleteReview(@PathVariable Long reviewId) {
         User user = userService.getUserEntity();
         reviewService.deleteReview(reviewId, user);
         return ApiResponse.success(null);
     }
 
-    @PostMapping("/v1/stores/{storeId}/reviews/{reviewId}/like")
-    public ApiResponse<Object> toggleReviewLike(@PathVariable Long storeId, @PathVariable Long reviewId) {
+    @PostMapping("/v1/store/reviews/{reviewId}/like")
+    public ApiResponse<Object> toggleReviewLike(@PathVariable Long reviewId) {
         User user = userService.getUserEntity();
         reviewService.toggleReviewLike(reviewId, user);
         return ApiResponse.success(null);
