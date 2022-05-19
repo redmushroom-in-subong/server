@@ -7,7 +7,7 @@ import com.rms.drifeserver.domain.user.model.User;
 
 public interface ReviewService {
 
-    void addReview(AddReviewRequest request, Long storeId, User user);
+    void addReview(AddReviewRequest request, User user);
 
     ReviewDetailResponse getReviewDetail(Long reviewId);
 

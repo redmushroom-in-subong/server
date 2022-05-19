@@ -9,32 +9,34 @@ import com.rms.drifeserver.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class CommentApi {
     private final UserService userService;
     private final CommentService commentService;
 
-    @PostMapping("/v1/boards/{boardId}/comments")
-    public ApiResponse<Object> addComment(@RequestBody AddCommentRequest request, @PathVariable Long boardId) {
+    @PostMapping("/v1/board/comments")
+    public ApiResponse<Object> addComment(@Valid @RequestBody AddCommentRequest request) {
 
         User user = userService.getUserEntity();
 
-        commentService.addComment(request, boardId, user);
+        commentService.addComment(request, user);
 
         return ApiResponse.success(null);
     }
 
-    @PutMapping("/v1/boards/{boardId}/comments/{commentId}")
-    public ApiResponse<Object> updateComment(@RequestBody UpdateCommentRequest request, @PathVariable Long boardId, @PathVariable Long commentId) {
+    @PutMapping("/v1/board/comments/{commentId}")
+    public ApiResponse<Object> updateComment(@Valid @RequestBody UpdateCommentRequest request, @PathVariable Long commentId) {
 
         User user = userService.getUserEntity();
 
         return ApiResponse.success(commentService.updateComment(request, commentId, user));
     }
 
-    @DeleteMapping("/v1/boards/{boardId}/comments/{commentId}")
-    public ApiResponse<Object> deleteComment(@PathVariable Long boardId, @PathVariable Long commentId) {
+    @DeleteMapping("/v1/board/comments/{commentId}")
+    public ApiResponse<Object> deleteComment(@PathVariable Long commentId) {
 
         User user = userService.getUserEntity();
 
@@ -43,8 +45,8 @@ public class CommentApi {
         return ApiResponse.success(null);
     }
 
-    @PostMapping("/v1/boards/{boardId}/comments/{commentId}/like")
-    public ApiResponse<Object> likeComment(@PathVariable Long boardId, @PathVariable Long commentId) {
+    @PostMapping("/v1/board/comments/{commentId}/like")
+    public ApiResponse<Object> likeComment(@PathVariable Long commentId) {
 
         User user = userService.getUserEntity();
 
