@@ -7,7 +7,7 @@ import com.rms.drifeserver.domain.user.model.User;
 
 public interface CommentService {
 
-    void addComment(AddCommentRequest request, Long boardId, User user);
+    void addComment(AddCommentRequest request, User user);
 
     CommentInfoResponse updateComment(UpdateCommentRequest request, Long commentId, User user);
 

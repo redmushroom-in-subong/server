@@ -26,8 +26,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public void addComment(AddCommentRequest request, Long boardId, User user) {
-        Board board = boardRepository.findById(boardId)
+    public void addComment(AddCommentRequest request, User user) {
+        Board board = boardRepository.findById(request.getBoardId())
                 .orElseThrow(() -> new BaseException(ErrorCode.NOTFOUND_BOARD));
 
         Comment comment = request.toComment(board, user);

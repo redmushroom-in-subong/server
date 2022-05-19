@@ -14,4 +14,7 @@ public class ErrorDTO {
         return new ErrorDTO(errorCode.getCode(), errorCode.getMessage());
     }
 
+    public static ErrorDTO of(ErrorCode errorCode, String message) {
+        return new ErrorDTO(errorCode.getCode(), message);
+    }
 }
