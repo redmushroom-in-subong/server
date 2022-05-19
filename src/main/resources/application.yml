@@ -16,6 +16,7 @@ spring:
       data-source-properties:
         rewriteBatchedStatements: true
   # JPA 설정
+
   jpa:
     generate-ddl: true
     hibernate:
