@@ -35,10 +35,12 @@ vim ./build.sh 들어가면 뭐하는지
 ```
 cd /home/ec2-user/app/RMS_SERVER
 ```
-**3. git 에 있는 최신 master 브랜치 반영**
+**3. git 에 있는 최신 main 브랜치 반영 및 sub repo update**
 
 ```
-git pull origin master
+git pull origin main
+git submodule init
+git submodule update --remote
 ```
 **4. 배포할 버전 빌드 - 아직 이름 붙이는건 못함**
 
