@@ -5,4 +5,4 @@ Red Mushroom in Subong
 
 [Git가이드](git-guide.MD)
 
-[**필독** sub repository 가이드(yml관련)](git-guide.MD)
+[**필독** sub repository 가이드(yml관련)](git-subRepo-guide.MD)
