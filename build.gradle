@@ -61,6 +61,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 }
+processResources.dependsOn('copySubmodule')
+
+task copySubmodule(type: Copy){
+	from './server_secret_info'
+	include '*.yml'
+	into './src/main/resources'
+}
 
 test {
 	useJUnitPlatform()
