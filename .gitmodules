@@ -1,0 +1,3 @@
+[submodule "src/main/resources/server_secret_info"]
+	path = src/main/resources/server_secret_info
+	url = https://github.com/redmushroom-in-subong/server_secret_info
