@@ -24,6 +24,9 @@ $ git submodule update --remote
 ** 문제시 처음부터 clone 받고 위 명령어 실행
 
 ### 2. 본인이 sub repo 를 수정했을 때
+**main repository (server) 는 sub repository(server_secret_info) 의 commit id 를 참조한다.
+여기서 sub repo의 수정사항을 push 하고 main repo 수정사항을 push 해야 
+main repo 의 sub repo 의 commit id에 대한 참조가 올바르게 된다.**
 
 ```java
 $ git submodule update --remote --merge # pull 받는거랑 비슷함
