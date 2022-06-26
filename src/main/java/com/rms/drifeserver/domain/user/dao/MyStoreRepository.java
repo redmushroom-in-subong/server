@@ -21,7 +21,7 @@ public interface MyStoreRepository extends JpaRepository<User, Long> {
             "s.storeName," +
             "coalesce(max(v.updatedAt),current_date ) ," +
             "'empty'," +
-            "coalesce( (select count(distinct v.user.id) from Visit v where v.store.id=s.id group by v.user.id having (count(v)>10)),0L) ," +
+            "0l ," +
             "s.visits.size," +
             "s.reviews.size," +
             "(l.store is not null) )" +
@@ -34,7 +34,7 @@ public interface MyStoreRepository extends JpaRepository<User, Long> {
             "s.id," +
             "s.storeName," +
             "'empty'," +
-            "coalesce( (select count(distinct v.user.id) from Visit v where v.store.id=s.id group by v.user.id having (count(v)>10)),(0L)) ," +
+            "0l ," +
             "s.visits.size," +
             "s.reviews.size,"+
             "(l.store is not null) )" +
@@ -46,7 +46,7 @@ public interface MyStoreRepository extends JpaRepository<User, Long> {
             "s.id," +
             "s.storeName," +
             "'empty', " +
-            "coalesce( (select count(distinct v.user.id) from Visit v where v.store.id=s.id group by v.user.id having (count(v)>10)),0L) ," +
+            "0l ," +
             "s.visits.size," +
             "s.reviews.size," +
             "(l.store is not null) )" +
