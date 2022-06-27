@@ -4,6 +4,7 @@ import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.store.model.Store;
 import com.rms.drifeserver.domain.user.model.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,14 @@ public class AddReviewRequest {
 
     @Size(max = 10, message = "사진은 최대 10장까지만 가능합니다.")
     private List<String> imageUrls;
+
+    @Builder(builderMethodName = "testBuilder")
+    private AddReviewRequest(Long storeId, String contents, List<Long> keywordIds, List<String> imageUrls) {
+        this.storeId = storeId;
+        this.contents = contents;
+        this.keywordIds = keywordIds;
+        this.imageUrls = imageUrls;
+    }
 
     public Review toReview(User user, Store store) {
         return Review.of(user, store, this.contents, this.keywordIds, this.imageUrls);
