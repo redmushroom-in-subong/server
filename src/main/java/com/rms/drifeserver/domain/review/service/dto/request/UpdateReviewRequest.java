@@ -1,6 +1,7 @@
 package com.rms.drifeserver.domain.review.service.dto.request;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,10 +22,11 @@ public class UpdateReviewRequest {
     @Size(max = 10, message = "사진은 최대 10장까지만 가능합니다.")
     private List<String> imageUrls;
 
-    //test용 생성자
-    public UpdateReviewRequest (String contents, List<Long> keywordIds) {
+    @Builder(builderMethodName = "testBuilder")
+    public UpdateReviewRequest (String contents, List<Long> keywordIds, List<String> imageUrls) {
         this.contents = contents;
         this.keywordIds = keywordIds;
+        this.imageUrls = imageUrls;
     }
 
 }

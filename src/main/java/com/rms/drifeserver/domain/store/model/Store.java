@@ -3,7 +3,9 @@ package com.rms.drifeserver.domain.store.model;
 import com.rms.drifeserver.domain.like.model.StoreLikes;
 import com.rms.drifeserver.domain.review.model.Review;
 import com.rms.drifeserver.domain.review.model.Visit;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Store {
 
     @Id @GeneratedValue
@@ -52,8 +55,21 @@ public class Store {
     
     //가게사진
 
+
+    public Store(String phone, String roadAddressName, String x, String y, String regionCode, String storeName,
+                 String storeDesc, String snsAddress) {
+        this.phone = phone;
+        this.roadAddressName = roadAddressName;
+        this.x = x;
+        this.y = y;
+        this.regionCode = regionCode;
+        this.storeName = storeName;
+        this.storeDesc = storeDesc;
+        this.snsAddress = snsAddress;
+    }
+
     public BusinessHours createBhours(String mon, String tue, String wed, String thu,
-                                       String fri, String sat, String sun){
+                                      String fri, String sat, String sun){
         BusinessHours businessHours = new BusinessHours(this, mon, tue, wed, thu, fri, sat, sun);
         this.businessHours = businessHours;
         return businessHours;
