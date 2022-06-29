@@ -1,5 +1,8 @@
 package com.rms.drifeserver.integrationTest.review.service;
 
+import com.rms.drifeserver.domain.oauth.entity.ProviderType;
+import com.rms.drifeserver.domain.oauth.entity.RoleType;
+import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.integrationTest.SetupStoreIntegrationTest;
 import com.rms.drifeserver.domain.common.exception.BaseException;
 import com.rms.drifeserver.domain.image.dao.ReviewImageRepository;
@@ -16,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -161,8 +165,111 @@ public class ReviewServiceTest extends SetupStoreIntegrationTest {
                     .build();
 
             // when & then
-            assertThatThrownBy(() -> reviewService.updateReview(request, notFoundReviewId, user)).isInstanceOf(BaseException.class);
+            assertThatThrownBy(() -> reviewService.updateReview(request, notFoundReviewId, user))
+                    .isInstanceOf(BaseException.class);
+        }
+
+        @Test
+        void 내가_작성하지_않은_리뷰를_수정하는_경우_NOT_FOUND_에러가_발생한다() {
+            // given
+            String contents = "우와 맛있어요";
+            List<Long> keywordIds = new ArrayList<>(Arrays.asList(1L,3L));
+            List<String> imageUrls = new ArrayList<>(Arrays.asList("test1.png","test2.png"));
+
+            String updatedContents = "정말 맛있어요";
+            List<Long> updatedKeywordIds = new ArrayList<>(Arrays.asList(2L));
+            List<String> updatedImageUrls = new ArrayList<>(Arrays.asList("test1.png"));
+
+            Review review = Review.of(user, store, contents, keywordIds, imageUrls);
+            reviewRepository.save(review);
+
+            UpdateReviewRequest request = UpdateReviewRequest.testBuilder()
+                    .contents(updatedContents)
+                    .keywordIds(updatedKeywordIds)
+                    .imageUrls(updatedImageUrls)
+                    .build();
+
+            // when & then
+            User diffUser = new User(
+                    "diff-social-id",
+                    "diff-name",
+                    "diff-email",
+                    null,
+                    "Y",
+                    "diff-img",
+                    ProviderType.LOCAL,
+                    RoleType.USER,
+                    LocalDateTime.now(),
+                    LocalDateTime.now()
+            );
+
+            userRepository.save(diffUser);
+
+            assertThatThrownBy(() -> reviewService.updateReview(request, review.getId(), diffUser))
+                    .isInstanceOf(BaseException.class);
         }
     }
 
+    @Nested
+    class DeleteStoreReviewTest {
+
+        @Test
+        void 내가_작성한_리뷰를_삭제합니다() {
+            // given
+            String contents = "우와 맛있어요";
+            List<Long> keywordIds = new ArrayList<>(Arrays.asList(1L,3L));
+            List<String> imageUrls = new ArrayList<>(Arrays.asList("test1.png","test2.png"));
+
+            Review review = Review.of(user, store, contents, keywordIds, imageUrls);
+            reviewRepository.save(review);
+
+            // when
+            reviewService.deleteReview(review.getId(), user);
+
+            // then
+            List<Review> reviews = reviewRepository.findAll();
+            assertThat(reviews).hasSize(0);
+        }
+
+        @Test
+        void 없는_리뷰를_삭제하려하면_NOT_FOUND_에러가_발생한다() {
+            // given
+            Long notFoundReviewId = -1L;
+
+            // when & then
+            assertThatThrownBy(() -> reviewService.deleteReview(notFoundReviewId, user))
+                    .isInstanceOf(BaseException.class);
+        }
+
+        @Test
+        void 내가_작성하지_않은_리뷰를_삭제하려하면_NOT_FOUND에러가_발생한다() {
+            // given
+            String contents = "우와 맛있어요";
+            List<Long> keywordIds = new ArrayList<>(Arrays.asList(1L,3L));
+            List<String> imageUrls = new ArrayList<>(Arrays.asList("test1.png","test2.png"));
+
+            Review review = Review.of(user, store, contents, keywordIds, imageUrls);
+            reviewRepository.save(review);
+
+            // when & then
+            User diffUser = new User(
+                    "diff-social-id",
+                    "diff-name",
+                    "diff-email",
+                    null,
+                    "Y",
+                    "diff-img",
+                    ProviderType.LOCAL,
+                    RoleType.USER,
+                    LocalDateTime.now(),
+                    LocalDateTime.now()
+            );
+
+            userRepository.save(diffUser);
+
+            assertThatThrownBy(() -> reviewService.deleteReview(review.getId(), diffUser))
+                    .isInstanceOf(BaseException.class);
+        }
+
+    }
 }
