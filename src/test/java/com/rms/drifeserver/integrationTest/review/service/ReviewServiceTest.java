@@ -2,6 +2,7 @@ package com.rms.drifeserver.integrationTest.review.service;
 
 import com.rms.drifeserver.domain.oauth.entity.ProviderType;
 import com.rms.drifeserver.domain.oauth.entity.RoleType;
+import com.rms.drifeserver.domain.review.dao.ReviewKeywordTypeRepository;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.integrationTest.SetupStoreIntegrationTest;
 import com.rms.drifeserver.domain.common.exception.BaseException;
@@ -41,6 +42,9 @@ public class ReviewServiceTest extends SetupStoreIntegrationTest {
     private ReviewKeywordRepository reviewKeywordRepository;
 
     @Autowired
+    private ReviewKeywordTypeRepository reviewKeywordTypeRepository;
+
+    @Autowired
     private ReviewImageRepository reviewImageRepository;
 
     @Autowired
@@ -49,6 +53,7 @@ public class ReviewServiceTest extends SetupStoreIntegrationTest {
     @AfterEach
     void cleanUp() {
         reviewKeywordRepository.deleteAll();
+        reviewKeywordTypeRepository.deleteAll();
         reviewImageRepository.deleteAll();
         reviewRepository.deleteAll();
         visitRepository.deleteAll();
