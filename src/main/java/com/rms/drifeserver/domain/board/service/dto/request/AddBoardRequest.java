@@ -3,6 +3,7 @@ package com.rms.drifeserver.domain.board.service.dto.request;
 import com.rms.drifeserver.domain.board.model.Board;
 import com.rms.drifeserver.domain.user.model.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,13 @@ public class AddBoardRequest {
     private String contents;
 
     private List<String> imageUrls;
+
+    @Builder(builderMethodName = "testBuilder")
+    private AddBoardRequest(String title , String contents, List<String> imageUrls) {
+        this.title = title;
+        this.contents = contents;
+        this.imageUrls = imageUrls;
+    }
 
     public Board toBoard(User user) {
         return Board.of(user, this.title, this.contents, this.imageUrls);
