@@ -1,8 +1,9 @@
-package com.rms.drifeserver.integrationTest.review.service;
+package com.rms.drifeserver.integrationTest.review;
 
 import com.rms.drifeserver.domain.oauth.entity.ProviderType;
 import com.rms.drifeserver.domain.oauth.entity.RoleType;
 import com.rms.drifeserver.domain.review.dao.ReviewKeywordTypeRepository;
+import com.rms.drifeserver.domain.review.model.Visit;
 import com.rms.drifeserver.domain.user.model.User;
 import com.rms.drifeserver.integrationTest.SetupStoreIntegrationTest;
 import com.rms.drifeserver.domain.common.exception.BaseException;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -30,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Transactional
+@Sql(scripts = {"classpath:data/review_keyword_type_insert.sql"})
 public class ReviewServiceTest extends SetupStoreIntegrationTest {
 
     @Autowired
@@ -91,8 +94,11 @@ public class ReviewServiceTest extends SetupStoreIntegrationTest {
 
             //then
             List<Review> reviews = reviewRepository.findAll();
+            List<Visit> visits = visitRepository.findAll();
+
             assertAll(
                     () -> assertThat(reviews).hasSize(1),
+                    () -> assertThat(visits).hasSize(1),
                     () -> assertThat(reviews.get(0).getReviewKeywords()).hasSize(2),
                     () -> assertThat(reviews.get(0).getReviewImages()).hasSize(2),
                     () -> assertReview(reviews.get(0), store.getId(), contents, userId)
@@ -147,6 +153,7 @@ public class ReviewServiceTest extends SetupStoreIntegrationTest {
 
             // then
             List<Review> reviews = reviewRepository.findAll();
+
             assertAll(
                     () -> assertThat(reviews).hasSize(1),
                     () -> assertThat(reviews.get(0).getReviewKeywords()).hasSize(1),
@@ -233,6 +240,7 @@ public class ReviewServiceTest extends SetupStoreIntegrationTest {
 
             // then
             List<Review> reviews = reviewRepository.findAll();
+
             assertThat(reviews).hasSize(0);
         }
 

@@ -1,6 +1,7 @@
 package com.rms.drifeserver.domain.board.service.dto.request;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,11 @@ public class UpdateBoardRequest {
     private String contents;
 
     private List<String> imageUrls;
+
+    @Builder(builderMethodName = "testBuilder")
+    private UpdateBoardRequest(String title , String contents, List<String> imageUrls) {
+        this.title = title;
+        this.contents = contents;
+        this.imageUrls = imageUrls;
+    }
 }
