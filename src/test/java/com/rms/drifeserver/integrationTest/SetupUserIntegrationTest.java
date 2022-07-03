@@ -19,7 +19,7 @@ public abstract class SetupUserIntegrationTest extends IntegrationTest {
     protected User user;
 
     @BeforeEach
-    void setup() {
+    void setupUser() {
         User testUser = new User(
                 "social-id",
                 "test-name",
@@ -32,6 +32,8 @@ public abstract class SetupUserIntegrationTest extends IntegrationTest {
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
+
+        testUser.setRegionCode("test-code");
 
         user = userRepository.save(testUser);
         userId = user.getId();
