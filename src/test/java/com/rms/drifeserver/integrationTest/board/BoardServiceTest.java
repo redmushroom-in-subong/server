@@ -40,8 +40,9 @@ public class BoardServiceTest extends SetupUserIntegrationTest {
         userRepository.deleteAll();
     }
 
-    public static void assertBoard(Board board, String contents, Long userId) {
+    public static void assertBoard(Board board, String title, String contents, Long userId) {
         assertAll(
+                () -> assertThat(board.getTitle()).isEqualTo(title),
                 () -> assertThat(board.getContents()).isEqualTo(contents),
                 () -> assertThat(board.getUser().getId()).isEqualTo(userId)
         );
@@ -72,7 +73,7 @@ public class BoardServiceTest extends SetupUserIntegrationTest {
             assertAll(
                     () -> assertThat(boards).hasSize(1),
                     () -> assertThat(boards.get(0).getBoardImages()).hasSize(2),
-                    () -> assertBoard(boards.get(0), contents, userId)
+                    () -> assertBoard(boards.get(0), title, contents, userId)
             );
         }
     }
@@ -109,7 +110,7 @@ public class BoardServiceTest extends SetupUserIntegrationTest {
             assertAll(
                     () -> assertThat(boards).hasSize(1),
                     () -> assertThat(boards.get(0).getBoardImages()).hasSize(1),
-                    () -> assertBoard(boards.get(0), updatedContents, userId)
+                    () -> assertBoard(boards.get(0), updatedTitle, updatedContents, userId)
             );
         }
 
@@ -234,6 +235,5 @@ public class BoardServiceTest extends SetupUserIntegrationTest {
             assertThatThrownBy(() -> boardService.deleteBoard(board.getId(), diffUser))
                     .isInstanceOf(BaseException.class);
         }
-
     }
 }
